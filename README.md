@@ -7,4 +7,3 @@
 3. Chuyển sang nhánh đã tạo `git checkout feature-<tên nhánh>`
 4. Làm việc trên nhánh đã tạo
 5. Commit và push code lên nhánh đã tạo `git push origin feature-<tên nhánh>`
-6. Amen
