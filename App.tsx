@@ -4,7 +4,7 @@ import Login from './src/views/Login';
 
 export default function App() {
   return (
-    <SafeAreaView style = {styles.container}>
+    <SafeAreaView style={styles.container}>
       <Login />
     </SafeAreaView>
   );
