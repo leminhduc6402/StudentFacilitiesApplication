@@ -5,12 +5,12 @@ export default function App() {
   return (
     <ScrollView style={{marginTop:52}}>
       <View style={styles.backgroungBar}>
-        <Image source={require("../images/user.png")} style={styles.picture} />
+        <Image source={require("../../images/user.png")} style={styles.picture} />
         <View style={styles.textContainer}>
           <Text style={styles.textUI}>Bùi Thanh Tâm</Text>
           <Text style={styles.textUI}>2051052118</Text>
         </View>
-        <Image source={require("../images/bell.png")} style={styles.bell} />
+        <Image source={require("../../images/bell.png")} style={styles.bell} />
       </View>
 
       <Text style={styles.heading}>Tính năng</Text>
