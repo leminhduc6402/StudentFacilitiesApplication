@@ -1,12 +1,11 @@
-import { StyleSheet } from 'react-native';
-
-const styles = StyleSheet.create({
+import { StyleSheet } from "react-native";
+export const styles = StyleSheet.create({
     backgroungBar: {
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#0C56D0',
-      borderBottomRightRadius: 40,
-      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 30,
+      borderBottomLeftRadius: 30,
       height: 90,
       width: '100%',
       paddingHorizontal: 20,
@@ -34,38 +33,19 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: '900',
       textAlign: 'left',
-      marginTop: 20,
+      marginTop: 10,
       paddingLeft: 20,
     },
-    feature:{
-      flexDirection: 'row',
-      marginRight: 30,
-      marginTop: 10,
-      justifyContent: 'center',
-    },
-    featureItems:{
-      marginLeft: 25,
-      marginTop: 20,
-    },
     featureImg:{
-      width: 80,
-      height: 80,
-    },
-    featureImg2:{
-      width: 80,
-      height: 80,
-      marginLeft: 10,
-    },
-    featureText:{
-      marginTop: 10,
-      fontSize: 20,
-      fontWeight: '500',
-      textAlign: 'center',
+      width: 70,
+      height: 70,
+      position: "absolute",
+      top: -35
     },
     announceView: {
       backgroundColor: '#0C56D0',
       borderRadius: 30,
-      width: 360,
+      width: '100%',
       height: 280,
       padding: 10,
       justifyContent: 'center',
@@ -81,5 +61,3 @@ const styles = StyleSheet.create({
       textDecorationLine: 'underline',
     },
   });
-
-  export default styles;

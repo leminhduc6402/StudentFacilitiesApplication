@@ -2,13 +2,13 @@
 import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
 import Login from './src/views/Login';
 import Tuition from './src/views/Tuition/index';
-import Tuition2 from './src/views/Tuition/TuitionDetail';
-import StudentUser from './src/views/Main/StudentUser';
+import Main from './src/views/Main';
+
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Tuition/>
+      <Main/>
     </SafeAreaView>
   );
 }
