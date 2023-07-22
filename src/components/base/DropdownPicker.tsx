@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { dataDropdown } from '../../views/Login/data';
 
+interface props {
+  data: dataDropdown[]
+}
+  // const [items, setItems] = useState([
+  //   {label: 'Sinh viên (Hệ chính quy)', value: 1},
+  //   {label: 'Cán bộ-Nhân viên / Giảng viên', value: 2},
+  //   {label: 'Quản trị viên', value: 3},
+  // ]);
 
-
-export default function DropDownPickerCustom() {
+export default function DropDownPickerCustom(props:props ) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Sinh viên (Hệ chính quy)', value: 1},
-    {label: 'Sinh viên (Đào tạo từ xa và Vừa làm vừa học-Đào tạo trực tuyến) - NEW', value: 2},
-    {label: 'Sinh viên Sau Đại học', value: 3},
-    {label: 'Cán bộ-Nhân viên / Giảng viên', value: 4},
-
-  ]);
-
+  const [items, setItems] = useState(props.data);
   return (
       <DropDownPicker
         zIndex={10000}
