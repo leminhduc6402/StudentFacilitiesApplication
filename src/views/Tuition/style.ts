@@ -55,14 +55,12 @@ const styles = StyleSheet.create({
       fontSize: 23,
       fontWeight: '900',
       textAlign: 'right',
-      marginTop: 20,
       paddingLeft: 20,
     },
     heading4: {
       fontSize: 23,
       fontWeight: '800',
       textAlign: 'right',
-      marginTop: 20,
       color: '#0C56D0',
     },
     rec1:{
@@ -100,30 +98,27 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     sumText:{
+      width: '100%',
       display: 'flex', 
+      zIndex: 10,
+      paddingRight: 10,
       flexDirection: 'row',
       justifyContent: 'flex-end',
-      marginRight: 15,
-      marginTop: 10,
+      position: 'absolute',
+      bottom: 0,
+      backgroundColor: '#FFF',
+
+      
     },
     backgroundView:{
-        backgroundColor: '#7E9BFF',
-        borderRadius: 30,
-        marginTop: 20,
-        width: 350,
-        height: 'auto',
-        marginLeft: 20,
-      },
-      TextDetail:{
-        color: 'white',
-        fontSize: 20,
-        fontWeight: '600',
-      },
-      ViewDetail:{
-        marginBottom: 20,
-        marginTop: 10,
-        marginLeft: 20,
-      },
+        paddingLeft: 30,
+    },
+    TextDetail:{
+      fontSize: 20,
+    },
+    ViewDetail:{
+      marginTop: 15,
+    },
   });
 
   export default styles;

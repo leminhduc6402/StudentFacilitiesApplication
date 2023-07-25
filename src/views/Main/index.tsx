@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView, FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import { styles } from '../Main/Main'
+import  Header from '../../components/header';
 
 const data=[
   {content: 'Danh sách nhóm lớp hủy do không đủ sĩ số'},
@@ -18,17 +19,10 @@ const data=[
 
 ]
 
-function Main() {
+function Main({navigation}: {navigation: any}) {
   return (
     <>
-      <View style={styles.backgroungBar}>
-        <Image source={require("../../images/user.png")} style={styles.picture} />
-        <View style={styles.textContainer}>
-          <Text style={styles.textUI}>Bùi Thanh Tâm</Text>
-          <Text style={styles.textUI}>2051052118</Text>
-        </View>
-        <Image source={require("../../images/bell.png")} style={styles.bell} />
-      </View>
+      <Header/>
 
       <View style = {{width: '100%'}}>
 
@@ -38,77 +32,32 @@ function Main() {
 
         <View style = {{flexDirection: 'row', flexWrap: 'wrap'}}>
 
-          <View style={{
-            backgroundColor: 'rgba(12, 86, 208, 0.10)', 
-            width: "30%",
-            height: 100,
-            borderRadius: 20,
-            marginTop: 40,
-            padding: 10,
-            marginLeft: 10, 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            }}>
+          <View style={styles.featureItem}>
             <Text style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}>Đăng ký môn học</Text>
             <Image source={require("../../images/note.png")} style={styles.featureImg} />
           </View>
 
-          <View style={{
-            backgroundColor: 'rgba(12, 86, 208, 0.10)', 
-            width: "30%",
-            height: 100, 
-            borderRadius: 20,
-            marginTop: 40,
-            padding: 10,
-            marginLeft: 10, 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            }}>
-            <Text style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}>Xem học phí</Text>
-            <Image source={require("../../images/salary.png")} style={styles.featureImg} />
-          </View>
-
-          <View style={{
-            backgroundColor: 'rgba(12, 86, 208, 0.10)', 
-            width: "30%",
-            height: 100, 
-            borderRadius: 20,
-            marginTop: 40,
-            padding: 10,
-            marginLeft: 10, 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            }}>
+          <TouchableOpacity style={styles.featureItem} onPress={() => navigation.navigate('Tuition')}>
+              <Text 
+                style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}
+                >
+                  Xem học phí
+                  </Text>
+              <Image 
+                source={require("../../images/salary.png")} 
+                style={styles.featureImg} />
+          </TouchableOpacity>
+          <View style={styles.featureItem}>
             <Text style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}>Thời khoá biểu</Text>
             <Image source={require("../../images/timetable.png")} style={styles.featureImg} />
           </View>
 
-          <View style={{
-            backgroundColor: 'rgba(12, 86, 208, 0.10)', 
-            width: "30%",
-            height: 100, 
-            borderRadius: 20,
-            marginTop: 40,
-            padding: 10,
-            marginLeft: 10, 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            }}>
+          <View style={styles.featureItem}>
             <Text style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}>Lịch thi</Text>
             <Image source={require("../../images/test.png")} style={styles.featureImg} />
           </View>
 
-          <View style={{
-            backgroundColor: 'rgba(12, 86, 208, 0.10)', 
-            width: "30%",
-            height: 100, 
-            borderRadius: 20,
-            marginTop: 40,
-            padding: 10,
-            marginLeft: 10, 
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            }}>
+          <View style={styles.featureItem}>
             <Text style={{fontWeight: "bold", fontSize:18, textAlign: 'center'}}>Điểm thi</Text>
             <Image source={require("../../images/speedometer.png")} style={styles.featureImg} />
           </View>
