@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 mongoose
-    .connect("mongodb://localhost:27017/demo")
+    .connect(process.env.MONGODB_DEV)
     .then(() => console.log("Connected to MongoDB Compass!"));
