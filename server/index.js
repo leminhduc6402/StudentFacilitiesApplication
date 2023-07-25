@@ -1,6 +1,9 @@
 import express from "express";
+import dotenv from "dotenv";
 import "./src/configs/databases/mongoDB.js";
 import userRoute from "./src/api/routes/user.js";
+
+dotenv.config();
 
 const app = express();
 
