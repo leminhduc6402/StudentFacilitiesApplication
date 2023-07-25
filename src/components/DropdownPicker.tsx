@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { dataDropdown } from '../../views/Login/data';
+import { dataDropdown } from '../views/Login/data';
+import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
 
 interface props {
-  data: dataDropdown[]
+  data: dataDropdown[],
+  placeHolder?: string,
+  zIndex?: Int32,
 }
   // const [items, setItems] = useState([
   //   {label: 'Sinh viên (Hệ chính quy)', value: 1},
@@ -18,9 +21,9 @@ export default function DropDownPickerCustom(props:props ) {
   const [items, setItems] = useState(props.data);
   return (
       <DropDownPicker
-        zIndex={10000}
+        zIndex={props.zIndex ? props.zIndex : 10000}
         disableBorderRadius={true}
-        placeholder='Chọn phương thức đào tạo'
+        placeholder={props.placeHolder ? props.placeHolder : 'Chọn phương thức đào tạo'} 
         placeholderStyle={{opacity: 0.6}}
         open={open}
         items={items}

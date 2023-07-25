@@ -1,15 +1,14 @@
 import { View, Text, Image, TextInput, StyleSheet, Dimensions } from 'react-native'
 import React, {useState} from 'react';
 import { Button } from '@rneui/base';
-import CheckBoxCustom from '../../components/base/CheckBox';
-import DropDownPickerCustom from '../../components/base/DropdownPicker';
+import CheckBoxCustom from '../../components/CheckBox';
+import DropDownPickerCustom from '../../components/DropdownPicker';
 import { styles } from '../Login/Login'
-import {dataDropdown } from '../../views/Login/data';
+import { dataDropdown } from '../../views/Login/data';
 
 
 
-
-const Login = () => {
+const Login = ({navigation}: {navigation: any}) => {
   const listDropdown: dataDropdown[] = [
     {label: 'Sinh viên (Hệ chính quy)', value: 1},
     {label: 'Cán bộ-Nhân viên / Giảng viên', value: 2},
@@ -63,6 +62,7 @@ const Login = () => {
             <Button 
                 title={'Đăng nhập'} 
                 color={'#00C851'} 
+                onPress={() => navigation.navigate('Main')}
                 buttonStyle={{borderRadius: 25}} />
         </View>
         <View style={styles.viewTextCopyRight}>
