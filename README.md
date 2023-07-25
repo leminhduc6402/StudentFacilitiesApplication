@@ -12,10 +12,10 @@
 
 > Client:
 
-`npm i` + `npm start`
+Use `npm i` + `npm start`
 
 > Server:
 
 1. Config MongoDB Compass
 2. Edit connect string in `.env`
-3. `npm start`
+3. `npm i` + `npm start`
