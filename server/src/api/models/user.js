@@ -1,17 +1,35 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
-const User = new Schema({
+const ROLE_ENUM = ['STUDENT', 'ADMIN', 'LECTURER'];
+
+const User = new Schema(
+  {
     username: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     password: {
-        type: String,
-        required: true,
-        min: 8,
+      type: String,
+      required: true,
+      min: 8,
     },
-});
+    role: {
+      type: String,
+      enum: ROLE_ENUM,
+      default: 'STUDENT',
+    },
+    studentCode: {
+      type: String,
+      length: 10,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const UserModel = model("UserDemo", User);
-
-export default UserModel;
+export default model('User', User);
