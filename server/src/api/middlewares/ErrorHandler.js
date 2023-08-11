@@ -1,4 +1,4 @@
-import { httpStatusCodes } from '../response/httpStatusCodes';
+import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
 
 export const errorHandler = (err, req, res, next) => {
   console.log('--------------------------------------------------------');

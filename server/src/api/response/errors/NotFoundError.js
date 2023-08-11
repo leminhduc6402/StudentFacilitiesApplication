@@ -1,4 +1,4 @@
-import { httpStatusCodes } from '../httpStatusCodes';
+import { httpStatusCodes } from '../httpStatusCodes/index.js';
 
 export default class NotFoundError extends Error {
   constructor(message) {
