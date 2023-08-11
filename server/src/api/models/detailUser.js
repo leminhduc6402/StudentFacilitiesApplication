@@ -20,14 +20,14 @@ const DetailUser = new Schema(
     },
     dateOfBirth: {
       type: Date,
-      required: true,
+      // required: true,
     },
     placeOfBirth: {
-      type: Date,
+      type: String,
     },
     sex: {
       type: Boolean,
-      required: true,
+      // required: true,
     },
     phone: {
       type: String,

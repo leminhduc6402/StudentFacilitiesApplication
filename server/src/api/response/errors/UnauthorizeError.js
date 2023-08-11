@@ -1,4 +1,4 @@
-import { httpStatusCodes } from '../httpStatusCodes';
+import { httpStatusCodes } from '../httpStatusCodes/index.js';
 
 export default class UnauthorizeError extends Error {
   constructor(message) {

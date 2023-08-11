@@ -1,9 +1,9 @@
 import { httpStatusCodes } from '../httpStatusCodes/index.js';
 
-export default class ValidateError extends Error {
+export default class ConflictError extends Error {
   constructor(message) {
     super();
-    this.statusCode = httpStatusCodes.UNPROCESSABLE_ENTITY;
+    this.statusCode = httpStatusCodes.CONFLICT;
     this.messageObject = message;
   }
 }

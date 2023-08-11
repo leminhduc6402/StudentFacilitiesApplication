@@ -13,6 +13,10 @@ const User = new Schema(
       required: true,
       min: 8,
     },
+    fullName: {
+      type: String,
+      required: true,
+    },
     role: {
       type: String,
       enum: ROLE_ENUM,
@@ -21,8 +25,12 @@ const User = new Schema(
     studentCode: {
       type: String,
       length: 10,
+      default: function () {
+        const _t = this;
+        return _t.username;
+      },
     },
-    fullName: {
+    userCourse: {
       type: String,
       required: true,
     },
