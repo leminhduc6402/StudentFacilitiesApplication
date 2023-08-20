@@ -1,3 +1,5 @@
+import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
+
 export const errorHandler = (err, req, res, next) => {
   console.log('--------------------------------------------------------');
   console.log('ERROR LOG ', new Date().toLocaleString());
@@ -8,7 +10,7 @@ export const errorHandler = (err, req, res, next) => {
 
   const messageError =
     err.messageObject || err.message || 'Server not response =)))';
-  const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || httpStatusCodes.INTERNAL_SERVER_ERROR;
   const error = {
     status: statusCode,
     message: messageError,

@@ -1,28 +1,61 @@
 import UserModel from '../models/user.js';
-import ValidateError from '../errors/ValidateError.js';
+import DetailUserModel from '../models/detailUser.js';
+import ConflictError from '../response/errors/ConflictError.js';
+import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const UserController = {
-  signUp: async (req, res) => {
-    try {
-      const { username, password, fullName } = req.body;
-      console.log(req.body);
-      const user = await UserModel.create({ username, password, fullName });
+  signup: async (req, res) => {
+    const {
+      username,
+      fullName,
+      userCourse,
+      classId,
+      departmentId,
+      majorId,
+      ...dataUserDetail
+    } = req.body;
 
-      return res.status(201).json({ user });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: 'Server error' });
+    const user = await UserModel.findOne({ username });
+
+    if (user) {
+      throw new ConflictError('User already exists !!!');
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(username, salt);
+
+    const newUser = await UserModel.create({
+      username,
+      password: hashed,
+      fullName,
+      userCourse,
+    });
+
+    await newUser.save();
+
+    const detailNewUser = await DetailUserModel.create({
+      userId: new mongoose.Types.ObjectId(newUser._id),
+      classId: new mongoose.Types.ObjectId(classId),
+      departmentId: new mongoose.Types.ObjectId(departmentId),
+      majorId: new mongoose.Types.ObjectId(majorId),
+      ...dataUserDetail,
+    });
+
+    return res
+      .status(httpStatusCodes.CREATED)
+      .json({ status: 'success', data: detailNewUser });
   },
   login: async (req, res) => {
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      throw new ValidateError('User not found !!!');
+      throw new ConflictError('User not found !!!');
     }
 
-    return res.status(200).json({ user });
+    return res.status(httpStatusCodes.OK).json({ user });
   },
 };
 

@@ -32,3 +32,6 @@ Use `npm i` + `npm start`
 1. Config MongoDB Compass
 2. Edit connect string in `.env`
 3. `npm i` + `npm start`
+
+
+### UML DATABASE: [here](https://app.diagrams.net/#Hanvyidol%2FdbUML_ltttbdd%2Fmain%2FLTTTBDD)
