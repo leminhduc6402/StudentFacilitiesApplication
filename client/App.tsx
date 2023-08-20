@@ -10,6 +10,7 @@ import TestScheduleDetail from './src/views/TestSchedule/TestScheduleDetail'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Header } from '@rneui/base';
+import CoursesRegistration from './src/views/CoursesRegistration';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,7 +19,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <TestScheduleDetail />
+      {/* <TestScheduleDetail /> */}
       {/* <NavigationContainer>
         <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Login" component={Login} />
@@ -27,6 +28,7 @@ export default function App() {
           <Stack.Screen name='TuitionDetail' component={TuitionDetail}/>
         </Stack.Navigator>
       </NavigationContainer> */}
+      <CoursesRegistration />
     </SafeAreaView>
   );
 }
