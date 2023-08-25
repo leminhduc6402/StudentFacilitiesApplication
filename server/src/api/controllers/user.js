@@ -48,14 +48,34 @@ const UserController = {
       .json({ status: 'success', data: detailNewUser });
   },
   login: async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
     const user = await UserModel.findOne({ username });
 
     if (!user) {
       throw new ConflictError('User not found !!!');
     }
 
-    return res.status(httpStatusCodes.OK).json({ user });
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      throw new ConflictError('Password is incorrect !!!');
+    }
+
+    if (role !== user.role) {
+      throw new ConflictError('User not found !!!');
+    }
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        fullName: user.fullName,
+        studentCode: user.studentCode,
+        userCourse: user.userCourse,
+      },
+    });
   },
 };
 

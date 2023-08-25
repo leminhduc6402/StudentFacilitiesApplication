@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { Button } from '@rneui/base';
@@ -14,19 +15,50 @@ import { styles } from '../Login/Login';
 import { dataDropdown } from '../../views/Login/data';
 import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
+import { endpoints, axiosAPI } from '../../configs/axiosAPI';
+import MyAlert from '../../components/MyAlert';
 
 const Login = () => {
   const nav = useNavigate();
 
   const listDropdown: dataDropdown[] = [
-    { label: 'Sinh viên (Hệ chính quy)', value: 1 },
-    { label: 'Cán bộ-Nhân viên / Giảng viên', value: 2 },
-    { label: 'Quản trị viên', value: 3 },
+    { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
+    { label: 'Cán bộ-Nhân viên / Giảng viên', value: 'LECTURER' },
+    { label: 'Quản trị viên', value: 'ADMIN' },
   ];
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
+  const login = async () => {
+    if (!username || !password) {
+      return MyAlert({
+        title: 'Lỗi',
+        message: 'Vui lòng nhập đầy đủ thông tin',
+      });
+    }
+
+    const data = {
+      username,
+      password,
+      role: userType,
+    };
+
+    await axiosAPI
+      .post(endpoints.LOGIN, data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data || err.message);
+      });
+  };
+
   const handleLogin = () => {
-    nav('/');
+    login();
+    // nav('/');
   };
 
   return (
@@ -38,12 +70,21 @@ const Login = () => {
 
       <Text style={styles.title}>Đăng nhập</Text>
       <View style={styles.dropDownPicker}>
-        <DropDownPickerCustom data={listDropdown} />
+        <DropDownPickerCustom
+          data={listDropdown}
+          type={userType}
+          setType={setUserType}
+        />
       </View>
 
       {/* Tài khoản */}
       <View style={styles.viewUser}>
-        <TextInput style={styles.input} placeholder='Nhập tài khoản' />
+        <TextInput
+          value={username}
+          onChangeText={setUsername}
+          style={styles.input}
+          placeholder='Nhập tài khoản'
+        />
         <View style={styles.viewIcon}>
           <Image
             style={styles.imageIcon}
@@ -55,6 +96,8 @@ const Login = () => {
       <View style={styles.viewUser}>
         <TextInput
           style={styles.input}
+          value={password}
+          onChangeText={setPassword}
           placeholder='Nhập mật khẩu'
           secureTextEntry={pwdHidden}
         />

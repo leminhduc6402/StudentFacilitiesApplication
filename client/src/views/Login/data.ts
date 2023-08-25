@@ -1,7 +1,4 @@
 export interface dataDropdown {
-    label: string,
-    value: number
+  label: string;
+  value: 'STUDENT' | 'LECTURER' | 'ADMIN';
 }
-
-
-
