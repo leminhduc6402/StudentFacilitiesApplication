@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
   CLASS: `${API_CONTEXT}/class`,
   MAJOR: `${API_CONTEXT}/major`,
   DEPARTMENT: `${API_CONTEXT}/department`,
-  SCHOOL_YEAR: `${API_CONTEXT}/school-year`,
+  SCHOOL_YEAR: `${API_CONTEXT}/schoolyear`,
   ROOM: `${API_CONTEXT}/room`,
   CREDIT: `${API_CONTEXT}/credit`,
   SUBJECT: `${API_CONTEXT}/subject`,
