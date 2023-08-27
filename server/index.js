@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import './src/configs/databases/mongoDB.js';
 import 'express-async-errors';
+import cors from 'cors';
 import { errorHandler } from './src/api/middlewares/ErrorHandler.js';
 import {
   userRoute,
@@ -19,7 +20,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json(), express.urlencoded({ extended: true }));
+app.use(cors(), express.json(), express.urlencoded({ extended: true }));
 
 app.use(API_ENDPOINTS.AUTH, userRoute);
 app.use(API_ENDPOINTS.CLASS, classRoute);

@@ -22,6 +22,34 @@ const DepartmentController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const departments = await DepartmentModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: departments,
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const department = await DepartmentModel.findById(id);
+    department.name = name;
+    await department.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: department,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await DepartmentModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({});
+  },
 };
 
 export default DepartmentController;

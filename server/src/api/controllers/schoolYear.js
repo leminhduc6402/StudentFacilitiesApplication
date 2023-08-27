@@ -24,6 +24,39 @@ const SchoolYearController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const schoolyears = await SchoolYearModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: schoolyears,
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name, start, end } = req.body;
+
+    const schoolyear = await SchoolYearModel.findById(id);
+    schoolyear.name = name;
+    schoolyear.start = start;
+    schoolyear.end = end;
+    await schoolyear.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: schoolyear,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await SchoolYearModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({
+      status: 'success',
+      data: null,
+    });
+  },
 };
 
 export default SchoolYearController;
