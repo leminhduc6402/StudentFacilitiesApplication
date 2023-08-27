@@ -15,6 +15,8 @@ import CoursesRegistration from './src/views/CoursesRegistration';
 
 const Stack = createNativeStackNavigator();
 
+import { NativeRouter, Route, Link, Routes } from 'react-router-native';
+import UserProvider from './src/store/UserContext';
 
 export default function App() {
   return (
