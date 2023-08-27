@@ -4,14 +4,13 @@ import Login from './src/views/Login';
 import Tuition from './src/views/Tuition/index';
 import Main from './src/views/Main';
 import TuitionDetail from './src/views/Tuition/TuitionDetail';
-import TestSchedule from './src/views/TestSchedule/index'
-import TestScheduleDetail from './src/views/TestSchedule/TestScheduleDetail'
+import TestSchedule from './src/views/TestSchedule/index';
+import TestScheduleDetail from './src/views/TestSchedule/TestScheduleDetail';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Header } from '@rneui/base';
 import CoursesRegistration from './src/views/CoursesRegistration';
-
 
 const Stack = createNativeStackNavigator();
 
