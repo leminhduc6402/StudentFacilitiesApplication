@@ -57,12 +57,14 @@ const UserController = {
 
     const isMatch = await bcrypt.compare(password, user.password);
 
+    console.log(isMatch);
+
     if (!isMatch) {
       throw new ConflictError('Password is incorrect !!!');
     }
 
     if (role !== user.role) {
-      throw new ConflictError('User not found !!!');
+      throw new ConflictError('Role conflict !!!');
     }
 
     return res.status(httpStatusCodes.OK).json({
