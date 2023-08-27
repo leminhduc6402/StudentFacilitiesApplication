@@ -153,7 +153,7 @@ function Department() {
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
                         type="text"
-                        placeholder="Enter classname here ..."
+                        placeholder="Enter department here ..."
                     />
                 </Form.Group>
 

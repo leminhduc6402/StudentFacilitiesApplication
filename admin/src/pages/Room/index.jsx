@@ -153,7 +153,7 @@ function Room() {
                         value={room}
                         onChange={(e) => setRoom(e.target.value)}
                         type="text"
-                        placeholder="Enter classname here ..."
+                        placeholder="Enter room here ..."
                     />
                 </Form.Group>
 

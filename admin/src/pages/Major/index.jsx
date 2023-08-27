@@ -153,7 +153,7 @@ function Major() {
                         value={major}
                         onChange={(e) => setMajor(e.target.value)}
                         type="text"
-                        placeholder="Enter classname here ..."
+                        placeholder="Enter major here ..."
                     />
                 </Form.Group>
 
