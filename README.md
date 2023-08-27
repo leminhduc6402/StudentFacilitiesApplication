@@ -1,6 +1,6 @@
 # Student Facilities Application
 
-# (CLIENT: REACT NATIVE 0.72.3 - SERVER: NODEJS EXPRESS 4.18.2 - DATABASE: MONGODB)
+# ADMIN: REACTJS 18.2.0 - CLIENT: REACT NATIVE 0.72.3 - SERVER: NODEJS EXPRESS 4.18.2 - DATABASE: MONGODB
 
 > Cách làm việc:
 
@@ -23,9 +23,15 @@
 4. Làm việc trên nhánh đã tạo
 5. Commit và push code lên nhánh đã tạo `git push origin feature-<tên nhánh>`
 
+> Admin:
+
+1. Config `.env`
+2. Use `npm i` + `npm run dev`
+
 > Client:
 
-Use `npm i` + `npm start`
+1. Config `.env`
+2. Use `npm i` + `npm start`
 
 > Server:
 
