@@ -34,19 +34,71 @@ function SchoolYear() {
 
     const handleEdit = (id) => {
         setEdit(id);
-        console.log(sys.find((item) => item._id === id));
+        const syEdit = sys.find((item) => item._id === id);
+        setSy({
+            name: syEdit.name,
+            start: new Date(syEdit.start).toISOString().slice(0, 10),
+            end: new Date(syEdit.end).toISOString().slice(0, 10),
+        });
     };
 
-    const handleDelete = async (id) => {};
+    const handleDelete = async (id) => {
+        await AxiosAPI.delete(`${endpoints.schoolyear}/${id}`)
+            .then(() => {
+                setAlert({
+                    content: "Delete school year successfully!",
+                    type: "success",
+                });
+                getSys();
+            })
+            .catch((err) => console.log(err.response?.data || err));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (edit) {
+            await AxiosAPI.patch(`${endpoints.schoolyear}/${edit}`, sy)
+                .then(() => {
+                    setAlert({
+                        content: "Update school year successfully!",
+                        type: "success",
+                    });
+                    setSy({
+                        name: "",
+                        start: "",
+                        end: "",
+                    });
+                    getSys();
+                })
+                .catch((err) => {
+                    setAlert({
+                        content: err.response.data.message,
+                    });
+                    return;
+                });
+            return;
+        }
+
         await AxiosAPI.post(`${endpoints.schoolyear}/create`, sy)
-            .then((res) => {
-                console.log(res.data);
+            .then(() => {
+                setAlert({
+                    content: "Create school year successfully!",
+                    type: "success",
+                });
+                setSy({
+                    name: "",
+                    start: "",
+                    end: "",
+                });
+                getSys();
             })
-            .catch((err) => console.log(err.response?.data || err));
+            .catch((err) => {
+                setAlert({
+                    content: err.response.data.message,
+                });
+                return;
+            });
     };
 
     return (
@@ -93,7 +145,11 @@ function SchoolYear() {
             <h2
                 onClick={() => {
                     setEdit(null);
-                    setSy("");
+                    setSy({
+                        name: "",
+                        start: "",
+                        end: "",
+                    });
                 }}
             >
                 {edit ? "Edit mode" : "Create mode"}

@@ -34,10 +34,12 @@ const SchoolYearController = {
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
+    const { name, start, end } = req.body;
 
     const schoolyear = await SchoolYearModel.findById(id);
     schoolyear.name = name;
+    schoolyear.start = start;
+    schoolyear.end = end;
     await schoolyear.save();
 
     return res.status(httpStatusCodes.OK).json({
