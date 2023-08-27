@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import useUserContext from '../hook/useUserContext';
 
-const header = () => {
+const Header = () => {
   const [user] = useUserContext();
 
   return (
@@ -17,7 +17,7 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;
 
 const styles = StyleSheet.create({
   backgroungBar: {
