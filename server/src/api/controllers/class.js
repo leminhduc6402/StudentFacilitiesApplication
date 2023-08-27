@@ -22,6 +22,37 @@ const ClassController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const classes = await ClassModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: classes,
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const classCurr = await ClassModel.findById(id);
+    classCurr.name = name;
+    await classCurr.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: classCurr,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await ClassModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({
+      status: 'success',
+      data: null,
+    });
+  },
 };
 
 export default ClassController;
