@@ -16,6 +16,14 @@ const CreditController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const credits = await CreditModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: credits,
+    });
+  },
 };
 
 export default CreditController;
