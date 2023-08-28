@@ -15,16 +15,17 @@ export const styles = StyleSheet.create({
     backgroundCourseItem: {
         backgroundColor: '#7E9BFF',
         width: '45%',
-        height: 120,
+        height: 90,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
         marginTop: 10,
-        marginBottom: 10,
-        padding: 5
+        marginBottom: 10, 
+        borderWidth: 2,
+        borderColor: '#0000FF',
     },
     courseItem: {
-        fontSize: 12,
+        fontSize: 10,
         marginBottom: 10,
         color: '#fff'
     },

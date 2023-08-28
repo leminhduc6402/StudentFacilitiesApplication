@@ -16,7 +16,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
   const [currentValue, setCurrentValue] = useState<number | null>(null);
 
   return (
-    <View style={{padding: 30, marginTop: 5}}>
+    <View style={{padding: 10, marginTop: 10, marginBottom: 10 }}>
       <DropDownPicker
         items={data}
         open={isOpen}

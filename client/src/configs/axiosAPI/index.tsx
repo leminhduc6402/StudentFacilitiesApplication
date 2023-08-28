@@ -3,6 +3,7 @@ import axios from 'axios';
 const endpoints = {
   LOGIN: '/auth/login',
   SIGNUP: '/auth/signup',
+  LISTCOURSES: '/subjectschoolyear/usercourse'
 };
 
 const axiosAPI = axios.create({

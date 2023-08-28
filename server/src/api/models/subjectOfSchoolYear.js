@@ -65,6 +65,14 @@ const SubjectOfSchoolYear = new Schema(
       type: String,
       required: true,
     },
+    userCourse: {
+      type: String,
+      required: true
+    },
+    slot: {
+      type: Number,
+      required: true
+    }
   },
   {
     timestamps: true,

@@ -14,22 +14,28 @@ import CoursesRegistration from './src/views/CoursesRegistration';
 
 import { NativeRouter, Route, Link, Routes } from 'react-router-native';
 import UserProvider from './src/store/UserContext';
+import CoursesRegistrationDetail from './src/views/CoursesRegistrationDetail';
+import CourseProvider from './src/store/CourseContext';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NativeRouter>
         <UserProvider>
-          <SafeAreaView style={styles.container}>
-            <Routes>
-              <Route path='/' Component={Main as any} />
-              <Route path='/login' Component={Login as any} />
-              <Route path='/tuition' Component={Tuition as any} />
-            </Routes>
-          </SafeAreaView>
+          <CourseProvider>
+            <SafeAreaView style={styles.container}>
+              <Routes>
+                <Route path='/' Component={Main as any} />
+                <Route path='/login' Component={Login as any} />
+                <Route path='/tuition' Component={Tuition as any} />
+                <Route path='/courses-registration' Component={CoursesRegistration as any} />
+                <Route path='/courses-registration-detail' Component={CoursesRegistrationDetail as any} />
+              </Routes>
+            </SafeAreaView>
+          </CourseProvider>
         </UserProvider>
       </NativeRouter>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
