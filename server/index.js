@@ -5,6 +5,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import { errorHandler } from './src/api/middlewares/ErrorHandler.js';
 import {
+  authRoute,
   userRoute,
   classRoute,
   majorRoute,
@@ -22,7 +23,8 @@ const app = express();
 
 app.use(cors(), express.json(), express.urlencoded({ extended: true }));
 
-app.use(API_ENDPOINTS.AUTH, userRoute);
+app.use(API_ENDPOINTS.AUTH, authRoute);
+app.use(API_ENDPOINTS.USER, userRoute);
 app.use(API_ENDPOINTS.CLASS, classRoute);
 app.use(API_ENDPOINTS.MAJOR, majorRoute);
 app.use(API_ENDPOINTS.ROOM, roomRoute);

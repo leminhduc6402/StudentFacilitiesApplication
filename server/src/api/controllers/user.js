@@ -6,78 +6,77 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const UserController = {
-  signup: async (req, res) => {
-    const {
-      username,
-      fullName,
-      userCourse,
-      classId,
-      departmentId,
-      majorId,
-      ...dataUserDetail
-    } = req.body;
-
-    const user = await UserModel.findOne({ username });
-
-    if (user) {
-      throw new ConflictError('User already exists !!!');
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(username, salt);
-
-    const newUser = await UserModel.create({
-      username,
-      password: hashed,
-      fullName,
-      userCourse,
+  getAllUser: async (req, res) => {
+    const users = await DetailUserModel.find()
+      .populate({
+        path: 'userId',
+        select: '_id username fullName userCourse role',
+      })
+      .populate({
+        path: 'classId',
+        select: '_id name',
+      })
+      .populate({
+        path: 'departmentId',
+        select: '_id name',
+      })
+      .populate({
+        path: 'majorId',
+        select: '_id name',
+      })
+      .lean();
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: users,
     });
-
-    await newUser.save();
-
-    const detailNewUser = await DetailUserModel.create({
-      userId: new mongoose.Types.ObjectId(newUser._id),
-      classId: new mongoose.Types.ObjectId(classId),
-      departmentId: new mongoose.Types.ObjectId(departmentId),
-      majorId: new mongoose.Types.ObjectId(majorId),
-      ...dataUserDetail,
-    });
-
-    return res
-      .status(httpStatusCodes.CREATED)
-      .json({ status: 'success', data: detailNewUser });
   },
-  login: async (req, res) => {
-    const { username, password, role } = req.body;
-    const user = await UserModel.findOne({ username });
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { username, role, fullName, userCourse, ...dataUserDetail } =
+      req.body;
+
+    const user = await UserModel.findById(id);
 
     if (!user) {
       throw new ConflictError('User not found !!!');
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    user.username = username;
+    user.role = role;
+    user.fullName = fullName;
+    user.userCourse = userCourse;
+    await user.save();
 
-    console.log(isMatch);
+    const detailUser = await DetailUserModel.findOne({ userId: id });
 
-    if (!isMatch) {
-      throw new ConflictError('Password is incorrect !!!');
-    }
+    detailUser.classId = new mongoose.Types.ObjectId(dataUserDetail.classId);
+    detailUser.departmentId = new mongoose.Types.ObjectId(
+      dataUserDetail.departmentId
+    );
+    detailUser.majorId = new mongoose.Types.ObjectId(dataUserDetail.majorId);
+    detailUser.dateOfBirth = dataUserDetail.dateOfBirth;
+    detailUser.placeOfBirth = dataUserDetail.placeOfBirth;
+    detailUser.sex = dataUserDetail.sex;
+    detailUser.phone = dataUserDetail.phone;
+    detailUser.email = dataUserDetail.email;
+    detailUser.personalId = dataUserDetail.personalId;
+    detailUser.address = dataUserDetail.address;
 
-    if (role !== user.role) {
-      throw new ConflictError('Role conflict !!!');
-    }
+    await detailUser.save();
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
-      data: {
-        id: user._id,
-        username: user.username,
-        role: user.role,
-        fullName: user.fullName,
-        studentCode: user.studentCode,
-        userCourse: user.userCourse,
-      },
+      data: detailUser,
     });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await UserModel.findByIdAndDelete(id);
+
+    await DetailUserModel.findOneAndDelete({ userId: id });
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({});
   },
 };
 
