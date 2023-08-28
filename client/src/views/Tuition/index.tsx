@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styles from './style';
-import Header from '../../components/Header';
+import Header from '../../components/header';
 import TuitionDetail from '../Tuition/TuitionDetail';
 
 export default function App({ navigation }: { navigation: any }) {

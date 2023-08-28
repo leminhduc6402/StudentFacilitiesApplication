@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import styles2 from './style';
-import Header from '../../components/Header';
+import Header from '../../components/header';
 
 export default function TuitionDetail() {
   return (
