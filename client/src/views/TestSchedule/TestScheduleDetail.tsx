@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import  Header from '../../components/header';
+import  Header from '../../components/Header';
 import { styles } from './TestSchedule';
 const TestScheduleDetail = () => {
   return (

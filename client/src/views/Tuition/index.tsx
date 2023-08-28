@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './style';
-import  Header from '../../components/header';
+import  Header from '../../components/Header';
 import TuitionDetail from '../Tuition/TuitionDetail';
       
 export default function App({navigation}: {navigation: any}) {

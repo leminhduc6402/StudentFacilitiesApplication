@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import  Header from '../../components/header';
+import  Header from '../../components/Header';
 import { styles } from './TestSchedule'
 import DropDownPickerCustom from '../../components/DropdownPicker';
 import { dataDropdown } from '../../views/Login/data';
