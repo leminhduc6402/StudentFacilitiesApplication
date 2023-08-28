@@ -12,7 +12,7 @@ const Subject = new Schema(
     },
     code: {
       type: String,
-      length: 6,
+      length: 8,
     },
     credit: {
       type: Number,

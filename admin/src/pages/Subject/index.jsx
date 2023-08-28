@@ -2,96 +2,124 @@ import { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { AxiosAPI, endpoints } from "~/configs/AxiosAPI";
 import { useAlertContext } from "~/hook/useAlertContext";
-import { handleDatetime } from "~/utils/datetime";
 
 function Subject() {
     const [, setAlert] = useAlertContext();
 
     const [edit, setEdit] = useState(null);
-    const [credit, setCredit] = useState("");
+    const [subject, setSubject] = useState({
+        departmentId: "",
+        name: "",
+        code: "",
+        creditCount: 2,
+    });
     const [subjects, setSubjects] = useState([]);
+    const [departments, setDepartments] = useState([]);
 
     const getSubjects = async () => {
         await AxiosAPI.get(endpoints.subject)
-            .then((res) => setSubjects(res.data.data))
+            .then((res) => {
+                setSubjects(res.data.data);
+            })
+            .catch((err) => console.log(err.respponse.data || err));
+    };
+
+    const getDepartments = async () => {
+        await AxiosAPI.get(endpoints.department)
+            .then((res) => setDepartments(res.data.data))
             .catch((err) => console.log(err.respponse.data || err));
     };
 
     useEffect(() => {
         getSubjects();
+        getDepartments();
     }, []);
 
-    const handleEdit = (id) => {
-        setEdit(id);
-        setCredit(subjects.find((item) => item._id === id).price);
+    const handleChange = (value, field) => {
+        setSubject({
+            ...subject,
+            [field]: value,
+        });
     };
 
-    const handleDelete = async (id) => {
-        await AxiosAPI.delete(`${endpoints.credit}/${id}`)
-            .then(() => {
-                setAlert({
-                    content: "Delete credit successfully!",
-                    type: "success",
-                });
-                getSubjects();
-            })
-            .catch((err) => console.log(err.response?.data || err));
+    const handleEdit = (item) => {
+        setEdit(item._id);
+        setSubject({
+            departmentId: item.departmentId._id,
+            name: item.name,
+            code: item.code,
+            creditCount: item.credit,
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!credit) {
+        if (!subject.departmentId) {
             setAlert({
-                content: "Credit price is empty!",
+                content: "Select department!",
             });
             return;
         }
 
         if (!edit) {
-            await AxiosAPI.post(`${endpoints.credit}/create`, {
-                price: credit,
-            })
+            AxiosAPI.post(`${endpoints.subject}/create`, subject)
                 .then(() => {
                     setAlert({
-                        content: "Create credit successfully!",
+                        content: "Create subject successfully!",
                         type: "success",
                     });
-                    setCredit("");
+                    setSubject({
+                        departmentId: "",
+                        name: "",
+                        code: "",
+                        creditCount: 2,
+                    });
                     getSubjects();
                 })
                 .catch((err) => {
                     setAlert({
-                        content: err.response?.data || "Create credit failed!",
+                        content: err.response.data.message,
                     });
-                    console.log(err.response?.data || err);
                     return;
                 });
-            return;
         }
 
         if (edit) {
-            await AxiosAPI.patch(`${endpoints.credit}/${edit}`, {
-                price: credit,
-            })
+            AxiosAPI.patch(`${endpoints.subject}/${edit}`, subject)
                 .then(() => {
                     setAlert({
-                        content: "Update credit successfully!",
+                        content: "Update subject successfully!",
                         type: "success",
                     });
-                    setCredit("");
-                    setEdit(null);
+                    setSubject({
+                        departmentId: "",
+                        name: "",
+                        code: "",
+                        creditCount: 2,
+                    });
                     getSubjects();
                 })
                 .catch((err) => {
                     setAlert({
-                        content: err.response?.data || "Update credit failed!",
+                        content: err.response.data.message || "Update failed!",
                     });
-                    console.log(err.response?.data || err);
+                    console.log(err.response.data.message || err);
                     return;
                 });
-            return;
         }
+    };
+
+    const handleDelete = async (id) => {
+        await AxiosAPI.delete(`${endpoints.subject}/${id}`)
+            .then(() => {
+                setAlert({
+                    content: "Delete subject successfully!",
+                    type: "success",
+                });
+                getSubjects();
+            })
+            .catch((err) => console.log(err.response?.data || err));
     };
 
     return (
@@ -101,23 +129,25 @@ function Subject() {
                 <thead className="text-center">
                     <tr>
                         <th>#</th>
-                        <th>Price</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
+                        <th>Department</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Credit</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody className="text-center">
-                    {subjects.map((item, index) => {
+                    {subjects?.map((item, index) => {
                         return (
                             <tr key={item._id}>
                                 <td>{index + 1}</td>
-                                <td>{item.price}</td>
-                                <td>{handleDatetime(item.createdAt)}</td>
-                                <td>{handleDatetime(item.updatedAt)}</td>
+                                <td>{item.departmentId?.name}</td>
+                                <td>{item.code}</td>
+                                <td>{item.name}</td>
+                                <td>{item.credit}</td>
                                 <td>
                                     <Button
-                                        onClick={() => handleEdit(item._id)}
+                                        onClick={() => handleEdit(item)}
                                         className="mx-2"
                                     >
                                         Edit
@@ -138,33 +168,54 @@ function Subject() {
             <h2
                 onClick={() => {
                     setEdit(null);
-                    setCredit("");
+                    setSubject({
+                        departmentId: "",
+                        name: "",
+                        code: "",
+                        creditCount: 2,
+                    });
                 }}
             >
                 {edit ? "Edit mode" : "Create mode"}
             </h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="flex-fill">
-                    <Form.Select aria-label="Default select example">
-                        <option>Department</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <Form.Select
+                        value={subject.departmentId}
+                        onChange={(e) =>
+                            handleChange(e.target.value, "departmentId")
+                        }
+                    >
+                        <option value={0}>Department</option>
+
+                        {departments.map((item) => (
+                            <option key={item._id} value={item._id}>
+                                {item.name}
+                            </option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="flex-fill mt-2">
                     <Form.Control
+                        value={subject.name}
+                        onChange={(e) => handleChange(e.target.value, "name")}
                         type="text"
                         placeholder="Enter name here ..."
                     />
                 </Form.Group>
                 <Form.Group className="flex-fill d-flex mt-2 gap-2">
                     <Form.Control
-                        maxLength={6}
+                        value={subject.code}
+                        onChange={(e) => handleChange(e.target.value, "code")}
+                        maxLength={8}
                         type="text"
                         placeholder="Enter code here ... (6 characters)"
                     />
                     <Form.Control
+                        value={subject.creditCount}
+                        onChange={(e) =>
+                            handleChange(e.target.value, "creditCount")
+                        }
                         min={2}
                         max={4}
                         type="number"
