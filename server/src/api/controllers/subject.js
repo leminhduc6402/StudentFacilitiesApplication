@@ -5,7 +5,7 @@ import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
 
 const SubjectController = {
   create: async (req, res) => {
-    const { code, departmentId, credit, name } = req.body;
+    const { code, departmentId, creditCount, name } = req.body;
 
     const subjectCurr = await SubjectModel.findOne({ code });
 
@@ -16,7 +16,7 @@ const SubjectController = {
     const newSubject = await SubjectModel.create({
       code,
       departmentId: new mongoose.Types.ObjectId(departmentId),
-      credit,
+      credit: creditCount,
       name,
     });
 
@@ -37,6 +37,29 @@ const SubjectController = {
       status: 'success',
       data: subjects,
     });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { code, departmentId, creditCount, name } = req.body;
+
+    const subject = await SubjectModel.findById(id);
+    subject.name = name;
+    subject.code = code;
+    subject.departmentId = departmentId;
+    subject.credit = creditCount;
+    await subject.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: subject,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await SubjectModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({});
   },
 };
 
