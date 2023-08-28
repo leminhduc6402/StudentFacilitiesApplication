@@ -2,6 +2,7 @@ import axios from "axios";
 
 const endpoints = {
     login: "/auth/login",
+    signup: "/auth/signup",
     class: "/class",
     major: "/major",
     department: "/department",
@@ -9,6 +10,7 @@ const endpoints = {
     schoolyear: "/schoolyear",
     credit: "/credit",
     subject: "/subject",
+    user: "/user",
 };
 
 const AxiosAPI = axios.create({

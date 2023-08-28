@@ -15,7 +15,12 @@ function App() {
         <Router>
             <div className="d-flex">
                 {user && <Sidebar />}
-                <div className="flex-fill p-2">
+                <div
+                    style={{
+                        width: "calc(100% - 300px)",
+                    }}
+                    className="p-2"
+                >
                     {alert && <MyAlert />}
                     <Routes>
                         {routes.map((route) => {

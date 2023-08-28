@@ -2,6 +2,7 @@ const API_CONTEXT = '/api';
 
 export const API_ENDPOINTS = {
   AUTH: `${API_CONTEXT}/auth`,
+  USER: `${API_CONTEXT}/user`,
   CLASS: `${API_CONTEXT}/class`,
   MAJOR: `${API_CONTEXT}/major`,
   DEPARTMENT: `${API_CONTEXT}/department`,

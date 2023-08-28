@@ -5,7 +5,7 @@ import { AxiosAPI, endpoints } from "~/configs/AxiosAPI";
 import { useAlertContext } from "~/hook/useAlertContext";
 import { handleDatetime } from "~/utils/datetime";
 
-function User() {
+function SubjectOfSchoolYear() {
     const [, setAlert] = useAlertContext();
 
     const [user, setUser] = useState(initUser);
@@ -327,4 +327,4 @@ function User() {
     );
 }
 
-export default User;
+export default SubjectOfSchoolYear;

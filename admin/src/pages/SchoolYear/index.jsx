@@ -168,7 +168,7 @@ function SchoolYear() {
                         value={sy.start}
                         onChange={(e) => handleChange(e, "start")}
                         type="date"
-                        placeholder="Enter classname here ..."
+                        placeholder="Enter start here ..."
                     />
                 </Form.Group>
                 <Form.Group className="flex-fill mx-2" controlId="username">
@@ -176,7 +176,7 @@ function SchoolYear() {
                         value={sy.end}
                         onChange={(e) => handleChange(e, "end")}
                         type="date"
-                        placeholder="Enter classname here ..."
+                        placeholder="Enter end here ..."
                     />
                 </Form.Group>
 

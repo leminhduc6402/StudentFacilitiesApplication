@@ -7,6 +7,7 @@ import Major from "~/pages/Major";
 import Room from "~/pages/Room";
 import SchoolYear from "~/pages/SchoolYear";
 import Subject from "~/pages/Subject";
+import SubjectOfSchoolYear from "~/pages/SubjectOfSchoolYear";
 import User from "~/pages/User";
 
 export const routes = [
@@ -45,6 +46,10 @@ export const routes = [
     {
         path: "/subject",
         component: Subject,
+    },
+    {
+        path: "/subjectofschoolyear",
+        component: SubjectOfSchoolYear,
     },
     {
         path: "/",
