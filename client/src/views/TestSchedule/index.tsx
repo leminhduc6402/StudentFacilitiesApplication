@@ -1,9 +1,10 @@
 import { Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Header from '../../components/Header';
+import Header from '../../components/header';
 import { styles } from './TestSchedule';
 import DropDownPickerCustom from '../../components/DropdownPicker';
 import { dataDropdown } from '../../views/Login/data';
+
 const index = () => {
   const listDropdown1: dataDropdown[] = [
     { label: 'Học kỳ 3 Năm học 2022-2023 ', value: 9 },
