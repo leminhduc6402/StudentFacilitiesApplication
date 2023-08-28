@@ -48,7 +48,7 @@ export const routes = [
         component: Subject,
     },
     {
-        path: "/subjectofschoolyear",
+        path: "/sosy",
         component: SubjectOfSchoolYear,
     },
     {

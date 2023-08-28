@@ -11,6 +11,7 @@ const endpoints = {
     credit: "/credit",
     subject: "/subject",
     user: "/user",
+    sosy: "/sosy",
 };
 
 const AxiosAPI = axios.create({

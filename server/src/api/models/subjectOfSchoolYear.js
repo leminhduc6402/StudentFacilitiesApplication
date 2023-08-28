@@ -5,14 +5,17 @@ const SubjectOfSchoolYear = new Schema(
     subjectId: {
       type: Schema.Types.ObjectId,
       ref: 'Subject',
+      required: true,
     },
     schoolYearId: {
       type: Schema.Types.ObjectId,
       ref: 'SchoolYear',
+      required: true,
     },
     classId: {
       type: Schema.Types.ObjectId,
       ref: 'Class',
+      required: true,
     },
     roomId: {
       type: Schema.Types.ObjectId,
@@ -25,10 +28,10 @@ const SubjectOfSchoolYear = new Schema(
     creditId: {
       type: Schema.Types.ObjectId,
       ref: 'Credit',
+      required: true,
     },
     totalPrice: {
       type: Number,
-      required: true,
     },
     start: {
       type: Date,
@@ -38,14 +41,29 @@ const SubjectOfSchoolYear = new Schema(
       type: Date,
       required: true,
     },
+    fromTime: {
+      type: String,
+      required: true,
+    },
+    toTime: {
+      type: String,
+      required: true,
+    },
     timeStudyOfWeek: {
       type: [],
+      required: true,
     },
     totalWeek: {
       type: Number,
+      required: true,
     },
     timeFinalExam: {
       type: Date,
+      required: true,
+    },
+    userCourse: {
+      type: String,
+      required: true,
     },
   },
   {

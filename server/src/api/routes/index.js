@@ -7,6 +7,7 @@ import schoolYearRoute from './schoolYear.js';
 import roomRoute from './room.js';
 import creditRoute from './credit.js';
 import subjectRoute from './subject.js';
+import sosyRoute from './subjectOfSchoolYear.js';
 
 export {
   authRoute,
@@ -18,4 +19,5 @@ export {
   roomRoute,
   creditRoute,
   subjectRoute,
+  sosyRoute,
 };

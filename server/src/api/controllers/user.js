@@ -30,6 +30,13 @@ const UserController = {
       data: users,
     });
   },
+  getLecturerList: async (req, res) => {
+    const lecturers = await UserModel.find({ role: 'LECTURER' }).lean();
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: lecturers,
+    });
+  },
   update: async (req, res) => {
     const { id } = req.params;
     const { username, role, fullName, userCourse, ...dataUserDetail } =
