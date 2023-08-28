@@ -24,9 +24,18 @@ const SubjectController = {
       status: 'success',
       data: {
         id: newSubject._id,
+        departmentId: newSubject.departmentId,
         name: newSubject.name,
         code: newSubject.code,
       },
+    });
+  },
+  getAll: async (req, res) => {
+    const subjects = await SubjectModel.find().populate('departmentId');
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: subjects,
     });
   },
 };

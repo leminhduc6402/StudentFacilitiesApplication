@@ -7,6 +7,8 @@ const endpoints = {
     department: "/department",
     room: "/room",
     schoolyear: "/schoolyear",
+    credit: "/credit",
+    subject: "/subject",
 };
 
 const AxiosAPI = axios.create({
