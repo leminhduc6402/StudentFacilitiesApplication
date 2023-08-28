@@ -1,0 +1,16 @@
+export const initUser = {
+    username: "",
+    email: "",
+    role: "",
+    fullName: "",
+    userCourse: "",
+    classId: "",
+    majorId: "",
+    departmentId: "",
+    dayOfBirth: "",
+    placeOfBirth: "",
+    sex: true,
+    phone: "",
+    address: "",
+    personalId: "",
+};
