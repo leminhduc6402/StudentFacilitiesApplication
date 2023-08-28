@@ -18,6 +18,7 @@ function SubjectOfSchoolYear() {
     const [lecturers, setLecturers] = useState([]);
     const [credits, setCredits] = useState([]);
 
+
     const getDataDropdown = async (endpoint, setState) => {
         await AxiosAPI.get(endpoint)
             .then((res) => setState(res.data.data))
@@ -40,7 +41,7 @@ function SubjectOfSchoolYear() {
             [field]: e.target.value,
         });
     };
-
+  
     const handleEdit = (item) => {
         setEdit(item._id);
         setSosy({
@@ -71,6 +72,7 @@ function SubjectOfSchoolYear() {
                     type: "success",
                 });
                 getDataDropdown(endpoints.sosy, setSosys);
+
             })
             .catch((err) => console.log(err.response?.data || err));
     };
