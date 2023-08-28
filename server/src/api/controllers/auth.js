@@ -14,6 +14,7 @@ const UserController = {
       classId,
       departmentId,
       majorId,
+      role,
       ...dataUserDetail
     } = req.body;
 
@@ -31,6 +32,7 @@ const UserController = {
       password: hashed,
       fullName,
       userCourse,
+      role,
     });
 
     await newUser.save();

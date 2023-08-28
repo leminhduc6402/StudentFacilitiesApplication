@@ -18,8 +18,8 @@ function App() {
                 <div
                     style={{
                         width: "calc(100% - 300px)",
+                        margin: "0 auto",
                     }}
-                    className="p-2"
                 >
                     {alert && <MyAlert />}
                     <Routes>

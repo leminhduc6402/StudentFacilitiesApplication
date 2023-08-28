@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useAlertContext } from "~/hook/useAlertContext";
@@ -27,6 +26,7 @@ function MyAlert() {
                 <hr />
                 <div className="d-flex justify-content-end">
                     <Button
+                        autoFocus={true}
                         onClick={() => setAlert(null)}
                         variant={`outline-${alert.type || "danger"}`}
                     >

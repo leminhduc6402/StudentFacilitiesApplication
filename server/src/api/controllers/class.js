@@ -23,7 +23,7 @@ const ClassController = {
     });
   },
   getAll: async (req, res) => {
-    const classes = await ClassModel.find();
+    const classes = await ClassModel.find().sort({ name: 1 });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
