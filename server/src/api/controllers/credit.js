@@ -16,6 +16,37 @@ const CreditController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const credits = await CreditModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: credits,
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { price } = req.body;
+
+    const credit = await CreditModel.findById(id);
+    credit.price = price;
+    await credit.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: credit,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await CreditModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({
+      status: 'success',
+      data: null,
+    });
+  },
 };
 
 export default CreditController;

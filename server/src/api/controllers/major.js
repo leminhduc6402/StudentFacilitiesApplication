@@ -22,6 +22,34 @@ const MajorController = {
       },
     });
   },
+  getAll: async (req, res) => {
+    const majors = await MajorModel.find();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: majors,
+    });
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const major = await MajorModel.findById(id);
+    major.name = name;
+    await major.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: major,
+    });
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    await MajorModel.findByIdAndDelete(id);
+
+    return res.status(httpStatusCodes.NO_CONTENT).json({});
+  },
 };
 
 export default MajorController;

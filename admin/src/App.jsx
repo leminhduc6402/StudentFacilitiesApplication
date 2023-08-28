@@ -1,29 +1,33 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Dashboard from "~/pages/Dashboard";
-import User from "~/pages/User";
 import Sidebar from "~/components/Sidebar";
 import MyAlert from "~/components/MyAlert";
-import Login from "~/pages/Login";
 import { useUserContext } from "~/hook/useUserContext";
 import { useAlertContext } from "~/hook/useAlertContext";
+import { routes } from "./routes";
 
 function App() {
     const [user] = useUserContext();
-    const [alert, setAlert] = useAlertContext();
+    const [alert] = useAlertContext();
 
     return (
         <Router>
             <div className="d-flex">
                 {user && <Sidebar />}
-                <div className="flex-fill">
+                <div className="flex-fill p-2">
                     {alert && <MyAlert />}
                     <Routes>
-                        <Route path="/auth/login" element={<Login />} />
-                        <Route path="/user" element={<User />} />
-                        <Route path="/" element={<Dashboard />} />
+                        {routes.map((route) => {
+                            const Page = route.component;
+                            return (
+                                <Route
+                                    key={route.path}
+                                    path={route.path}
+                                    element={<Page />}
+                                />
+                            );
+                        })}
                     </Routes>
                 </div>
             </div>

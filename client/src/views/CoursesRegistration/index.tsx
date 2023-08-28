@@ -1,26 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Header from '../../components/Header'
-import DropdownPicker from '../../components/DropdownPickerCourse'
-import { styles } from './CoursesRegistration'
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import Header from '../../components/Header';
+import DropdownPicker from '../../components/DropdownPickerCourse';
+import { styles } from './CoursesRegistration';
 
 const CoursesRegistration = () => {
   const items = [
-    {label: 'Môn học mở theo lớp sinh viên DH20IT02', value: 1},
-    {label: 'Môn trong chương trình đào tạo kế hoạch', value: 2},
-    {label: 'Môn chưa học trong CTĐT kế hoạch', value: 3},
-    {label: 'Môn sinh viên cần học lại (đã rớt)', value: 4},
-    {label: 'Lọc theo khoa', value: 5},
-    {label: 'Lọc theo lớp', value: 6},
-    {label: 'Lọc theo môn học', value: 7}
-  ]
-  
-  // const handleCourses = async () => {
-    
-
-    
-  // };
-  // };
+    { label: 'Môn học mở theo lớp sinh viên DH20IT02', value: 1 },
+    { label: 'Môn trong chương trình đào tạo kế hoạch', value: 2 },
+    { label: 'Môn chưa học trong CTĐT kế hoạch', value: 3 },
+    { label: 'Môn sinh viên cần học lại (đã rớt)', value: 4 },
+    { label: 'Lọc theo khoa', value: 5 },
+    { label: 'Lọc theo lớp', value: 6 },
+    { label: 'Lọc theo môn học', value: 7 },
+  ];
 
   return (
     <View>
@@ -58,7 +51,7 @@ const CoursesRegistration = () => {
       </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default CoursesRegistration
+export default CoursesRegistration;

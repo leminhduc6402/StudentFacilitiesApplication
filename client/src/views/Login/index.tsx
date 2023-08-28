@@ -20,6 +20,7 @@ import MyAlert from '../../components/MyAlert';
 
 const Login = () => {
   const nav = useNavigate();
+  const [user, setUser] = useUserContext();
 
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
@@ -49,7 +50,8 @@ const Login = () => {
     await axiosAPI
       .post(endpoints.LOGIN, data)
       .then((res) => {
-        console.log(res.data);
+        setUser(res.data.data);
+        nav('/');
       })
       .catch((err) => {
         console.log(err.response.data || err.message);
@@ -58,7 +60,6 @@ const Login = () => {
 
   const handleLogin = () => {
     login();
-    // nav('/');
   };
 
   return (

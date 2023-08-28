@@ -14,13 +14,17 @@ const SubjectOfSchoolYear = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Class',
     },
-    room: {
+    roomId: {
       type: Schema.Types.ObjectId,
       ref: 'Room',
     },
     lecturerId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    creditId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Credit',
     },
     totalPrice: {
       type: Number,
