@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { styles } from '../Main/Main';
-import Header from '../../components/header';
+import Header from '../../components/Header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
 
