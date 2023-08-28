@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { styles } from '../Main/Main';
-import Header from '../../components/Header';
+import Header from '../../components/header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
 
@@ -47,8 +47,13 @@ function Main({ navigation }: { navigation: any }) {
     return <Navigate to='/login' />;
   }
 
+<<<<<<< Updated upstream
   const handleTuition = () => {
     nav('/tuition')
+=======
+  const handleCoursesRegistration = () => {
+    nav("/courses-registration")
+>>>>>>> Stashed changes
   }
 
   return (
@@ -61,7 +66,10 @@ function Main({ navigation }: { navigation: any }) {
         </View>
 
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <View style={styles.featureItem}>
+        <TouchableOpacity
+            style={styles.featureItem}
+            onPress={handleCoursesRegistration}
+          >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
@@ -71,7 +79,7 @@ function Main({ navigation }: { navigation: any }) {
               source={require('../../images/note.png')}
               style={styles.featureImg}
             />
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
