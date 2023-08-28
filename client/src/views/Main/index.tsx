@@ -43,7 +43,7 @@ function Main({ navigation }: { navigation: any }) {
 
   console.log(user);
 
-  if (!user) {
+  if (!user.id) {
     return <Navigate to='/login' />;
   }
 

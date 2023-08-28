@@ -48,6 +48,9 @@ function Sidebar() {
                 <Link to="/schoolyear">
                     <ListGroup.Item>School Year</ListGroup.Item>
                 </Link>
+                <Link to="/credit">
+                    <ListGroup.Item>Credit</ListGroup.Item>
+                </Link>
                 <Link to="/subject">
                     <ListGroup.Item>Subject</ListGroup.Item>
                 </Link>
