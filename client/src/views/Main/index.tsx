@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { styles } from '../Main/Main';
-import Header from '../../components/header';
+import Header from '../../components/Header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
 
@@ -41,10 +41,14 @@ function Main({ navigation }: { navigation: any }) {
 
   const nav = useNavigate();
 
-  console.log(user);
+  console.log(user.id);
 
   if (!user.id) {
     return <Navigate to='/login' />;
+  }
+
+  const handleTuition = () => {
+    nav('/tuition')
   }
 
   return (
@@ -71,7 +75,7 @@ function Main({ navigation }: { navigation: any }) {
 
           <TouchableOpacity
             style={styles.featureItem}
-            onPress={() => navigation.navigate('Tuition')}
+            onPress={handleTuition}
           >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
