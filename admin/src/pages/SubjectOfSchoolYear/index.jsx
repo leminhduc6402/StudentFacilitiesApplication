@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
-import { initUser } from "./data";
+import { initSOSY } from "./data";
 import { AxiosAPI, endpoints } from "~/configs/AxiosAPI";
 import { useAlertContext } from "~/hook/useAlertContext";
 import { handleDatetime } from "~/utils/datetime";
@@ -8,12 +8,16 @@ import { handleDatetime } from "~/utils/datetime";
 function SubjectOfSchoolYear() {
     const [, setAlert] = useAlertContext();
 
-    const [user, setUser] = useState(initUser);
+    const [sosy, setSosy] = useState(initSOSY);
+    const [sosys, setSosys] = useState([]);
     const [edit, setEdit] = useState(null);
-    const [departments, setDepartments] = useState([]);
-    const [majors, setMajors] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [schoolyears, setSchoolyears] = useState([]);
     const [classes, setClasses] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [lecturers, setLecturers] = useState([]);
+    const [credits, setCredits] = useState([]);
+
 
     const getDataDropdown = async (endpoint, setState) => {
         await AxiosAPI.get(endpoint)
@@ -22,41 +26,53 @@ function SubjectOfSchoolYear() {
     };
 
     useEffect(() => {
-        getDataDropdown(endpoints.department, setDepartments);
-        getDataDropdown(endpoints.major, setMajors);
+        getDataDropdown(endpoints.subject, setSubjects);
+        getDataDropdown(endpoints.room, setRooms);
+        getDataDropdown(endpoints.schoolyear, setSchoolyears);
         getDataDropdown(endpoints.class, setClasses);
-        getDataDropdown(endpoints.user, setUsers);
+        getDataDropdown(endpoints.credit, setCredits);
+        getDataDropdown(`${endpoints.user}/lecturers`, setLecturers);
+        getDataDropdown(endpoints.sosy, setSosys);
     }, []);
 
     const handleChange = (e, field) => {
-        setUser({
-            ...user,
+        setSosy({
+            ...sosy,
             [field]: e.target.value,
         });
     };
-
-    const handleEdit = (user) => {
-        setEdit(user.userId._id);
-        setUser({
-            ...user.userId,
-            ...user,
-            departmentId: user.departmentId?._id,
-            majorId: user.majorId?._id,
-            classId: user.classId?._id,
-            dateOfBirth: user.dateOfBirth
-                ? new Date(user.dateOfBirth).toISOString().slice(0, 10)
-                : "",
+  
+    const handleEdit = (item) => {
+        setEdit(item._id);
+        setSosy({
+            subjectId: item.subjectId._id,
+            schoolYearId: item.schoolYearId._id,
+            classId: item.classId._id,
+            roomId: item.roomId?._id,
+            lecturerId: item.lecturerId._id,
+            creditId: item.creditId?._id,
+            start: new Date(item.start).toISOString().slice(0, 16),
+            end: new Date(item.end).toISOString().slice(0, 16),
+            fromTime: item.fromTime || "",
+            toTime: item.toTime || "",
+            timeStudyOfWeek: item.timeStudyOfWeek,
+            totalWeek: item.totalWeek,
+            timeFinalExam: new Date(item.timeFinalExam)
+                .toISOString()
+                .slice(0, 16),
+            userCourse: item.userCourse,
         });
     };
 
     const handleDelete = async (id) => {
-        await AxiosAPI.delete(`${endpoints.user}/${id}`)
+        await AxiosAPI.delete(`${endpoints.sosy}/${id}`)
             .then(() => {
                 setAlert({
-                    content: "Delete user successfully!",
+                    content: "Delete successfully!",
                     type: "success",
                 });
-                getDataDropdown(endpoints.user, setUsers);
+                getDataDropdown(endpoints.sosy, setSosys);
+
             })
             .catch((err) => console.log(err.response?.data || err));
     };
@@ -64,16 +80,18 @@ function SubjectOfSchoolYear() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(sosy);
+
         if (edit) {
-            await AxiosAPI.patch(`${endpoints.user}/${edit}`, user)
+            await AxiosAPI.patch(`${endpoints.sosy}/${edit}`, sosy)
                 .then(() => {
                     setAlert({
-                        content: "Update user successfully!",
+                        content: "Update successfully!",
                         type: "success",
                     });
                     setEdit(null);
-                    setUser(initUser);
-                    getDataDropdown(endpoints.user, setUsers);
+                    setSosy(initSOSY);
+                    getDataDropdown(endpoints.sosy, setSosys);
                 })
                 .catch((err) => {
                     setAlert({
@@ -86,14 +104,14 @@ function SubjectOfSchoolYear() {
             return;
         }
 
-        await AxiosAPI.post(endpoints.signup, user)
+        await AxiosAPI.post(`${endpoints.sosy}/create`, sosy)
             .then(() => {
                 setAlert({
-                    content: "Create user successfully!",
+                    content: "Create successfully!",
                     type: "success",
                 });
-                setUser(initUser);
-                getDataDropdown(endpoints.user, setUsers);
+                setSosy(initSOSY);
+                getDataDropdown(endpoints.sosy, setSosys);
             })
             .catch((err) => {
                 setAlert({
@@ -121,55 +139,58 @@ function SubjectOfSchoolYear() {
                     <tr>
                         <th>#</th>
                         <th>Action</th>
-                        <th>Role</th>
-                        <th>Fullname</th>
-                        <th>Student Code</th>
-                        <th>User Course</th>
+                        <th>Subject</th>
+                        <th>School Year</th>
                         <th>Class</th>
-                        <th>Major</th>
-                        <th>Department</th>
-                        <th>Date Of Birth</th>
-                        <th>Place Of Birth</th>
-                        <th>Sex</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
+                        <th>Lecturer</th>
+                        <th>Room</th>
+                        <th>Credit</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Day Of Week</th>
+                        <th>Total Week</th>
+                        <th>Time Final Exam</th>
+                        <th>User Course</th>
                     </tr>
                 </thead>
                 <tbody className="text-center">
-                    {users?.map((user, index) => {
+                    {sosys.map((item, index) => {
                         return (
-                            <tr key={user._id}>
+                            <tr key={item._id}>
                                 <td>{index + 1}</td>
                                 <td>
                                     <Button
-                                        onClick={() => handleEdit(user)}
+                                        onClick={() => handleEdit(item)}
                                         className="mx-2"
                                     >
                                         Edit
                                     </Button>
                                     <Button
-                                        onClick={() =>
-                                            handleDelete(user.userId._id)
-                                        }
+                                        onClick={() => handleDelete(item._id)}
                                         variant="outline-danger"
                                     >
                                         Delete
                                     </Button>
                                 </td>
-                                <td>{user.userId?.role}</td>
-                                <td>{user.userId?.fullName}</td>
-                                <td>{user.userId?.username}</td>
-                                <td>{user.userId?.userCourse}</td>
-                                <td>{user.classId?.name}</td>
-                                <td>{user.majorId?.name}</td>
-                                <td>{user.departmentId?.name}</td>
-                                <td>{handleDatetime(user.dateOfBirth)}</td>
-                                <td>{user.placeOfBirth}</td>
-                                <td>{user.sex ? "Female" : "Male"}</td>
-                                <td>{user.phone}</td>
-                                <td>{user.email}</td>
-                                <td>{user.address}</td>
+                                <td>{item.subjectId.name}</td>
+                                <td>{item.schoolYearId.name}</td>
+                                <td>{item.classId.name}</td>
+                                <td>
+                                    {item.lecturerId.username} -{" "}
+                                    {item.lecturerId.fullName}
+                                </td>
+                                <td>{item.roomId?.name}</td>
+                                <td>{item.creditId?.price} VND</td>
+                                <td>{handleDatetime(item.start)}</td>
+                                <td>{handleDatetime(item.end)}</td>
+                                <td>{item?.fromTime || "---"}</td>
+                                <td>{item?.toTime || "---"}</td>
+                                <td>{item.timeStudyOfWeek}</td>
+                                <td>{item.totalWeek}</td>
+                                <td>{handleDatetime(item.timeFinalExam)}</td>
+                                <td>{item.userCourse}</td>
                             </tr>
                         );
                     })}
@@ -178,75 +199,39 @@ function SubjectOfSchoolYear() {
             <h2
                 onClick={() => {
                     setEdit(null);
-                    setUser(initUser);
+                    setSosy(initSOSY);
                 }}
             >
                 {edit ? "Edit mode" : "Create mode"}
             </h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="d-flex gap-2">
-                    <Form.Control
-                        value={user.fullName}
-                        onChange={(e) => handleChange(e, "fullName")}
-                        className="w-50"
-                        maxLength={25}
-                        type="text"
-                        placeholder="Full name here ... "
-                    />
-                    <Form.Control
-                        value={user.username}
-                        onChange={(e) => handleChange(e, "username")}
-                        className="w-25"
-                        maxLength={10}
-                        type="text"
-                        placeholder="MSSV (10 characters)"
-                    />
-                    <Form.Control
-                        value={user.userCourse}
-                        onChange={(e) => handleChange(e, "userCourse")}
-                        className="w-25"
-                        maxLength={4}
-                        type="text"
-                        placeholder="User course ... "
-                    />
                     <Form.Select
-                        value={user.role}
-                        onChange={(e) => handleChange(e, "role")}
-                        className="w-25"
-                    >
-                        <option value={0}>User role</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="LECTURER">Lecturer</option>
-                        <option value="STUDENT">Student</option>
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group className="d-flex gap-2 mt-2">
-                    <Form.Select
-                        value={user.departmentId}
-                        onChange={(e) => handleChange(e, "departmentId")}
+                        value={sosy.subjectId}
+                        onChange={(e) => handleChange(e, "subjectId")}
                         className="w-33"
                     >
-                        <option value={0}>Department</option>
-                        {departments.map((item) => (
+                        <option value={0}>Subject</option>
+                        {subjects.map((item) => (
                             <option key={item._id} value={item._id}>
                                 {item.name}
                             </option>
                         ))}
                     </Form.Select>
                     <Form.Select
-                        value={user.majorId}
-                        onChange={(e) => handleChange(e, "majorId")}
+                        value={sosy.schoolYearId}
+                        onChange={(e) => handleChange(e, "schoolYearId")}
                         className="w-33"
                     >
-                        <option value={0}>Major</option>
-                        {majors.map((item) => (
+                        <option value={0}>School Year</option>
+                        {schoolyears.map((item) => (
                             <option key={item._id} value={item._id}>
                                 {item.name}
                             </option>
                         ))}
                     </Form.Select>
                     <Form.Select
-                        value={user.classId}
+                        value={sosy.classId}
                         onChange={(e) => handleChange(e, "classId")}
                         className="w-33"
                     >
@@ -260,62 +245,105 @@ function SubjectOfSchoolYear() {
                 </Form.Group>
                 <Form.Group className="d-flex gap-2 mt-2">
                     <Form.Select
-                        value={user.sex}
-                        onChange={(e) => handleChange(e, "sex")}
-                        className="w-25"
+                        value={sosy.roomId}
+                        onChange={(e) => handleChange(e, "roomId")}
+                        className="w-33"
                     >
-                        <option value={false}>Male</option>
-                        <option value={true}>Female</option>
+                        <option value={0}>Room</option>
+                        {rooms.map((item) => (
+                            <option key={item._id} value={item._id}>
+                                {item.name}
+                            </option>
+                        ))}
                     </Form.Select>
+                    <Form.Select
+                        value={sosy.lecturerId}
+                        onChange={(e) => handleChange(e, "lecturerId")}
+                        className="w-33"
+                    >
+                        <option value={0}>Lecturer</option>
+                        {lecturers.map((item) => (
+                            <option key={item._id} value={item._id}>
+                                {item.username} - {item.fullName}
+                            </option>
+                        ))}
+                    </Form.Select>
+                    <Form.Select
+                        value={sosy.creditId}
+                        onChange={(e) => handleChange(e, "creditId")}
+                        className="w-33"
+                    >
+                        <option value={0}>Credit</option>
+                        {credits.map((item) => (
+                            <option key={item._id} value={item._id}>
+                                {item.price} VND
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group className="d-flex gap-2 mt-2">
                     <Form.Control
-                        value={user.dateOfBirth}
-                        onChange={(e) => handleChange(e, "dateOfBirth")}
+                        value={sosy.start}
+                        onChange={(e) => handleChange(e, "start")}
                         className="w-25"
-                        title="Date of birth"
-                        type="date"
-                        placeholder="Enter start here ..."
+                        title="Start date"
+                        type="datetime-local"
                     />
                     <Form.Control
-                        value={user.placeOfBirth}
-                        onChange={(e) => handleChange(e, "placeOfBirth")}
+                        value={sosy.end}
+                        onChange={(e) => handleChange(e, "end")}
                         className="w-25"
+                        title="End date"
+                        type="datetime-local"
+                    />
+                    <Form.Control
+                        value={sosy.timeStudyOfWeek}
+                        onChange={(e) => handleChange(e, "timeStudyOfWeek")}
+                        className="w-25"
+                        title="Day of week"
                         maxLength={20}
                         type="text"
-                        placeholder="Place of birth ... "
+                        placeholder="[0, 1, 2, 3, 4, 5, 6]"
                     />
                     <Form.Control
-                        value={user.personalId}
-                        onChange={(e) => handleChange(e, "personalId")}
+                        value={sosy.userCourse}
+                        onChange={(e) => handleChange(e, "userCourse")}
                         className="w-25"
-                        maxLength={12}
+                        title="User study course"
                         type="text"
-                        placeholder="Personal ID ... "
+                        placeholder="User study course ... "
                     />
                 </Form.Group>
                 <Form.Group className="d-flex gap-2 mt-2">
                     <Form.Control
-                        value={user.phone}
-                        onChange={(e) => handleChange(e, "phone")}
+                        value={sosy.fromTime}
+                        onChange={(e) => handleChange(e, "fromTime")}
                         className="w-25"
-                        maxLength={10}
-                        type="text"
-                        placeholder="Phone ... "
+                        title="From time"
+                        type="time"
                     />
                     <Form.Control
-                        value={user.email}
-                        onChange={(e) => handleChange(e, "email")}
+                        value={sosy.toTime}
+                        onChange={(e) => handleChange(e, "toTime")}
                         className="w-25"
-                        maxLength={20}
-                        type="email"
-                        placeholder="Email ... "
+                        title="To time"
+                        type="time"
                     />
                     <Form.Control
-                        value={user.address}
-                        onChange={(e) => handleChange(e, "address")}
-                        className="w-50"
-                        maxLength={100}
-                        type="text"
-                        placeholder="Address ... "
+                        value={sosy.totalWeek}
+                        onChange={(e) => handleChange(e, "totalWeek")}
+                        className="w-25"
+                        title="Week study total"
+                        type="number"
+                        placeholder="Week study total ... "
+                    />
+
+                    <Form.Control
+                        value={sosy.timeFinalExam}
+                        onChange={(e) => handleChange(e, "timeFinalExam")}
+                        className="w-25"
+                        title="Time Final Exam"
+                        type="datetime-local"
                     />
                 </Form.Group>
 

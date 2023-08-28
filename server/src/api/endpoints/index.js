@@ -10,4 +10,5 @@ export const API_ENDPOINTS = {
   ROOM: `${API_CONTEXT}/room`,
   CREDIT: `${API_CONTEXT}/credit`,
   SUBJECT: `${API_CONTEXT}/subject`,
+  SOSY: `${API_CONTEXT}/sosy`,
 };
