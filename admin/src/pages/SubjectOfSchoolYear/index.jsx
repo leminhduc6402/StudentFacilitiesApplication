@@ -18,7 +18,6 @@ function SubjectOfSchoolYear() {
     const [lecturers, setLecturers] = useState([]);
     const [credits, setCredits] = useState([]);
 
-
     const getDataDropdown = async (endpoint, setState) => {
         await AxiosAPI.get(endpoint)
             .then((res) => setState(res.data.data))
@@ -41,7 +40,7 @@ function SubjectOfSchoolYear() {
             [field]: e.target.value,
         });
     };
-  
+
     const handleEdit = (item) => {
         setEdit(item._id);
         setSosy({
@@ -72,7 +71,6 @@ function SubjectOfSchoolYear() {
                     type: "success",
                 });
                 getDataDropdown(endpoints.sosy, setSosys);
-
             })
             .catch((err) => console.log(err.response?.data || err));
     };
@@ -174,12 +172,12 @@ function SubjectOfSchoolYear() {
                                         Delete
                                     </Button>
                                 </td>
-                                <td>{item.subjectId.name}</td>
-                                <td>{item.schoolYearId.name}</td>
-                                <td>{item.classId.name}</td>
+                                <td>{item.subjectId?.name}</td>
+                                <td>{item.schoolYearId?.name}</td>
+                                <td>{item.classId?.name}</td>
                                 <td>
-                                    {item.lecturerId.username} -{" "}
-                                    {item.lecturerId.fullName}
+                                    {item.lecturerId?.username} -{" "}
+                                    {item.lecturerId?.fullName}
                                 </td>
                                 <td>{item.roomId?.name}</td>
                                 <td>{item.creditId?.price} VND</td>
@@ -199,7 +197,6 @@ function SubjectOfSchoolYear() {
             <h2
                 onClick={() => {
                     setEdit(null);
-                    setSosy(initSOSY);
                 }}
             >
                 {edit ? "Edit mode" : "Create mode"}

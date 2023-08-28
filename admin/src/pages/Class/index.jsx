@@ -99,76 +99,97 @@ function Class() {
     };
 
     return (
-        <div>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                padding: "12px",
+            }}
+        >
             <h2>Class</h2>
-            <Table>
-                <thead className="text-center">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody className="text-center">
-                    {classes.map((item, index) => {
-                        return (
-                            <tr key={item._id}>
-                                <td>{index + 1}</td>
-                                <td>{item.name}</td>
-                                <td>{handleDatetime(item.createdAt)}</td>
-                                <td>{handleDatetime(item.updatedAt)}</td>
-                                <td>
-                                    <Button
-                                        onClick={() => handleEdit(item._id)}
-                                        className="mx-2"
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        onClick={() => handleDelete(item._id)}
-                                        variant="outline-danger"
-                                    >
-                                        Delete
-                                    </Button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-
-            <h2
-                onClick={() => {
-                    setEdit(null);
-                    setClassName("");
+            <div
+                style={{
+                    overflowY: "scroll",
                 }}
             >
-                {edit ? "Edit mode" : "Create mode"}
-            </h2>
-            <Form className="d-flex" onSubmit={handleSubmit}>
-                <Form.Group className="flex-fill" controlId="username">
-                    <Form.Control
-                        value={className}
-                        onChange={(e) => setClassName(e.target.value)}
-                        type="text"
-                        placeholder="Enter classname here ..."
-                    />
-                </Form.Group>
+                <Table style={{}}>
+                    <thead className="text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-center">
+                        {classes.map((item, index) => {
+                            return (
+                                <tr key={item._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.name}</td>
+                                    <td>{handleDatetime(item.createdAt)}</td>
+                                    <td>{handleDatetime(item.updatedAt)}</td>
+                                    <td>
+                                        <Button
+                                            onClick={() => handleEdit(item._id)}
+                                            className="mx-2"
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                handleDelete(item._id)
+                                            }
+                                            variant="outline-danger"
+                                        >
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </Table>
+            </div>
 
-                <Button
-                    style={{
-                        height: "38px",
-                        marginLeft: "10px",
-                        width: "100px",
+            <div
+                style={{
+                    flex: 1,
+                }}
+            >
+                <h2
+                    onClick={() => {
+                        setEdit(null);
+                        setClassName("");
                     }}
-                    variant="primary"
-                    type="submit"
                 >
-                    Submit
-                </Button>
-            </Form>
+                    {edit ? "Edit mode" : "Create mode"}
+                </h2>
+                <Form className="d-flex" onSubmit={handleSubmit}>
+                    <Form.Group className="flex-fill" controlId="username">
+                        <Form.Control
+                            value={className}
+                            onChange={(e) => setClassName(e.target.value)}
+                            type="text"
+                            placeholder="Enter classname here ..."
+                        />
+                    </Form.Group>
+
+                    <Button
+                        style={{
+                            height: "38px",
+                            marginLeft: "10px",
+                            width: "100px",
+                        }}
+                        variant="primary"
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 }
