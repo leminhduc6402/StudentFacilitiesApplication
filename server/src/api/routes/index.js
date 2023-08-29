@@ -7,11 +7,7 @@ import schoolYearRoute from './schoolYear.js';
 import roomRoute from './room.js';
 import creditRoute from './credit.js';
 import subjectRoute from './subject.js';
-<<<<<<< Updated upstream
 import sosyRoute from './subjectOfSchoolYear.js';
-=======
-import subjectSchoolYearRoute from './subjectSchoolYear.js'
->>>>>>> Stashed changes
 
 export {
   authRoute,
@@ -23,9 +19,5 @@ export {
   roomRoute,
   creditRoute,
   subjectRoute,
-<<<<<<< Updated upstream
   sosyRoute,
-=======
-  subjectSchoolYearRoute,
->>>>>>> Stashed changes
 };

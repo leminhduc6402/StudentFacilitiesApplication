@@ -10,9 +10,5 @@ export const API_ENDPOINTS = {
   ROOM: `${API_CONTEXT}/room`,
   CREDIT: `${API_CONTEXT}/credit`,
   SUBJECT: `${API_CONTEXT}/subject`,
-<<<<<<< Updated upstream
   SOSY: `${API_CONTEXT}/sosy`,
-=======
-  SUBJECT_SCHOOL_YEAR: `${API_CONTEXT}/subjectschoolyear`,
->>>>>>> Stashed changes
 };
