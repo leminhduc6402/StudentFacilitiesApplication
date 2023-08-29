@@ -17,6 +17,8 @@ import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
 import { endpoints, axiosAPI } from '../../configs/axiosAPI';
 import MyAlert from '../../components/MyAlert';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { saveData } from '../../utils/AsyncStorage';
 
 const Login = () => {
   const nav = useNavigate();
@@ -49,8 +51,9 @@ const Login = () => {
 
     await axiosAPI
       .post(endpoints.LOGIN, data)
-      .then((res) => {
+      .then(async (res) => {
         setUser(res.data.data);
+        saveData('user', res.data.data);
         nav('/');
       })
       .catch((err) => {

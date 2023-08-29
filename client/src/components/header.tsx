@@ -2,14 +2,19 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import useUserContext from '../hook/useUserContext';
 import { Navigate, useLocation, useNavigate } from 'react-router-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initialUser } from '../store/UserContext/Context';
+import { removeData } from '../utils/AsyncStorage';
 
 const Header = () => {
-  const [user] = useUserContext();
+  const [user, setUser] = useUserContext();
 
   const nav = useNavigate();
   const location = useLocation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    setUser(initialUser);
+    removeData('user');
     nav('/login');
   };
 
@@ -34,16 +39,18 @@ const Header = () => {
         <View style={styles.textContainer}>
           <View style={styles.logoutContainer}>
             <Text style={styles.textUI}>{user.fullName}</Text>
-            <TouchableOpacity onPress={handleLogout}>
-              <Image
-                source={require('../images/logout.png')}
-                style={styles.logout}
-              />
-            </TouchableOpacity>
           </View>
           <Text style={styles.textUI}>{user.username}</Text>
         </View>
-        <Image source={require('../images/bell.png')} style={styles.bell} />
+        <View style={styles.action}>
+          {/* <Image source={require('../images/bell.png')} style={styles.bell} /> */}
+          <TouchableOpacity onPress={handleLogout}>
+            <Image
+              source={require('../images/logout.png')}
+              style={styles.logout}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -85,10 +92,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  action: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 20,
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
   logout: {
-    marginLeft: '8%',
-    width: 23,
-    height: 23,
+    width: 35,
+    height: 35,
   },
   back: {
     width: 30,
