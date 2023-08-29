@@ -4,6 +4,7 @@ const endpoints = {
   LOGIN: '/auth/login',
   SIGNUP: '/auth/signup',
   LISTCOURSES: '/subjectschoolyear/usercourse',
+  SCHOOL_YEAR: '/schoolyear',
 };
 
 const axiosAPI = axios.create({
