@@ -14,6 +14,7 @@ import { styles } from '../Main/Main';
 import Header from '../../components/header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
+import { routes } from '../../configs/routes';
 
 const data = [
   { content: 'Danh sách nhóm lớp hủy do không đủ sĩ số' },
@@ -47,14 +48,9 @@ function Main({ navigation }: { navigation: any }) {
     return <Navigate to='/login' />;
   }
 
-<<<<<<< Updated upstream
-  const handleTuition = () => {
-    nav('/tuition')
-=======
-  const handleCoursesRegistration = () => {
-    nav("/courses-registration")
->>>>>>> Stashed changes
-  }
+  const handleNavigate = (route: string) => {
+    nav(route);
+  };
 
   return (
     <>
@@ -66,9 +62,9 @@ function Main({ navigation }: { navigation: any }) {
         </View>
 
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        <TouchableOpacity
+          <TouchableOpacity
             style={styles.featureItem}
-            onPress={handleCoursesRegistration}
+            onPress={() => handleNavigate(routes.COURSE_REGISTRATION)}
           >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
@@ -83,19 +79,19 @@ function Main({ navigation }: { navigation: any }) {
 
           <TouchableOpacity
             style={styles.featureItem}
-            onPress={handleTuition}
+            onPress={() => handleNavigate(routes.TUITION)}
           >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
-              Xem học phí
+              Học phí
             </Text>
             <Image
               source={require('../../images/salary.png')}
               style={styles.featureImg}
             />
           </TouchableOpacity>
-          <View style={styles.featureItem}>
+          <TouchableOpacity style={styles.featureItem}>
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
@@ -105,9 +101,9 @@ function Main({ navigation }: { navigation: any }) {
               source={require('../../images/timetable.png')}
               style={styles.featureImg}
             />
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.featureItem}>
+          <TouchableOpacity style={styles.featureItem}>
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
@@ -117,9 +113,12 @@ function Main({ navigation }: { navigation: any }) {
               source={require('../../images/test.png')}
               style={styles.featureImg}
             />
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.featureItem}>
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => handleNavigate(routes.SCORE_RESULT)}
+          >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
@@ -129,7 +128,7 @@ function Main({ navigation }: { navigation: any }) {
               source={require('../../images/speedometer.png')}
               style={styles.featureImg}
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
 

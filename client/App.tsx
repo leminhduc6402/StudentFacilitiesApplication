@@ -3,19 +3,13 @@ import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
 import Login from './src/views/Login';
 import Tuition from './src/views/Tuition/index';
 import Main from './src/views/Main';
-import TuitionDetail from './src/views/Tuition/TuitionDetail';
-import TestSchedule from './src/views/TestSchedule/index';
-import TestScheduleDetail from './src/views/TestSchedule/TestScheduleDetail';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Header } from '@rneui/base';
-import CoursesRegistration from './src/views/CoursesRegistration';
-
+import { routes } from './src/configs/routes';
 import { NativeRouter, Route, Link, Routes } from 'react-router-native';
 import UserProvider from './src/store/UserContext';
 import CoursesRegistrationDetail from './src/views/CoursesRegistrationDetail';
+import CoursesRegistration from './src/views/CoursesRegistration';
 import CourseProvider from './src/store/CourseContext';
+import ScoreResult from './src/views/ScoreResult';
 
 export default function App() {
   return (
@@ -25,17 +19,27 @@ export default function App() {
           <CourseProvider>
             <SafeAreaView style={styles.container}>
               <Routes>
-                <Route path='/' Component={Main as any} />
-                <Route path='/login' Component={Login as any} />
-                <Route path='/tuition' Component={Tuition as any} />
-                <Route path='/courses-registration' Component={CoursesRegistration as any} />
-                <Route path='/courses-registration-detail' Component={CoursesRegistrationDetail as any} />
+                <Route path={routes.HOME} Component={Main as any} />
+                <Route path={routes.LOGIN} Component={Login as any} />
+                <Route path={routes.TUITION} Component={Tuition as any} />
+                <Route
+                  path={routes.COURSE_REGISTRATION}
+                  Component={CoursesRegistration as any}
+                />
+                <Route
+                  path={routes.COURSE_REGISTRATION_DETAIL}
+                  Component={CoursesRegistrationDetail as any}
+                />
+                <Route
+                  path={routes.SCORE_RESULT}
+                  Component={ScoreResult as any}
+                />
               </Routes>
             </SafeAreaView>
           </CourseProvider>
         </UserProvider>
       </NativeRouter>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
 

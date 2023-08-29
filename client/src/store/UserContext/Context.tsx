@@ -1,5 +1,14 @@
 import { createContext } from 'react';
 
+export const initialUser = {
+  fullName: '',
+  id: '',
+  role: 'STUDENT',
+  studentCode: '',
+  userCourse: '',
+  username: '',
+};
+
 export interface User {
   fullName: string;
   id: string;
@@ -9,13 +18,6 @@ export interface User {
   username: string;
 }
 
-const Context = createContext<User>({
-  fullName: '',
-  id: '',
-  role: 'STUDENT',
-  studentCode: '',
-  userCourse: '',
-  username: '',
-});
+const Context = createContext<User>(initialUser as User);
 
 export { Context };
