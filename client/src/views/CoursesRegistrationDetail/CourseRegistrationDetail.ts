@@ -2,37 +2,37 @@ import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
     title:{
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: 'bold',
     },
-    courseBlock: {
-        flex: 1, 
-        marginTop: 20, 
-        gap: 10,
-    },
-    courseInfo:{
-        fontSize: 18,
-    },
     container: {
+        flexDirection: 'row',
+        marginBottom: 10
+    },
+    column: {
         flex: 1,
+        paddingHorizontal: 10,
+    },
+    label: {
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    value: {
+        marginBottom: 5,
+    },
+    containerTimeTable: {
         justifyContent: 'center',
         alignItems: 'center',
     },
     background: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         backgroundColor: '#D9D9D9', 
-        opacity: 0.5, 
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: 17,
+        borderRadius: 5,
     },
-    backgroundText: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
+    timeTable: {
+        color: '#fff',
+        fontSize: 13,
+        // fontWeight: 'bold',
     },
     text: {
         fontSize: 24,

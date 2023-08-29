@@ -3,7 +3,10 @@ import axios from 'axios';
 const endpoints = {
   LOGIN: '/auth/login',
   SIGNUP: '/auth/signup',
-  LISTCOURSES: '/subjectschoolyear/usercourse',
+  LIST_COURSES: '/sosy/usercourse/',
+  COURSE_REGISTER_CREATE: '/course-register/create',
+  COURSE_REGISTER_FIND: '/course-register/',
+  COURSE_REGISTER_DELETE: '/course-register/',
 };
 
 const axiosAPI = axios.create({

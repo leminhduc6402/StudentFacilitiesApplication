@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
   CREDIT: `${API_CONTEXT}/credit`,
   SUBJECT: `${API_CONTEXT}/subject`,
   SOSY: `${API_CONTEXT}/sosy`,
+  COURSE_REGISTER: `${API_CONTEXT}/course-register`
 };
