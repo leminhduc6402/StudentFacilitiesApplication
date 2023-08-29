@@ -8,6 +8,8 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Alert,
+  BackHandler,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import { styles } from '../Main/Main';
@@ -15,6 +17,8 @@ import Header from '../../components/header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
 import { routes } from '../../configs/routes';
+import { useBackHandler } from '@react-native-community/hooks';
+import useHistoryContext from '../../hook/useHistoryContext';
 
 const data = [
   { content: 'Danh sách nhóm lớp hủy do không đủ sĩ số' },
@@ -37,19 +41,16 @@ const data = [
   { content: 'Thông báo học phí' },
 ];
 
-function Main({ navigation }: { navigation: any }) {
+function Main() {
   const [user, setUser] = useUserContext();
-
-  const nav = useNavigate();
-
-  console.log(user.id);
+  const { nextHistory, backHistory } = useHistoryContext();
 
   if (!user.id) {
     return <Navigate to='/login' />;
   }
 
   const handleNavigate = (route: string) => {
-    nav(route);
+    nextHistory(route);
   };
 
   return (

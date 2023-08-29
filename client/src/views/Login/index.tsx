@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  BackHandler,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@rneui/base';
 import CheckBoxCustom from '../../components/CheckBox';
 import DropDownPickerCustom from '../../components/DropdownPicker';
@@ -19,9 +20,12 @@ import { endpoints, axiosAPI } from '../../configs/axiosAPI';
 import MyAlert from '../../components/MyAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveData } from '../../utils/AsyncStorage';
+import useHistoryContext from '../../hook/useHistoryContext';
+import { routes } from '../../configs/routes';
 
 const Login = () => {
   const nav = useNavigate();
+  const { nextHistory } = useHistoryContext();
   const [user, setUser] = useUserContext();
 
   const listDropdown: dataDropdown[] = [
@@ -30,8 +34,8 @@ const Login = () => {
     { label: 'Quản trị viên', value: 'ADMIN' },
   ];
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('2051052051');
+  const [password, setPassword] = useState('2051052051');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
@@ -52,18 +56,42 @@ const Login = () => {
     await axiosAPI
       .post(endpoints.LOGIN, data)
       .then(async (res) => {
+        console.log(res.data.data);
         setUser(res.data.data);
         saveData('user', res.data.data);
-        nav('/');
+        nextHistory(routes.HOME);
       })
       .catch((err) => {
         console.log(err.response.data || err.message);
+        return;
       });
   };
 
   const handleLogin = () => {
     login();
   };
+
+  // back handler
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Thông báo!', 'Bạn chắc chăn muốn thoát?', [
+        {
+          text: 'Huỷ',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'Thoát', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={styles.container}>
