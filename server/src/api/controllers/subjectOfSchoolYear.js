@@ -85,6 +85,24 @@ const SOSYController = {
       data: sosys,
     });
   },
+  getAllByUserCourse: async (req, res) => {
+    const { course } = req.params;
+
+    const subjectSchoolYears = await SOSYModel.find({
+      userCourse: course,
+    })
+      .populate('subjectId')
+      .populate('schoolYearId')
+      .populate('classId')
+      .populate('roomId')
+      .populate('lecturerId')
+      .populate('creditId');
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: subjectSchoolYears,
+    });
+  },
   update: async (req, res) => {
     const { id } = req.params;
     const {

@@ -14,11 +14,7 @@ import {
   roomRoute,
   creditRoute,
   subjectRoute,
-<<<<<<< Updated upstream
   sosyRoute,
-=======
-  subjectSchoolYearRoute,
->>>>>>> Stashed changes
 } from './src/api/routes/index.js';
 import { API_ENDPOINTS } from './src/api/endpoints/index.js';
 
@@ -37,11 +33,7 @@ app.use(API_ENDPOINTS.DEPARTMENT, departmentRoute);
 app.use(API_ENDPOINTS.SCHOOL_YEAR, schoolYearRoute);
 app.use(API_ENDPOINTS.CREDIT, creditRoute);
 app.use(API_ENDPOINTS.SUBJECT, subjectRoute);
-<<<<<<< Updated upstream
 app.use(API_ENDPOINTS.SOSY, sosyRoute);
-=======
-app.use(API_ENDPOINTS.SUBJECT_SCHOOL_YEAR, subjectSchoolYearRoute);
->>>>>>> Stashed changes
 
 //handle error
 app.use(errorHandler);

@@ -67,12 +67,16 @@ const SubjectOfSchoolYear = new Schema(
     },
     userCourse: {
       type: String,
-      required: true
+      required: true,
     },
-    slot: {
+    totalSlot: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
+    slotRemain: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
