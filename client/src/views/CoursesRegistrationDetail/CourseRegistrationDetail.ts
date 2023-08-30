@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
+        marginTop: 10,
         marginBottom: 10
     },
     column: {
@@ -28,6 +29,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#D9D9D9', 
         padding: 17,
         borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
     },
     timeTable: {
         color: '#fff',
