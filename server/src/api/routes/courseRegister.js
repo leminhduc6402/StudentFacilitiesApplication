@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/create', CourseRegisterController.create);
 router.get('/', CourseRegisterController.getAll);
-router.get('/:userid', CourseRegisterController.getAllByUserId);
+router.get('/:userId', CourseRegisterController.getAllByUserId);
 router.delete('/:id', CourseRegisterController.delete);
 
 export default router;

@@ -10,6 +10,7 @@ const endpoints = {
   COURSE_REGISTER_DELETE: '/course-register/',
   SCHOOL_YEAR: '/schoolyear',
   DEPARTMENT: '/department',
+  COURSE_SLOT_REMAIN: '/sosy/slotRemain/'
 };
 
 const axiosAPI = axios.create({

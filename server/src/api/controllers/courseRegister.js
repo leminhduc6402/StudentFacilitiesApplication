@@ -50,7 +50,7 @@ const CourseRegisterController = {
     getAllByUserId: async (req, res) => {
         const { userId } = req.params;
 
-        const courseRegisters = await CourseRegisterModel.find(userId) 
+        const courseRegisters = await CourseRegisterModel.find({userId}) 
         .populate({
             path: 'subjectOfSchoolYearId',
             populate: {
@@ -63,7 +63,6 @@ const CourseRegisterController = {
                 path: 'classId',
             },
         })
-
 
         return res.status(httpStatusCodes.OK).json({
             status: 'success',

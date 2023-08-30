@@ -90,10 +90,11 @@ const SOSYController = {
     });
   },
   getAllByUserCourse: async (req, res) => {
-    const { course } = req.params;
+    const { course, departmentId } = req.params;
 
     const subjectSchoolYears = await SOSYModel.find({
       userCourse: course,
+      "subjectId.departmentId": departmentId
     })
       .populate('subjectId')
       .populate('schoolYearId')
@@ -190,6 +191,22 @@ const SOSYController = {
     }
 
     sosy.lecturerId = new mongoose.Types.ObjectId(idLecturer);
+    await sosy.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: sosy,
+    });
+  },
+  updateSlotRemain: async (req, res) => {
+    const { idSosy, slotRemain } = req.body;
+    const sosy = await SOSYModel.findById(idSosy);
+
+    if (!sosy) {
+      throw new ConflictError('Subject not found!');
+    }
+
+    sosy.slotRemain = slotRemain;
     await sosy.save();
 
     return res.status(httpStatusCodes.OK).json({
