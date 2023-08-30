@@ -17,11 +17,13 @@ const SOSYController = {
       ...data
     } = req.body;
 
+    const lecturerIdCheck = lecturerId === 'NONE' ? null : lecturerId;
+
     const sosy = await SOSYModel.findOne({
       subjectId,
       schoolYearId,
       classId,
-      lecturerId,
+      lecturerId: lecturerIdCheck,
       roomId,
       creditId,
     });
@@ -40,7 +42,10 @@ const SOSYController = {
       subjectId: new mongoose.Types.ObjectId(subjectId),
       schoolYearId: new mongoose.Types.ObjectId(schoolYearId),
       classId: new mongoose.Types.ObjectId(classId),
-      lecturerId: new mongoose.Types.ObjectId(lecturerId),
+      lecturerId:
+        lecturerIdCheck == null
+          ? null
+          : new mongoose.Types.ObjectId(lecturerId),
       roomId: new mongoose.Types.ObjectId(roomId),
       creditId: new mongoose.Types.ObjectId(creditId),
       totalPrice,
@@ -102,6 +107,19 @@ const SOSYController = {
       data: subjectSchoolYears,
     });
   },
+  getSosyWithoutLecturerBySchoolYear: async (req, res) => {
+    const { id } = req.params;
+
+    const sosys = await SOSYModel.find({
+      schoolYearId: id,
+      lecturerId: null,
+    });
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: sosys,
+    });
+  },
   update: async (req, res) => {
     const { id } = req.params;
     const {
@@ -114,6 +132,8 @@ const SOSYController = {
       ...data
     } = req.body;
 
+    const lecturerIdCheck = lecturerId === 'NONE' ? null : lecturerId;
+
     const credit = await CreditModel.findById(creditId);
     const subject = await SubjectModel.findById(subjectId);
 
@@ -125,7 +145,10 @@ const SOSYController = {
       schoolYearId: new mongoose.Types.ObjectId(schoolYearId),
       classId: new mongoose.Types.ObjectId(classId),
       roomId: new mongoose.Types.ObjectId(roomId),
-      lecturerId: new mongoose.Types.ObjectId(lecturerId),
+      lecturerId:
+        lecturerIdCheck == null
+          ? null
+          : new mongoose.Types.ObjectId(lecturerId),
       creditId: new mongoose.Types.ObjectId(creditId),
       totalPrice,
     });

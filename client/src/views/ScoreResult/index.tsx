@@ -8,15 +8,10 @@ import { dataDropdown } from '../Login/data';
 import { useEffect, useState } from 'react';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import { styles } from './scoreResult';
+import ScoreItem from './ScroreItem';
 
 function ScoreResult() {
   const { nextHistory, backHistory } = useHistoryContext();
-
-  const listDropdown: dataDropdown[] = [
-    { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
-    { label: 'Cán bộ-Nhân viên / Giảng viên', value: 'LECTURER' },
-    { label: 'Quản trị viên', value: 'ADMIN' },
-  ];
 
   const [schoolyears, setSchoolyears] = useState([]);
   const [schoolyear, setSchoolyear] = useState();
@@ -61,6 +56,9 @@ function ScoreResult() {
               setType={setSchoolyear}
             />
           )}
+        </View>
+        <View>
+          <ScoreItem />
         </View>
       </View>
     </>
