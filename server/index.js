@@ -15,6 +15,7 @@ import {
   creditRoute,
   subjectRoute,
   sosyRoute,
+  courseRegisterRoute
 } from './src/api/routes/index.js';
 import { API_ENDPOINTS } from './src/api/endpoints/index.js';
 
@@ -34,6 +35,7 @@ app.use(API_ENDPOINTS.SCHOOL_YEAR, schoolYearRoute);
 app.use(API_ENDPOINTS.CREDIT, creditRoute);
 app.use(API_ENDPOINTS.SUBJECT, subjectRoute);
 app.use(API_ENDPOINTS.SOSY, sosyRoute);
+app.use(API_ENDPOINTS.COURSE_REGISTER, courseRegisterRoute)
 
 //handle error
 app.use(errorHandler);
