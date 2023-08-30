@@ -1,16 +1,20 @@
 import useHistoryContext from '../../../hook/useHistoryContext';
 import useUserContext from '../../../hook/useUserContext';
-import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 import Header from '../../../components/header';
 import { styles } from './GetClass';
 import { routes } from '../../../configs/routes';
 import { useEffect, useState } from 'react';
 import { axiosAPI, endpoints } from '../../../configs/axiosAPI';
 import DropDownPickerCustom from '../../../components/DropdownPicker';
+import CourseItem from './ScroreItem';
 
 function GetClass() {
   const [schoolyears, setSchoolyears] = useState([]);
-  const [schoolyear, setSchoolyear] = useState();
+  const [schoolyear, setSchoolyear] = useState('');
+  const [departments, setDepartments] = useState([]);
+  const [department, setDepartment] = useState('');
+  const [listCourse, setListCourse] = useState([]);
 
   if (!schoolyears) {
     return (
@@ -35,26 +39,84 @@ function GetClass() {
       });
   };
 
+  const getDepartments = async () => {
+    await axiosAPI
+      .get(endpoints.DEPARTMENT)
+      .then((res) => {
+        const data = res.data.data;
+        const dataCustom = data.map((item: any) => {
+          return { label: item.name, value: item._id };
+        });
+        setDepartments(dataCustom);
+      })
+      .catch((err) => {
+        console.log(err.response.data || err.message);
+      });
+  };
+
   useEffect(() => {
     getSchoolyears();
+    getDepartments();
   }, []);
 
   useEffect(() => {
-    console.log(schoolyear);
-  }, [schoolyear]);
+    const process = async () => {
+      await axiosAPI
+        .get(
+          `${endpoints.SOSY}/sosy-without-lecturer/?schoolyear=${schoolyear}&department=${department}`
+        )
+        .then((res) => setListCourse(res.data.data))
+        .catch((err) => console.log(err));
+    };
+
+    process();
+  }, [schoolyear, department]);
 
   return (
-    <View>
+    <View
+      style={{
+        display: 'flex',
+        height: '100%',
+      }}
+    >
       <Header />
       <View style={styles.wrapper}>
-        {schoolyears.length > 0 && (
-          <DropDownPickerCustom
-            placeHolder='Chọn học kỳ'
-            data={schoolyears}
-            type={schoolyear}
-            setType={setSchoolyear}
-          />
-        )}
+        <View>
+          {schoolyears.length > 0 && (
+            <DropDownPickerCustom
+              placeHolder='Chọn học kỳ'
+              data={schoolyears}
+              type={schoolyear}
+              setType={setSchoolyear}
+            />
+          )}
+        </View>
+        <View
+          style={{
+            marginTop: 8,
+          }}
+        >
+          {departments.length > 0 && (
+            <DropDownPickerCustom
+              zIndex={9}
+              placeHolder='Chọn khoa'
+              data={departments}
+              type={department}
+              setType={setDepartment}
+            />
+          )}
+        </View>
+
+        <View style={styles.listCourse}>
+          {listCourse.length > 0 && (
+            <FlatList
+              data={listCourse}
+              renderItem={CourseItem}
+              keyExtractor={(item: any) => item._id}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
       </View>
     </View>
   );
