@@ -54,23 +54,23 @@ function GetClass() {
       });
   };
 
+  const getListCourse = async () => {
+    await axiosAPI
+      .get(
+        `${endpoints.SOSY}/sosy-without-lecturer/?schoolyear=${schoolyear}&department=${department}`
+      )
+      .then((res) => setListCourse(res.data.data))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     getSchoolyears();
     getDepartments();
   }, []);
 
   useEffect(() => {
-    const process = async () => {
-      await axiosAPI
-        .get(
-          `${endpoints.SOSY}/sosy-without-lecturer/?schoolyear=${schoolyear}&department=${department}`
-        )
-        .then((res) => setListCourse(res.data.data))
-        .catch((err) => console.log(err));
-    };
-
-    process();
-  }, [schoolyear, department]);
+    getListCourse();
+  }, [schoolyear, department, listCourse.length]);
 
   return (
     <View
@@ -108,14 +108,16 @@ function GetClass() {
         </View>
 
         <View style={styles.listCourse}>
-          {listCourse.length > 0 && (
-            <FlatList
-              data={listCourse}
-              renderItem={CourseItem}
-              keyExtractor={(item: any) => item._id}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
+          <ScrollView>
+            {listCourse.length > 0 &&
+              listCourse.map((item: any) => (
+                <CourseItem
+                  setRenderParent={setListCourse}
+                  item={item}
+                  key={item._id}
+                />
+              ))}
+          </ScrollView>
         </View>
       </View>
     </View>

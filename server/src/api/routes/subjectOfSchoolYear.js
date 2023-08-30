@@ -4,6 +4,7 @@ import SOSYController from '../controllers/subjectOfSchoolYear.js';
 const router = Router();
 
 router.post('/create', SOSYController.create);
+router.patch('/lecturer-get-class', SOSYController.updateLecturer);
 router.get('/', SOSYController.getAll);
 router.get('/usercourse/:course', SOSYController.getAllByUserCourse);
 router.get('/sosy-without-lecturer', SOSYController.getSosyWithoutLecturer);

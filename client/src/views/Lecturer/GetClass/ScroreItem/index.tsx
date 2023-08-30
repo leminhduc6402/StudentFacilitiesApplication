@@ -1,11 +1,60 @@
+import { axiosAPI, endpoints } from '../../../../configs/axiosAPI';
+import useUserContext from '../../../../hook/useUserContext';
 import {
   handleArrayTimeSchedule,
   handleDatetime,
 } from '../../../../utils/datetime';
 import { styles } from './ScoreItem';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
 
-function CourseItem({ item }: any) {
+function CourseItem({ item, setRenderParent }: any) {
+  const [user, setUser] = useUserContext();
+
+  const getClass = async () => {
+    const data = {
+      idSosy: item._id,
+      idLecturer: user.id,
+    };
+    await axiosAPI
+      .patch(`${endpoints.SOSY}/lecturer-get-class`, data)
+      .then((res) => setRenderParent([]))
+      .catch((err) =>
+        ToastAndroid.showWithGravity(
+          err.response?.data.message,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        )
+      );
+  };
+
+  const handleGetClass = () => {
+    Alert.alert(
+      'Thông báo!',
+      `Bạn chắc chắn muốn nhận lớp ${item.subjectId.name} mã môn ${
+        item.subjectId.code
+      } lớp ${item.classId.name} khoá ${item.userCourse} học vào ${
+        item.fromTime
+      } - ${handleArrayTimeSchedule(item.timeStudyOfWeek[0])}?`,
+      [
+        {
+          text: 'Huỷ',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'Nhận',
+          onPress: () => getClass(),
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.head}>
@@ -43,7 +92,7 @@ function CourseItem({ item }: any) {
             </Text>
           </View>
           <View style={styles.groupEven}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleGetClass}>
               <Text style={styles.btnGetClass}>Nhận lớp</Text>
             </TouchableOpacity>
           </View>
