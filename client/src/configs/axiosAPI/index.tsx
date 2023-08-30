@@ -7,6 +7,7 @@ const endpoints = {
   COURSE_REGISTER_CREATE: '/course-register/create',
   COURSE_REGISTER_FIND: '/course-register/',
   COURSE_REGISTER_DELETE: '/course-register/',
+  SCHOOL_YEAR: '/schoolyear',
 };
 
 const axiosAPI = axios.create({

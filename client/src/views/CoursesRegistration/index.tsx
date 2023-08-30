@@ -1,3 +1,4 @@
+
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
 import Header from '../../components/header';
@@ -16,8 +17,8 @@ const items = [
   { label: 'Môn sinh viên cần học lại (đã rớt)', value: 4 },
   { label: 'Lọc theo khoa', value: 5 },
   { label: 'Lọc theo lớp', value: 6 },
-  { label: 'Lọc theo môn học', value: 7 }
-]
+  { label: 'Lọc theo môn học', value: 7 },
+];
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
@@ -60,20 +61,19 @@ const CoursesRegistration = () => {
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
-        })
-    }
+        });
+    };
 
     handleListCourses();
     handleListCourseRegisters();
   }, [])
-
-
   // console.log(listCourses);
 
   const handleCourses = (item: any) => {
-    setCourse(item)
-    nav("/courses-registration-detail")
-  }
+    setCourse(item);
+    nav('/courses-registration-detail');
+  };
+
 
   const handleRowCourses = (item: any) => {
     setSelectedRow(item);
@@ -128,12 +128,14 @@ const CoursesRegistration = () => {
         <DropdownPicker data={items} />
       </View> */}
         <View>
-          <Text style={styles.titleList}>Danh sách môn học mở cho đăng ký:</Text>
+          <Text style={styles.titleList}>
+            Danh sách môn học mở cho đăng ký:
+          </Text>
         </View>
         {/* Chưa có server */}
 
         <View style={styles.courseContainer}>
-          {listCourses.map((item, index) => (
+          {listCourses.map((item: any, index) => (
             <TouchableOpacity
               style={styles.backgroundCourseItem}
               onPress={() => handleCourses(item)}

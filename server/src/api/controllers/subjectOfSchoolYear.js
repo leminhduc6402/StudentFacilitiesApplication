@@ -4,7 +4,6 @@ import CreditModel from '../models/credit.js';
 import SubjectModel from '../models/subject.js';
 import ConflictError from '../response/errors/ConflictError.js';
 import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
-import { parse } from 'dotenv';
 
 const SOSYController = {
   create: async (req, res) => {
