@@ -107,13 +107,29 @@ const SOSYController = {
       data: subjectSchoolYears,
     });
   },
-  getSosyWithoutLecturerBySchoolYear: async (req, res) => {
-    const { id } = req.params;
+  getSosyWithoutLecturer: async (req, res) => {
+    const { schoolyear, department } = req.query;
 
-    const sosys = await SOSYModel.find({
-      schoolYearId: id,
+    let sosys = await SOSYModel.find({
       lecturerId: null,
-    });
+    })
+      .populate({
+        path: 'subjectId',
+        select: 'departmentId code name credit',
+      })
+      .populate({
+        path: 'classId',
+        select: 'name',
+      })
+      .select('-createdAt -__v -updatedAt');
+
+    if (schoolyear.trim()) {
+      sosys = sosys.filter((item) => item.schoolYearId == schoolyear);
+    }
+
+    if (department.trim()) {
+      sosys = sosys.filter((item) => item.subjectId.departmentId == department);
+    }
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
