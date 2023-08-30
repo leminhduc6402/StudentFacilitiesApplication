@@ -176,6 +176,27 @@ const SOSYController = {
       data: sosy,
     });
   },
+  updateLecturer: async (req, res) => {
+    const { idSosy, idLecturer } = req.body;
+
+    const sosy = await SOSYModel.findById(idSosy);
+
+    if (!sosy) {
+      throw new ConflictError('Subject not found!');
+    }
+
+    if (sosy.lecturerId) {
+      throw new ConflictError('Subject haved lecturer!');
+    }
+
+    sosy.lecturerId = new mongoose.Types.ObjectId(idLecturer);
+    await sosy.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: sosy,
+    });
+  },
   delete: async (req, res) => {
     const { id } = req.params;
 
