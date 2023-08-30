@@ -76,6 +76,10 @@ const SubjectOfSchoolYear = new Schema(
     slotRemain: {
       type: Number,
       required: true,
+      default: function () {
+        const _t = this;
+        return _t.totalSlot;
+      },
     },
   },
   {

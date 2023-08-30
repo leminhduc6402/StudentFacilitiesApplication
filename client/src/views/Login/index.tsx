@@ -34,9 +34,9 @@ const Login = () => {
     { label: 'Quản trị viên', value: 'ADMIN' },
   ];
 
-  const [username, setUsername] = useState('2051052051');
-  const [password, setPassword] = useState('2051052051');
-  const [userType, setUserType] = useState('STUDENT');
+  const [username, setUsername] = useState('0000000000');
+  const [password, setPassword] = useState('0000000000');
+  const [userType, setUserType] = useState('LECTURER');
   const [pwdHidden, setPwdHidden] = useState(true);
 
   const login = async () => {
@@ -56,10 +56,13 @@ const Login = () => {
     await axiosAPI
       .post(endpoints.LOGIN, data)
       .then(async (res) => {
-        console.log(res.data.data);
-        setUser(res.data.data);
-        saveData('user', res.data.data);
-        nextHistory(routes.HOME);
+        const data = res.data.data;
+        setUser(data);
+        saveData('user', data);
+
+        data.role === 'STUDENT'
+          ? nextHistory(routes.HOME)
+          : nextHistory(routes.LECTURER_HOME);
       })
       .catch((err) => {
         console.log(err.response.data || err.message);

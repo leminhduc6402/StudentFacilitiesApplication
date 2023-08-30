@@ -15,6 +15,7 @@ import { initialUser } from '../store/UserContext/Context';
 import { removeData } from '../utils/AsyncStorage';
 import { useBackHandler } from '@react-native-community/hooks';
 import useHistoryContext from '../hook/useHistoryContext';
+import { routes } from '../configs/routes';
 
 const Header = () => {
   const [user, setUser] = useUserContext();
@@ -34,7 +35,9 @@ const Header = () => {
   };
 
   // Kiểm tra nếu đang ở trang chủ thì không hiển thị nút back
-  const isHomePage = location.pathname === '/';
+  const isHomePage =
+    location.pathname === routes.HOME ||
+    location.pathname === routes.LECTURER_HOME;
 
   useEffect(() => {
     const backAction = () => {

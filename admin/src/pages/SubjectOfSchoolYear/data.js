@@ -13,4 +13,5 @@ export const initSOSY = {
     totalWeek: "",
     timeFinalExam: "",
     userCourse: "",
+    totalSlot: "",
 };
