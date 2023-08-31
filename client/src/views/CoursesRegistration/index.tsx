@@ -14,23 +14,23 @@ import { routes } from '../../configs/routes';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index'
 import { getData } from '../../utils/AsyncStorage';
 
-const items = [
-  { label: 'Môn học mở theo lớp sinh viên DH20IT02', value: 1 },
-  { label: 'Môn sinh viên cần học lại (đã rớt)', value: 2 },
-  { label: 'Lọc theo khoa', value: 3 },
-  { label: 'Lọc theo lớp', value: 4 },
-  { label: 'Lọc theo môn học', value: 5 }
-]
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
   const [selectedRow, setSelectedRow] = useState(null);
   const [listCourseRegisters, setListCourseRegisters] = useState([])
   const [listCourses, setListCourses] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
-
-  console.log(getData('user'))
+  
+  const items = [
+    { label: 'Môn học mở theo lớp sinh viên' , value: 1 },
+    { label: 'Môn sinh viên cần học lại (đã rớt)', value: 2 },
+    { label: 'Lọc theo khoa', value: 3 },
+    { label: 'Lọc theo lớp', value: 4 },
+    { label: 'Lọc theo môn học', value: 5 }
+  ]
 
   const handleListCourseRegisters = async () => {
     const userId = user.id;
@@ -53,13 +53,16 @@ const CoursesRegistration = () => {
   useEffect(() => {
     const handleListCourses = async () => {
       const userCourse = user.userCourse;
+      const classId = user.classId;
       const queryParams = {
         userCourse: userCourse,
-        departmentId: user.departmentId
+        classId: classId
       }
 
+      console.log(classId)
+
       await axiosAPI
-        .get(endpoints.LIST_COURSES + userCourse, {
+        .get(endpoints.LIST_COURSES + userCourse + "&" + classId, {
           params: queryParams
         })
         .then((res) => {
@@ -80,6 +83,10 @@ const CoursesRegistration = () => {
     setCourse(item)
     nextHistory(routes.COURSE_REGISTRATION_DETAIL)
   }
+
+  const handleFilterChange = (value: any) => {
+    setSelectedFilter(value);
+  };
 
   const handleRowCourses = (item: any) => {
     setSelectedRow(item);
@@ -144,8 +151,7 @@ const CoursesRegistration = () => {
   return (
     <>
       <Header />
-      <DropdownPicker data={items} num={1} />
-      <DropdownPicker data={items} num={2} />
+      <DropdownPicker data={items} />
 
       <ScrollView>
         <View>

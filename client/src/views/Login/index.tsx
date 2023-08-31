@@ -34,9 +34,9 @@ const Login = () => {
     { label: 'Quản trị viên', value: 'ADMIN' },
   ];
 
-  const [username, setUsername] = useState('0000000000');
-  const [password, setPassword] = useState('0000000000');
-  const [userType, setUserType] = useState('LECTURER');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin');
+  const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
   const login = async () => {

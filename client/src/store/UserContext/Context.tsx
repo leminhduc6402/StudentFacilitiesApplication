@@ -7,6 +7,8 @@ export const initialUser = {
   studentCode: '',
   userCourse: '',
   username: '',
+  departmentId: '',
+  classId: '',
 };
 
 export interface User {
@@ -16,6 +18,8 @@ export interface User {
   studentCode: string;
   userCourse: string;
   username: string;
+  departmentId: string;
+  classId: string;
 }
 
 const Context = createContext<User>(initialUser as User);
