@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { axiosAPI, endpoints } from '../configs/axiosAPI';
 import useUserContext from '../hook/useUserContext';
+import useDropdownContext from '../hook/useDropdownContext';
 
 interface DataItem {
   label: string;
@@ -16,10 +17,9 @@ interface DataItems {
 const DropdownPicker: React.FC<DataItems> = ({ data }) => {
   const [isOpenTop, setIsOpenTop] = useState(false);
   const [isOpenBottom, setIsOpenBottom] = useState(false);
-  const [currentValueTop, setCurrentValueTop] = useState<number | null>(null);
-  const [currentValueBottom, setCurrentValueBottom] = useState<number | null>(null);
-  const [dataBottom, setDataBottom] = useState([{ label: '', value: 1 }]);
+  const [dataBottom, setDataBottom] = useState([{ label: '', value: '' }]);
   const [user, setUser] = useUserContext();
+  const [currentValueTop, setCurrentValueTop, currentValueBottom, setCurrentValueBottom] = useDropdownContext();
 
   useEffect(() => {
     if (data.length > 0 && currentValueTop === null) {
@@ -36,10 +36,10 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
   useEffect(() => {
     switch (currentValueTop) {
       case 1:
-        setDataBottom([{ label: '', value: 1 }])
+        setDataBottom([{ label: '', value: '' }])
         break;
       case 2:
-        setDataBottom([{ label: '', value: 1 }])
+        setDataBottom([{ label: '', value: '' }])
         break;
       case 3: {
         const handleDepartments = async () => await axiosAPI
@@ -47,7 +47,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
           .then((res) => {
             let transformedData = res.data.data.map((item: any, index: any) => ({
               label: item.name,
-              value: index + 1
+              value: item._id
             }));
             setDataBottom(transformedData);
           })
@@ -63,7 +63,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
           .then((res) => {
             let transformedData = res.data.data.map((item: any, index: any) => ({
               label: item.name,
-              value: index + 1
+              value: item._id
             }));
             setDataBottom(transformedData);
           })
@@ -78,7 +78,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
           .then((res) => {
             let transformedData = res.data.data.map((item: any, index: any) => ({
               label: item.name,
-              value: index + 1
+              value: item._id
             }));
             setDataBottom(transformedData);
           })
@@ -89,6 +89,9 @@ const DropdownPicker: React.FC<DataItems> = ({ data }) => {
         break;
     }
   }, [currentValueTop])
+  
+  // console.log(currentValueBottom)
+  // console.log(currentValueBottom)
 
   return (
     <>

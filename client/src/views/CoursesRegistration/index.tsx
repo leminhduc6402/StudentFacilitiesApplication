@@ -13,6 +13,7 @@ import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index'
 import { getData } from '../../utils/AsyncStorage';
+import useDropdownContext from '../../hook/useDropdownContext';
 
 
 const CoursesRegistration = () => {
@@ -22,10 +23,11 @@ const CoursesRegistration = () => {
   const [listCourses, setListCourses] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [course, setCourse] = useCourseContext();
+  const [currentValueTop, currentValueBottom] = useDropdownContext();
   const { nextHistory } = useHistoryContext();
-  
+
   const items = [
-    { label: 'Môn học mở theo lớp sinh viên' , value: 1 },
+    { label: 'Môn học mở theo lớp sinh viên', value: 1 },
     { label: 'Môn sinh viên cần học lại (đã rớt)', value: 2 },
     { label: 'Lọc theo khoa', value: 3 },
     { label: 'Lọc theo lớp', value: 4 },
@@ -51,42 +53,97 @@ const CoursesRegistration = () => {
   }
 
   useEffect(() => {
-    const handleListCourses = async () => {
-      const userCourse = user.userCourse;
-      const classId = user.classId;
-      const queryParams = {
-        userCourse: userCourse,
-        classId: classId
+    if (currentValueTop == 1) {
+      const handleListCourses = async () => {
+        const userCourse = user.userCourse;
+        const classId = user.classId;
+        const queryParams = {
+          userCourse: userCourse,
+          classId: classId
+        }
+
+        await axiosAPI
+          .get(endpoints.LIST_COURSES + userCourse + "&" + classId, {
+            params: queryParams
+          })
+          .then((res) => {
+            setListCourses(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data || err.message);
+          })
       }
 
-      console.log(classId)
+      handleListCourses();
+    } else if (currentValueTop == 2) {
+      setListCourses([])
+    } else if (currentValueTop == 3) {
+      const handleListCoursesByDepartmentId = async () => {
+        const queryParams = {
+          departmentId: currentValueBottom
+        }
 
-      await axiosAPI
-        .get(endpoints.LIST_COURSES + userCourse + "&" + classId, {
+        await axiosAPI
+          .get(endpoints.LIST_COURSES_BY_DEPARTMENT + currentValueBottom, {
+            params: queryParams
+          })
+          .then((res) => {
+            setListCourses(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data || err.message);
+          })
+      }
+
+      handleListCoursesByDepartmentId();
+    } else if (currentValueTop == 4) {
+      const handleListCoursesByClassId = async () => {
+        const queryParams = {
+          classId: currentValueBottom
+        }
+
+        await axiosAPI
+          .get(endpoints.LIST_COURSES_BY_CLASS + currentValueBottom, {
+            params: queryParams
+          })
+          .then((res) => {
+            setListCourses(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data || err.message);
+          })
+      }
+      
+      handleListCoursesByClassId();
+    } else if (currentValueTop == 5) {
+      const handleListCoursesBySubjectId = async () => {
+        const queryParams = {
+          subjectId: currentValueBottom
+        }
+
+        await axiosAPI
+        .get(endpoints.LIST_COURSES_BY_SUBJECT + currentValueBottom, {
           params: queryParams
         })
-        .then((res) => {
-          setListCourses(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err.response.data || err.message);
-        })
+          .then((res) => {
+            setListCourses(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data || err.message);
+          })
+      }
+      
+      handleListCoursesBySubjectId();
     }
-
-    handleListCourses();
     handleListCourseRegisters();
-  }, [])
-
+  }, [currentValueTop, currentValueBottom])
+  
   // console.log(listCourses);
 
   const handleCourses = (item: any) => {
     setCourse(item)
     nextHistory(routes.COURSE_REGISTRATION_DETAIL)
   }
-
-  const handleFilterChange = (value: any) => {
-    setSelectedFilter(value);
-  };
 
   const handleRowCourses = (item: any) => {
     setSelectedRow(item);
