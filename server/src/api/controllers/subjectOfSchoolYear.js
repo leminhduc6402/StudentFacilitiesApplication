@@ -60,7 +60,7 @@ const SOSYController = {
     const sosys = await SOSYModel.find()
       .populate({
         path: 'subjectId',
-        select: '_id name code',
+        select: '_id departmentId name code',
       })
       .populate({
         path: 'schoolYearId',
@@ -90,11 +90,10 @@ const SOSYController = {
     });
   },
   getAllByUserCourse: async (req, res) => {
-    const { course, departmentId } = req.params;
+    const { course, classId } = req.params;
 
     const subjectSchoolYears = await SOSYModel.find({
-      userCourse: course,
-      "subjectId.departmentId": departmentId
+      userCourse: course
     })
       .populate('subjectId')
       .populate('schoolYearId')
@@ -102,6 +101,67 @@ const SOSYController = {
       .populate('roomId')
       .populate('lecturerId')
       .populate('creditId');
+
+    const classIdToFilter = new mongoose.Types.ObjectId(classId)
+    const filteredArraySosy = subjectSchoolYears.filter(item => 
+      item.classId._id.toString() == classIdToFilter.toString());
+
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: filteredArraySosy,
+    });
+  },
+  getAllByClassId: async (req, res) => {
+    const { classId } = req.params;
+
+    const subjectSchoolYears = await SOSYModel.find({
+      classId: classId
+    })
+      .populate('subjectId')
+      .populate('schoolYearId')
+      .populate('classId')
+      .populate('roomId')
+      .populate('lecturerId')
+      .populate('creditId');
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: subjectSchoolYears,
+    });
+  },
+  getAllByDepartmentId: async (req, res) => {
+    const { departmentId } = req.params;
+
+    const subjectSchoolYears = await SOSYModel.find({
+      departmentId: departmentId
+    })
+      .populate('subjectId')
+      .populate('schoolYearId')
+      .populate('classId')
+      .populate('roomId')
+      .populate('lecturerId')
+      .populate('creditId');
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: subjectSchoolYears,
+    });
+  },
+  getAllBySubjectId: async (req, res) => {
+    const { subjectId } = req.params;
+
+    const subjectSchoolYears = await SOSYModel.find({
+      subjectId: subjectId
+    })
+      .populate('subjectId')
+      .populate('schoolYearId')
+      .populate('classId')
+      .populate('roomId')
+      .populate('lecturerId')
+      .populate('creditId');
+    
+    console.log(subjectSchoolYears)
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',

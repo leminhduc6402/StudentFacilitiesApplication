@@ -52,7 +52,7 @@ const UserController = {
   login: async (req, res) => {
     const { username, password, role } = req.body;
     const user = await UserModel.findOne({ username });
-
+    const detailUser = await DetailUserModel.findOne({ userId: user._id });
     if (!user) {
       throw new ConflictError('User not found !!!');
     }
@@ -78,6 +78,8 @@ const UserController = {
         fullName: user.fullName,
         studentCode: user.studentCode,
         userCourse: user.userCourse,
+        departmentId: detailUser.departmentId,
+        classId: detailUser.classId,
       },
     });
   },
