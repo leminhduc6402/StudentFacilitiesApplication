@@ -103,6 +103,61 @@ const CourseRegisterController = {
       data: courseRegisters,
     });
   },
+  getScoreResult: async (req, res) => {
+    const { user, schoolyear } = req.query;
+
+    let courseRegisters = await CourseRegisterModel.find({
+      userId: user,
+    })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        match: {
+          schoolYearId: schoolyear,
+        },
+        select: '_id subjectId classId',
+        populate: [
+          {
+            path: 'subjectId',
+            model: 'Subject',
+            select: 'name code credit',
+          },
+          {
+            path: 'classId',
+            model: 'Class',
+            select: 'name',
+          },
+        ],
+      })
+
+      .select('-createdAt -__v -updatedAt');
+
+    courseRegisters = courseRegisters.filter(
+      (item) => item.subjectOfSchoolYearId
+    );
+
+    const totalCredit = courseRegisters.reduce(
+      (acc, curr) => acc + curr.subjectOfSchoolYearId.subjectId.credit,
+      0
+    );
+
+    const avgScore =
+      courseRegisters.reduce(
+        (acc, curr) =>
+          acc +
+          parseFloat(curr.subjectOfSchoolYearId.subjectId.credit) *
+            parseFloat(curr.score4),
+        0
+      ) / totalCredit;
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: {
+        totalCredit,
+        avgScore: parseFloat(avgScore).toFixed(2),
+        data: courseRegisters,
+      },
+    });
+  },
   updateScore: async (req, res) => {
     const { id } = req.params;
     const { midExamScore, finalExamScore } = req.body;
@@ -117,6 +172,7 @@ const CourseRegisterController = {
         score10,
         score4: calcScore4(score10),
         scoreC: calcScoreC(score10),
+        pass: score10 >= 5.0,
       },
       {
         new: true,

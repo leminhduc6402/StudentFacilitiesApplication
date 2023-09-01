@@ -7,6 +7,7 @@ import {
   Dimensions,
   Alert,
   BackHandler,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@rneui/base';
@@ -18,10 +19,9 @@ import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
 import { endpoints, axiosAPI } from '../../configs/axiosAPI';
 import MyAlert from '../../components/MyAlert';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import useHistoryContext from '../../hook/useHistoryContext';
-import { routes } from '../../configs/routes';
 import useLocalStorage from '../../hook/useLocalStorage';
+import { routes } from '../../configs/routes';
 
 const Login = () => {
   const nav = useNavigate();
@@ -35,8 +35,8 @@ const Login = () => {
     { label: 'Quản trị viên', value: 'ADMIN' },
   ];
 
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [username, setUsername] = useState('2051052051');
+  const [password, setPassword] = useState('2051052051');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
@@ -138,12 +138,21 @@ const Login = () => {
           placeholder='Nhập mật khẩu'
           secureTextEntry={pwdHidden}
         />
-        <View style={styles.viewIcon}>
-          <Image
-            style={styles.imageIcon}
-            source={require('../../images/padlock.png')}
-          />
-        </View>
+        <TouchableOpacity
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          onPress={() => setPwdHidden(!pwdHidden)}
+        >
+          <View style={styles.viewIcon}>
+            <Image
+              style={styles.imageIcon}
+              source={require('../../images/padlock.png')}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
       {/* Ghi nhớ mật khẩu */}
       <Text style={{ width: '100%' }}>
