@@ -10,9 +10,13 @@ router.get(
   SOSYController.getAllBySchoolyearAndLecturer
 );
 router.get('/', SOSYController.getAll);
-router.get('/usercourse/:course', SOSYController.getAllByUserCourse);
+router.get('/usercourse/:course&:classId', SOSYController.getAllByUserCourse);
+router.get('/classId/:classId', SOSYController.getAllByClassId);
+router.get('/subjectId/:subjectId', SOSYController.getAllBySubjectId);
+router.get('/departmentId/:departmentId', SOSYController.getAllByDepartmentId)
 router.get('/sosy-without-lecturer', SOSYController.getSosyWithoutLecturer);
 router.patch('/:id', SOSYController.update);
+router.patch('/slotRemain/:sosyId', SOSYController.updateSlotRemain);
 router.delete('/:id', SOSYController.delete);
 
 export default router;

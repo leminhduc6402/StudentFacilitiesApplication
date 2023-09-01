@@ -16,6 +16,7 @@ import ScoreInp from './src/views/Lecturer/ScoreInp';
 import GetClass from './src/views/Lecturer/GetClass';
 import LocalStorageProvider from './src/store/LocalStorageContext';
 
+
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
@@ -24,6 +25,7 @@ export default function App() {
           <UserProvider>
             <CourseProvider>
               <HistoryProvider>
+
                 <SafeAreaView style={styles.container}>
                   <Routes>
                     {/* student */}
