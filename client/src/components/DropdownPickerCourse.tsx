@@ -12,14 +12,17 @@ interface DataItem {
 
 interface DataItems {
   data: DataItem[],
+  currentValueTop: any;
+  setCurrentValueTop: any;
+  currentValueBottom: any;
+  setCurrentValueBottom: any;
 }
 
-const DropdownPicker: React.FC<DataItems> = ({ data }) => {
+const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrentValueTop, currentValueBottom, setCurrentValueBottom }) => {
   const [isOpenTop, setIsOpenTop] = useState(false);
   const [isOpenBottom, setIsOpenBottom] = useState(false);
   const [dataBottom, setDataBottom] = useState([{ label: '', value: '' }]);
   const [user, setUser] = useUserContext();
-  const [currentValueTop, setCurrentValueTop, currentValueBottom, setCurrentValueBottom] = useDropdownContext();
 
   useEffect(() => {
     if (data.length > 0 && currentValueTop === null) {

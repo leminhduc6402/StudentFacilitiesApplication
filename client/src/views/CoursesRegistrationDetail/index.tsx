@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index';
-import { saveData } from '../../utils/AsyncStorage'
 
 const CoursesRegistrationDetail = () => {
   const [isEnabled, setEnabled] = useState(true);
@@ -25,7 +24,7 @@ const CoursesRegistrationDetail = () => {
     let checkSuccess = false;
 
     await axiosAPI
-      .post(endpoints.COURSE_REGISTER_CREATE, dataCreate)
+      .post(`${endpoints.COURSE_REGISTER}/create`, dataCreate)
       .then((res) => {
         console.log(res.data.data);
         // saveData('courses', res.data.data);
@@ -46,7 +45,7 @@ const CoursesRegistrationDetail = () => {
       console.log(course._id)
 
       await axiosAPI
-        .patch(endpoints.COURSE_SLOT_REMAIN + course._id, queryParams)
+        .patch(`${endpoints.SOSY}/slot-remain/${course._id}`, queryParams)
         .then((res) => {
           console.log(res.data.data);
         })

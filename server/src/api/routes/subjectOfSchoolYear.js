@@ -16,7 +16,7 @@ router.get('/subjectId/:subjectId', SOSYController.getAllBySubjectId);
 router.get('/departmentId/:departmentId', SOSYController.getAllByDepartmentId)
 router.get('/sosy-without-lecturer', SOSYController.getSosyWithoutLecturer);
 router.patch('/:id', SOSYController.update);
-router.patch('/slotRemain/:sosyId', SOSYController.updateSlotRemain);
+router.patch('/slot-remain/:sosyId', SOSYController.updateSlotRemain);
 router.delete('/:id', SOSYController.delete);
 
 export default router;
