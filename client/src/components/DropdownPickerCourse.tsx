@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { axiosAPI, endpoints } from '../configs/axiosAPI';
 import useUserContext from '../hook/useUserContext';
-import useDropdownContext from '../hook/useDropdownContext';
 
 interface DataItem {
   label: string;

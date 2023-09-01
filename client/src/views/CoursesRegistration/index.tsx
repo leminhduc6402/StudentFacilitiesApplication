@@ -19,7 +19,6 @@ import useCourseContext from '../../hook/useCourseContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index';
-import useDropdownContext from '../../hook/useDropdownContext';
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
