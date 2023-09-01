@@ -17,7 +17,6 @@ import Header from '../../components/header';
 import useUserContext from '../../hook/useUserContext';
 import { Navigate, useNavigate } from 'react-router-native';
 import { routes } from '../../configs/routes';
-import { useBackHandler } from '@react-native-community/hooks';
 import useHistoryContext from '../../hook/useHistoryContext';
 
 const data = [

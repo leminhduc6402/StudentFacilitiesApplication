@@ -19,14 +19,15 @@ import useUserContext from '../../hook/useUserContext';
 import { endpoints, axiosAPI } from '../../configs/axiosAPI';
 import MyAlert from '../../components/MyAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { saveData } from '../../utils/AsyncStorage';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
+import useLocalStorage from '../../hook/useLocalStorage';
 
 const Login = () => {
   const nav = useNavigate();
   const { nextHistory } = useHistoryContext();
   const [user, setUser] = useUserContext();
+  const { storeData } = useLocalStorage();
 
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
@@ -57,8 +58,9 @@ const Login = () => {
       .post(endpoints.LOGIN, data)
       .then(async (res) => {
         const data = res.data.data;
+
         setUser(data);
-        saveData('user', data);
+        storeData('user', data);
 
         data.role === 'STUDENT'
           ? nextHistory(routes.HOME)

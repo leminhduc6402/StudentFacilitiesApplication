@@ -6,8 +6,8 @@ import { styles } from './GetClass';
 import { routes } from '../../../configs/routes';
 import { useEffect, useState } from 'react';
 import { axiosAPI, endpoints } from '../../../configs/axiosAPI';
-import DropDownPickerCustom from '../../../components/DropdownPicker';
 import CourseItem from './ScroreItem';
+import GetApiDropdown from '../../../components/GetApiDropdown';
 
 function GetClass() {
   const [schoolyears, setSchoolyears] = useState([]);
@@ -24,36 +24,6 @@ function GetClass() {
     );
   }
 
-  const getSchoolyears = async () => {
-    await axiosAPI
-      .get(endpoints.SCHOOL_YEAR)
-      .then((res) => {
-        const data = res.data.data;
-        const dataCustom = data.map((item: any) => {
-          return { label: item.name, value: item._id };
-        });
-        setSchoolyears(dataCustom);
-      })
-      .catch((err) => {
-        console.log(err.response.data || err.message);
-      });
-  };
-
-  const getDepartments = async () => {
-    await axiosAPI
-      .get(endpoints.DEPARTMENT)
-      .then((res) => {
-        const data = res.data.data;
-        const dataCustom = data.map((item: any) => {
-          return { label: item.name, value: item._id };
-        });
-        setDepartments(dataCustom);
-      })
-      .catch((err) => {
-        console.log(err.response.data || err.message);
-      });
-  };
-
   const getListCourse = async () => {
     await axiosAPI
       .get(
@@ -62,11 +32,6 @@ function GetClass() {
       .then((res) => setListCourse(res.data.data))
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    getSchoolyears();
-    getDepartments();
-  }, []);
 
   useEffect(() => {
     getListCourse();
@@ -82,41 +47,46 @@ function GetClass() {
       <Header />
       <View style={styles.wrapper}>
         <View>
-          {schoolyears.length > 0 && (
-            <DropDownPickerCustom
-              placeHolder='Chọn học kỳ'
-              data={schoolyears}
-              type={schoolyear}
-              setType={setSchoolyear}
-            />
-          )}
+          <GetApiDropdown
+            item={schoolyear}
+            list={schoolyears}
+            setItem={setSchoolyear}
+            setList={setSchoolyears}
+            endpoint={endpoints.SCHOOL_YEAR}
+            placeholder='Chọn học kỳ'
+          />
         </View>
         <View
           style={{
             marginTop: 8,
           }}
         >
-          {departments.length > 0 && (
-            <DropDownPickerCustom
-              zIndex={9}
-              placeHolder='Chọn khoa'
-              data={departments}
-              type={department}
-              setType={setDepartment}
-            />
-          )}
+          <GetApiDropdown
+            item={department}
+            list={departments}
+            setItem={setDepartment}
+            setList={setDepartments}
+            endpoint={endpoints.DEPARTMENT}
+            placeholder='Chọn khoa'
+            zInd={90}
+          />
         </View>
 
         <View style={styles.listCourse}>
           <ScrollView>
-            {listCourse.length > 0 &&
+            {listCourse.length > 0 ? (
               listCourse.map((item: any) => (
                 <CourseItem
                   setRenderParent={setListCourse}
                   item={item}
                   key={item._id}
                 />
-              ))}
+              ))
+            ) : (
+              <Text style={{ textAlign: 'center', marginTop: 30 }}>
+                Không có lớp chưa nhận!
+              </Text>
+            )}
           </ScrollView>
         </View>
       </View>

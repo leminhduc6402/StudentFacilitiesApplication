@@ -107,6 +107,52 @@ const SOSYController = {
       data: subjectSchoolYears,
     });
   },
+  getAllBySchoolyearAndLecturer: async (req, res) => {
+    const { schoolyear, lecturer, subject } = req.query;
+
+    let subjectSchoolYears = await SOSYModel.find({
+      schoolYearId: schoolyear,
+      lecturerId: lecturer,
+    })
+      .populate({ path: 'subjectId', select: 'name' })
+      .populate({ path: 'classId', select: 'name' })
+      .select('subjectId classId')
+      .lean();
+
+    const uniqueSubjects = {};
+
+    subjectSchoolYears.forEach((item) => {
+      const subjectId = item.subjectId._id;
+      const subjectName = item.subjectId.name;
+
+      if (!uniqueSubjects[subjectId]) {
+        uniqueSubjects[subjectId] = {
+          _id: subjectId,
+          name: subjectName,
+        };
+      }
+    });
+
+    let uniqueArray = Object.values(uniqueSubjects);
+
+    if (subject) {
+      uniqueArray = subjectSchoolYears.filter((item) => {
+        if (item.subjectId._id == subject)
+          return {
+            _id: item._id,
+            classId: {
+              _id: item.classId._id,
+              name: item.classId.name,
+            },
+          };
+      });
+    }
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: uniqueArray,
+    });
+  },
   getSosyWithoutLecturer: async (req, res) => {
     const { schoolyear, department } = req.query;
 

@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@rneui/base": "^4.0.0-rc.7",
@@ -24,6 +24,7 @@
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
+    "react-native-storage": "^1.0.1",
     "react-native-table-component": "^1.2.2",
     "react-native-web": "~0.19.6",
     "react-router-dom": "^6.15.0",

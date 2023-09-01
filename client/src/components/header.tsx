@@ -10,22 +10,19 @@ import {
 import React, { useEffect } from 'react';
 import useUserContext from '../hook/useUserContext';
 import { Navigate, useLocation, useNavigate } from 'react-router-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { initialUser } from '../store/UserContext/Context';
-import { removeData } from '../utils/AsyncStorage';
-import { useBackHandler } from '@react-native-community/hooks';
 import useHistoryContext from '../hook/useHistoryContext';
 import { routes } from '../configs/routes';
+import useLocalStorage from '../hook/useLocalStorage';
 
 const Header = () => {
   const [user, setUser] = useUserContext();
   const { nextHistory, backHistory } = useHistoryContext();
+  const { removeData } = useLocalStorage();
 
   const nav = useNavigate();
   const location = useLocation();
 
   const handleLogout = async () => {
-    setUser(initialUser);
     removeData('user');
     nav('/login');
   };

@@ -86,6 +86,8 @@ function User() {
             return;
         }
 
+        console.log(user);
+
         await AxiosAPI.post(endpoints.signup, user)
             .then(() => {
                 setAlert({
@@ -178,7 +180,6 @@ function User() {
             <h2
                 onClick={() => {
                     setEdit(null);
-                    setUser(initUser);
                 }}
             >
                 {edit ? "Edit mode" : "Create mode"}

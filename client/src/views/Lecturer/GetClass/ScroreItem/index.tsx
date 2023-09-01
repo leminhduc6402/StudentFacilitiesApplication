@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 function CourseItem({ item, setRenderParent }: any) {
-  const [user, setUser] = useUserContext();
+  const [user] = useUserContext();
 
   const getClass = async () => {
     const data = {
