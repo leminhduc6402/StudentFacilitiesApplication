@@ -14,12 +14,13 @@ import {
   ToastAndroid,
   TextInput,
 } from 'react-native';
+import { handleScoreFixed } from '../../../../utils/score';
 
 function StudentItem({ item, setRenderParent }: any) {
   const [user] = useUserContext();
 
-  const [mid, setMid] = useState(item.midExamScore);
-  const [final, setFinal] = useState(item.finalExamScore);
+  const [mid, setMid] = useState(handleScoreFixed(item.midExamScore));
+  const [final, setFinal] = useState(handleScoreFixed(item.finalExamScore));
 
   const handleScore = (value: string, type: string) => {
     if (parseFloat(value) < 0 || parseFloat(value) > 10) {
@@ -30,28 +31,30 @@ function StudentItem({ item, setRenderParent }: any) {
   };
 
   const handleBlur = () => {
-    const midValue = parseFloat(mid);
-    const finalValue = parseFloat(final);
+    const midValue = handleScoreFixed(mid);
+    const finalValue = handleScoreFixed(final);
     setMid(midValue);
     setFinal(finalValue);
+    updateScore();
   };
 
-  // const getClass = async () => {
-  //   const data = {
-  //     idSosy: item._id,
-  //     idLecturer: user.id,
-  //   };
-  //   await axiosAPI
-  //     .patch(`${endpoints.SOSY}/lecturer-get-class`, data)
-  //     .then((res) => setRenderParent([]))
-  //     .catch((err) =>
-  //       ToastAndroid.showWithGravity(
-  //         err.response?.data.message,
-  //         ToastAndroid.SHORT,
-  //         ToastAndroid.CENTER
-  //       )
-  //     );
-  // };
+  const updateScore = async () => {
+    const data = {
+      midExamScore: mid,
+      finalExamScore: final,
+    };
+
+    await axiosAPI
+      .patch(`${endpoints.COURSE_REGISTER}/${item._id}`, data)
+      .then((res) => console.log(res.data.data))
+      .catch((err) =>
+        ToastAndroid.showWithGravity(
+          err.response?.data.message,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        )
+      );
+  };
 
   // const handleGetClass = () => {
   //   Alert.alert(
@@ -98,6 +101,7 @@ function StudentItem({ item, setRenderParent }: any) {
             <Text style={styles.title}>Cuối kì</Text>
             <TextInput
               style={styles.score}
+              onBlur={handleBlur}
               onChangeText={(value) => handleScore(value, 'final')}
               keyboardType='numeric'
               value={`${final}`}

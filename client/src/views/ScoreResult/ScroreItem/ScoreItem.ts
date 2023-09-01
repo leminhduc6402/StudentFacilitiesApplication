@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     borderRadius: 1,
     borderWidth: 1,
     borderColor: '#ccc',
+    marginTop: 12,
   },
   head: {},
   headTitle: {
@@ -49,5 +50,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     fontSize: 16,
+  },
+  passCss: {
+    color: 'green',
   },
 });
