@@ -1,4 +1,11 @@
-export const handleDatetime = (datetime: string) => {
+export const handleDatetime = (datetime: string, short = false) => {
+  if (short) {
+    return new Date(datetime).toLocaleString('en', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  }
   return new Date(datetime).toLocaleString();
 };
 

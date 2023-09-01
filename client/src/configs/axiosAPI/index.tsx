@@ -16,6 +16,7 @@ const endpoints = {
   DEPARTMENT: '/department',
   SUBJECT: '/subject',
   CLASS: '/class',
+  USER: '/user',
 };
 
 const axiosAPI = axios.create({
