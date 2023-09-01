@@ -26,9 +26,9 @@ const CoursesRegistration = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [listCourseRegisters, setListCourseRegisters] = useState([]);
   const [listCourses, setListCourses] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentValueTop, setCurrentValueTop] = useState();
+  const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
-  const [currentValueTop, currentValueBottom] = useDropdownContext();
   const { nextHistory } = useHistoryContext();
 
   const items = [
@@ -46,7 +46,7 @@ const CoursesRegistration = () => {
     };
 
     await axiosAPI
-      .get(endpoints.COURSE_REGISTER_FIND + userId, {
+      .get(`${endpoints.COURSE_REGISTER}/${userId}`, {
         params: queryParams,
       })
       .then((res) => {
@@ -68,7 +68,7 @@ const CoursesRegistration = () => {
         };
 
         await axiosAPI
-          .get(endpoints.LIST_COURSES + userCourse + '&' + classId, {
+          .get(`${endpoints.SOSY}/usercourse/${userCourse}&${classId}`, {
             params: queryParams,
           })
           .then((res) => {
@@ -88,8 +88,10 @@ const CoursesRegistration = () => {
           departmentId: currentValueBottom,
         };
 
+        console.log(currentValueBottom)
+        console.log(`${endpoints.SOSY}/departmentId/${currentValueBottom}`)
         await axiosAPI
-          .get(endpoints.LIST_COURSES_BY_DEPARTMENT + currentValueBottom, {
+          .get(`${endpoints.SOSY}/departmentId/${currentValueBottom}`, {
             params: queryParams,
           })
           .then((res) => {
@@ -108,7 +110,7 @@ const CoursesRegistration = () => {
         };
 
         await axiosAPI
-          .get(endpoints.LIST_COURSES_BY_CLASS + currentValueBottom, {
+          .get(`${endpoints.SOSY}/classId/${currentValueBottom}`, {
             params: queryParams,
           })
           .then((res) => {
@@ -127,7 +129,7 @@ const CoursesRegistration = () => {
         };
 
         await axiosAPI
-          .get(endpoints.LIST_COURSES_BY_SUBJECT + currentValueBottom, {
+          .get(`${endpoints.SOSY}/subjectId/${currentValueBottom}`, {
             params: queryParams,
           })
           .then((res) => {
@@ -178,7 +180,7 @@ const CoursesRegistration = () => {
       };
 
       await axiosAPI
-        .delete(endpoints.COURSE_REGISTER_DELETE + id, {
+        .delete(`${endpoints.COURSE_REGISTER}/${id}`, {
           params: queryParams,
         })
         .then((res) => {
@@ -197,7 +199,7 @@ const CoursesRegistration = () => {
         };
 
         await axiosAPI
-          .patch(`${endpoints.SOSY}/slotRemain/` + item._id, queryParams)
+          .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
           .then((res) => {
             console.log(res.data.data);
           })
@@ -219,7 +221,21 @@ const CoursesRegistration = () => {
   return (
     <>
       <Header />
-      <DropdownPicker data={items} />
+      <DropdownPicker 
+      data={items} 
+      currentValueTop={currentValueTop}
+      setCurrentValueTop={setCurrentValueTop}
+      currentValueBottom={currentValueBottom}
+      setCurrentValueBottom={setCurrentValueBottom}
+      />
+      {/* <GetApiDropdown
+              item={schoolyear}
+              list={schoolyears}
+              setItem={setSchoolyear}
+              setList={setSchoolyears}
+              endpoint={''}
+              placeholder='Chọn phương thức'
+            /> */}
 
       <ScrollView>
         <View>
@@ -255,7 +271,7 @@ const CoursesRegistration = () => {
               </Text>
             </View>
             {/* <View style={styles.flexWrapContainer}> */}
-            {listCourseRegisters.map((item, index) => (
+            {listCourseRegisters.map((item: any, index) => (
               <View style={styles.backgroundCourseRegister} key={index}>
                 <View style={styles.containerCourses}>
                   <View style={styles.column}>
