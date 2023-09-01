@@ -15,7 +15,6 @@ import LecturerMain from './src/views/Lecturer/Main';
 import ScoreInp from './src/views/Lecturer/ScoreInp';
 import GetClass from './src/views/Lecturer/GetClass';
 import LocalStorageProvider from './src/store/LocalStorageContext';
-import DropdownProvider from './src/store/DropdownContext/index';
 import UserProfile from './src/views/UserProfile';
 import TestSchedule from './src/views/TestSchedule';
 import Schedule from './src/views/Schedule';
@@ -28,7 +27,6 @@ export default function App() {
           <UserProvider>
             <CourseProvider>
               <HistoryProvider>
-                <DropdownProvider>
                   <SafeAreaView style={styles.container}>
                     <Routes>
                       {/* student */}
@@ -77,7 +75,6 @@ export default function App() {
                       />
                     </Routes>
                   </SafeAreaView>
-                </DropdownProvider>
               </HistoryProvider>
             </CourseProvider>
           </UserProvider>

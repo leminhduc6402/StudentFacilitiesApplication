@@ -25,17 +25,16 @@ const CoursesRegistration = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [listCourseRegisters, setListCourseRegisters] = useState([]);
   const [listCourses, setListCourses] = useState([]);
-  const [currentValueTop, setCurrentValueTop] = useState();
+  const [currentValueTop, setCurrentValueTop] = useState(1);
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
-    { label: 'Môn sinh viên cần học lại (đã rớt)', value: 2 },
-    { label: 'Lọc theo khoa', value: 3 },
-    { label: 'Lọc theo lớp', value: 4 },
-    { label: 'Lọc theo môn học', value: 5 },
+    { label: 'Lọc theo khoa', value: 2 },
+    { label: 'Lọc theo lớp', value: 3 },
+    { label: 'Lọc theo môn học', value: 4 },
   ];
 
   const handleListCourseRegisters = async () => {
@@ -80,8 +79,6 @@ const CoursesRegistration = () => {
 
       handleListCourses();
     } else if (currentValueTop == 2) {
-      setListCourses([]);
-    } else if (currentValueTop == 3) {
       const handleListCoursesByDepartmentId = async () => {
         const queryParams = {
           departmentId: currentValueBottom,
@@ -102,7 +99,7 @@ const CoursesRegistration = () => {
       };
 
       handleListCoursesByDepartmentId();
-    } else if (currentValueTop == 4) {
+    } else if (currentValueTop == 3) {
       const handleListCoursesByClassId = async () => {
         const queryParams = {
           classId: currentValueBottom,
@@ -121,7 +118,7 @@ const CoursesRegistration = () => {
       };
 
       handleListCoursesByClassId();
-    } else if (currentValueTop == 5) {
+    } else if (currentValueTop == 4) {
       const handleListCoursesBySubjectId = async () => {
         const queryParams = {
           subjectId: currentValueBottom,

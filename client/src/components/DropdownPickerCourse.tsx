@@ -40,10 +40,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
       case 1:
         setDataBottom([{ label: '', value: '' }])
         break;
-      case 2:
-        setDataBottom([{ label: '', value: '' }])
-        break;
-      case 3: {
+      case 2: {
         const handleDepartments = async () => await axiosAPI
           .get(endpoints.DEPARTMENT)
           .then((res) => {
@@ -59,7 +56,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
         handleDepartments()
         break;
       }
-      case 4:
+      case 3:
         const handleClasses = async () => await axiosAPI
           .get(endpoints.CLASS)
           .then((res) => {
@@ -74,7 +71,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
           })
         handleClasses()
         break;
-      case 5:
+      case 4:
         const handleSubjects = async () => await axiosAPI
           .get(endpoints.SUBJECT)
           .then((res) => {
@@ -109,7 +106,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
           containerStyle={{ zIndex: 1000 }}
         />
       </View>
-      <View style={{ margin: 10 }}>
+      {currentValueTop != 1 && <View style={{ margin: 10 }}>
         <DropDownPicker
           items={dataBottom}
           open={isOpenBottom}
@@ -120,7 +117,7 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
           style={{ zIndex: 500 }}
           containerStyle={{ zIndex: 500 }}
         />
-      </View>
+      </View>}
     </>)
 }
 
