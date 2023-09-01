@@ -5,6 +5,10 @@ const router = Router();
 
 router.post('/create', SOSYController.create);
 router.patch('/lecturer-get-class', SOSYController.updateLecturer);
+router.get(
+  '/get-by-sy-and-lecturer',
+  SOSYController.getAllBySchoolyearAndLecturer
+);
 router.get('/', SOSYController.getAll);
 router.get('/usercourse/:course&:classId', SOSYController.getAllByUserCourse);
 router.get('/classId/:classId', SOSYController.getAllByClassId);

@@ -11,11 +11,11 @@ const endpoints = {
   COURSE_REGISTER_CREATE: '/course-register/create',
   COURSE_REGISTER_FIND: '/course-register/',
   COURSE_REGISTER_DELETE: '/course-register/',
+  COURSE_REGISTER: '/course-register/',
   SCHOOL_YEAR: '/schoolyear',
   DEPARTMENT: '/department',
-  COURSE_SLOT_REMAIN: '/sosy/slotRemain/',
+  SUBJECT: '/subject',
   CLASS: '/class',
-  SUBJECT: '/subject'
 };
 
 const axiosAPI = axios.create({

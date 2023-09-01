@@ -5,6 +5,8 @@ import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import Header from '../../../components/header';
 import { styles } from './Main';
 import { routes } from '../../../configs/routes';
+import { useEffect, useState } from 'react';
+import useLocalStorage from '../../../hook/useLocalStorage';
 
 const data = [
   { content: 'Danh sách nhóm lớp hủy do không đủ sĩ số' },

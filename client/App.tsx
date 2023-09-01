@@ -14,16 +14,18 @@ import ScoreResult from './src/views/ScoreResult';
 import LecturerMain from './src/views/Lecturer/Main';
 import ScoreInp from './src/views/Lecturer/ScoreInp';
 import GetClass from './src/views/Lecturer/GetClass';
-import DropdownProvider from './src/store/DropdownContext';
+import LocalStorageProvider from './src/store/LocalStorageContext';
+
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NativeRouter>
-        <UserProvider>
-          <CourseProvider>
-            <HistoryProvider>
-              <DropdownProvider>
+        <LocalStorageProvider>
+          <UserProvider>
+            <CourseProvider>
+              <HistoryProvider>
+
                 <SafeAreaView style={styles.container}>
                   <Routes>
                     {/* student */}
@@ -58,10 +60,10 @@ export default function App() {
                     />
                   </Routes>
                 </SafeAreaView>
-              </DropdownProvider>
-            </HistoryProvider>
-          </CourseProvider>
-        </UserProvider>
+              </HistoryProvider>
+            </CourseProvider>
+          </UserProvider>
+        </LocalStorageProvider>
       </NativeRouter>
     </SafeAreaView>
   );
