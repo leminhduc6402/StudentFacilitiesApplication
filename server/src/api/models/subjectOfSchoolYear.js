@@ -37,8 +37,8 @@ const SubjectOfSchoolYear = new Schema(
       type: Date,
       required: true,
     },
-    end: {
-      type: Date,
+    totalWeek: {
+      type: Number,
       required: true,
     },
     fromTime: {
@@ -53,9 +53,9 @@ const SubjectOfSchoolYear = new Schema(
       type: [],
       required: true,
     },
-    totalWeek: {
-      type: Number,
-      required: true,
+    allDateStudy: {
+      type: Array,
+      default: [],
     },
     timeFinalExam: {
       type: Date,

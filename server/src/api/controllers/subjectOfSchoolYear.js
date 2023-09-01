@@ -4,6 +4,7 @@ import CreditModel from '../models/credit.js';
 import SubjectModel from '../models/subject.js';
 import ConflictError from '../response/errors/ConflictError.js';
 import { httpStatusCodes } from '../response/httpStatusCodes/index.js';
+import { createAllDateStudyFromTime } from '../utils/calcDate/index.js';
 
 const SOSYController = {
   create: async (req, res) => {
@@ -37,6 +38,12 @@ const SOSYController = {
 
     const totalPrice = parseInt(credit.price) * parseInt(subject.credit);
 
+    const allDateStudy = createAllDateStudyFromTime(
+      data.start,
+      data.totalWeek,
+      data.timeStudyOfWeek[0]
+    );
+
     const newSosy = await SOSYModel.create({
       ...data,
       subjectId: new mongoose.Types.ObjectId(subjectId),
@@ -49,6 +56,7 @@ const SOSYController = {
       roomId: new mongoose.Types.ObjectId(roomId),
       creditId: new mongoose.Types.ObjectId(creditId),
       totalPrice,
+      allDateStudy,
     });
 
     return res.status(httpStatusCodes.CREATED).json({
@@ -93,7 +101,7 @@ const SOSYController = {
     const { course, classId } = req.params;
 
     const subjectSchoolYears = await SOSYModel.find({
-      userCourse: course
+      userCourse: course,
     })
       .populate('subjectId')
       .populate('schoolYearId')
@@ -102,10 +110,10 @@ const SOSYController = {
       .populate('lecturerId')
       .populate('creditId');
 
-    const classIdToFilter = new mongoose.Types.ObjectId(classId)
-    const filteredArraySosy = subjectSchoolYears.filter(item => 
-      item.classId._id.toString() == classIdToFilter.toString());
-
+    const classIdToFilter = new mongoose.Types.ObjectId(classId);
+    const filteredArraySosy = subjectSchoolYears.filter(
+      (item) => item.classId._id.toString() == classIdToFilter.toString()
+    );
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
@@ -116,7 +124,7 @@ const SOSYController = {
     const { classId } = req.params;
 
     const subjectSchoolYears = await SOSYModel.find({
-      classId: classId
+      classId: classId,
     })
       .populate('subjectId')
       .populate('schoolYearId')
@@ -133,7 +141,9 @@ const SOSYController = {
   getAllByDepartmentId: async (req, res) => {
     const { departmentId } = req.params;
 
-    const subjectSchoolYears = await SOSYModel.find()
+    const subjectSchoolYears = await SOSYModel.find({
+      departmentId: departmentId,
+    })
       .populate('subjectId')
       .populate('schoolYearId')
       .populate('classId')
@@ -141,9 +151,12 @@ const SOSYController = {
       .populate('lecturerId')
       .populate('creditId');
 
-      const departmentIdToFilter = new mongoose.Types.ObjectId(departmentId)
-      const filteredArraySosy = subjectSchoolYears.filter(item => 
-        item.subjectId.departmentId.toString() == departmentIdToFilter.toString());
+    const departmentIdToFilter = new mongoose.Types.ObjectId(departmentId);
+    const filteredArraySosy = subjectSchoolYears.filter(
+      (item) =>
+        item.subjectId.departmentId.toString() ==
+        departmentIdToFilter.toString()
+    );
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
@@ -154,7 +167,7 @@ const SOSYController = {
     const { subjectId } = req.params;
 
     const subjectSchoolYears = await SOSYModel.find({
-      subjectId: subjectId
+      subjectId: subjectId,
     })
       .populate('subjectId')
       .populate('schoolYearId')
@@ -162,8 +175,8 @@ const SOSYController = {
       .populate('roomId')
       .populate('lecturerId')
       .populate('creditId');
-    
-    console.log(subjectSchoolYears)
+
+    console.log(subjectSchoolYears);
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
@@ -264,6 +277,12 @@ const SOSYController = {
 
     const totalPrice = parseInt(credit.price) * parseInt(subject.credit);
 
+    const allDateStudy = createAllDateStudyFromTime(
+      data.start,
+      data.totalWeek,
+      data.timeStudyOfWeek[0]
+    );
+
     const sosy = await SOSYModel.findByIdAndUpdate(id, {
       ...data,
       subjectId: new mongoose.Types.ObjectId(subjectId),
@@ -276,6 +295,7 @@ const SOSYController = {
           : new mongoose.Types.ObjectId(lecturerId),
       creditId: new mongoose.Types.ObjectId(creditId),
       totalPrice,
+      allDateStudy,
     });
 
     await subject.save();

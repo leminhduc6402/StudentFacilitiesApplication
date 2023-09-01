@@ -1,13 +1,51 @@
-import { ScrollView, StyleSheet, Text, Image, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import styles from './style';
 import Header from '../../components/header';
 import { getCurrentWeek } from '../../utils/datetime';
+import useUserContext from '../../hook/useUserContext';
+import { endpoints } from '../../configs/axiosAPI';
 
 export default function Schedule() {
+  const [user] = useUserContext();
   const [weekCurr, setWeekCurr] = useState(() => {
     return getCurrentWeek();
   });
+  const [activeDate, setActiveDate] = useState(() => {
+    return getCurrentWeek().find((item) => item.isToday);
+  });
+
+  const handleChangeDate = (value: string) => {
+    setActiveDate(value);
+  };
+
+  const getSchedule = async () => {
+    let endpoint = `${endpoints.COURSE_REGISTER}/get-by-sy-and-lecturer/?schoolyear=${schoolyear}&lecturer=${user?.id}`;
+
+    await axiosAPI
+      .get(endpoint)
+      .then((res) => {
+        const data = res.data.data;
+        const dataCustom = data.map((item: any) => {
+          return { label: item.name, value: item._id };
+        });
+        setSubject('');
+        setClassCurr('');
+        setSubjects(dataCustom);
+      })
+      .catch((err) => {
+        console.log(err.response.data || err.message);
+      });
+  };
+
+  useEffect(() => {}, [activeDate.date]);
 
   return (
     <View
@@ -21,9 +59,18 @@ export default function Schedule() {
 
       <View style={styles.dayBar}>
         {weekCurr.map((item, index) => (
-          <View style={styles.day}>
+          <View key={item.prefix} style={styles.day}>
             <Text style={styles.dayDetail}>{item.prefix}</Text>
-            <Text style={styles.dayNumber}>{item.value}</Text>
+            <TouchableOpacity onPress={() => handleChangeDate(item)}>
+              <Text
+                style={[
+                  styles.dayNumber,
+                  activeDate.date == item.date && styles.activeNumber,
+                ]}
+              >
+                {item.date}
+              </Text>
+            </TouchableOpacity>
           </View>
         ))}
       </View>

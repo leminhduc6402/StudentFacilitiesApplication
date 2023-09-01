@@ -6,7 +6,9 @@ export const getCurrentWeek = () => {
   const currentWeek = WEEK_ENUM.map((item: string, index) => {
     const obj: any = {
       prefix: item,
-      value: new Date(curr).getDate(),
+      date: new Date(curr).getDate(),
+      month: new Date(curr).getMonth() + 1,
+      year: new Date(curr).getFullYear(),
     };
     if (new Date().getDate() === new Date(curr).getDate()) {
       obj.isToday = true;
