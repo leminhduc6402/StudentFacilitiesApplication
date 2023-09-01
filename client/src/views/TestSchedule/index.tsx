@@ -1,80 +1,88 @@
 import { Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/header';
 import { styles } from './TestSchedule';
-import DropDownPickerCustom from '../../components/DropdownPicker';
-import { dataDropdown } from '../../views/Login/data';
+import { Table, Row, Rows } from 'react-native-table-component';
+import GetApiDropdown from '../../components/GetApiDropdown';
+import { axiosAPI, endpoints } from '../../configs/axiosAPI';
+import useUserContext from '../../hook/useUserContext';
+import { handleDatetime } from '../../utils/datetime';
 
-const index = () => {
-  const listDropdown1: dataDropdown[] = [
-    { label: 'Học kỳ 3 Năm học 2022-2023 ', value: 9 },
-    { label: 'Học kỳ 2 Năm học 2022-2023', value: 8 },
-    { label: 'Học kỳ 1 Năm học 2022-2023', value: 7 },
-    { label: 'Học kỳ 3 Năm học 2021-2022 ', value: 6 },
-    { label: 'Học kỳ 2 Năm học 2021-2022', value: 5 },
-    { label: 'Học kỳ 1 Năm học 2021-2022', value: 4 },
-    { label: 'Học kỳ 3 Năm học 2020-2021 ', value: 3 },
-    { label: 'Học kỳ 2 Năm học 2020-2021', value: 2 },
-    { label: 'Học kỳ 1 Năm học 2020-2021', value: 1 },
-  ];
-  const listDropdown2: dataDropdown[] = [
-    { label: 'Lịch thi học kỳ cá nhân', value: 4 },
-    { label: 'Lịch thi học kỳ theo môn học', value: 3 },
-    { label: 'Lịch thi theo khoa quản lý môn học', value: 2 },
-    { label: 'Lịch thi theo ngày thi', value: 1 },
-  ];
+const TestSchedule = () => {
+  const [user] = useUserContext();
+
+  const [schoolyear, setSchoolyear] = useState('');
+  const [schoolyears, setSchoolyears] = useState([]);
+  const [dataSchedule, setDataSchedule] = useState([]);
+
+  const dataHead = ['Mã môn', 'Tên môn', 'Giờ thi', 'Phòng thi'];
+
+  const getDataSchedule = async () => {
+    let endpoint = `${endpoints.COURSE_REGISTER}/get-test-schedule/?user=${user?.id}&schoolyear=${schoolyear}`;
+
+    await axiosAPI
+      .get(endpoint)
+      .then((res) => {
+        const data = res.data.data;
+        const dataCustom = data.map((item: any) => {
+          const arr: any = [];
+          arr.push(item.subjectOfSchoolYearId.subjectId.code);
+          arr.push(item.subjectOfSchoolYearId.subjectId.name);
+          arr.push(handleDatetime(item.subjectOfSchoolYearId.timeFinalExam));
+          arr.push(item.subjectOfSchoolYearId.roomId.name);
+          return arr;
+        });
+        setDataSchedule(dataCustom);
+      })
+      .catch((err) => {
+        console.log(err.response.data || err.message);
+      });
+  };
+
+  useEffect(() => {
+    schoolyear.trim() ? getDataSchedule() : null;
+  }, [schoolyear]);
+
   return (
     <>
       <Header />
       <View style={styles.body}>
         <View>
-          <Text style={styles.title}>Xem lịch thi</Text>
+          <Text style={styles.title}>Lịch thi</Text>
         </View>
 
         <View>
-          <View style={{ marginTop: 10 }}>
-            <DropDownPickerCustom
-              data={listDropdown1}
-              placeHolder='Chọn học kỳ'
-              zIndex={10}
-            />
-          </View>
-          <View style={{ marginTop: 10 }}>
-            <DropDownPickerCustom
-              data={listDropdown2}
-              placeHolder='Lọc lịch thi'
-              zIndex={9}
+          <View>
+            <GetApiDropdown
+              item={schoolyear}
+              list={schoolyears}
+              setItem={setSchoolyear}
+              setList={setSchoolyears}
+              endpoint={endpoints.SCHOOL_YEAR}
+              placeholder='Chọn học kỳ'
             />
           </View>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-          }}
-        >
-          <TouchableOpacity style={styles.subject}>
-            <Text style={styles.content}>Tên môn học</Text>
-            <Text style={styles.content}>Nhóm</Text>
-            <Text style={styles.content}>Lớp</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.subject}>
-            <Text style={styles.content}>Tên môn học</Text>
-            <Text style={styles.content}>Nhóm</Text>
-            <Text style={styles.content}>Lớp</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.subject}>
-            <Text style={styles.content}>Tên môn học</Text>
-            <Text style={styles.content}>Nhóm</Text>
-            <Text style={styles.content}>Lớp</Text>
-          </TouchableOpacity>
+        <View style={styles.container}>
+          {dataSchedule.length > 0 ? (
+            <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+              <Row
+                data={dataHead}
+                style={styles.head}
+                textStyle={styles.text}
+              />
+              <Rows data={dataSchedule} textStyle={styles.text} />
+            </Table>
+          ) : (
+            <Text style={{ textAlign: 'center', marginTop: 30 }}>
+              Không có thông tin lịch thi!
+            </Text>
+          )}
         </View>
       </View>
     </>
   );
 };
 
-export default index;
+export default TestSchedule;

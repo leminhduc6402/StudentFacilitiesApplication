@@ -43,7 +43,7 @@ const data = [
 function Main() {
   const [user, setUser] = useUserContext();
   const { nextHistory, backHistory } = useHistoryContext();
-  console.log(user)
+  console.log(user);
   if (!user.id) {
     return <Navigate to='/login' />;
   }
@@ -103,7 +103,10 @@ function Main() {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.featureItem}>
+          <TouchableOpacity
+            onPress={() => handleNavigate(routes.TEST_SCHEDULE)}
+            style={styles.featureItem}
+          >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >

@@ -158,6 +158,43 @@ const CourseRegisterController = {
       },
     });
   },
+  getTestSchedule: async (req, res) => {
+    const { user, schoolyear } = req.query;
+
+    let courseRegisters = await CourseRegisterModel.find({
+      userId: user,
+    })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        match: {
+          schoolYearId: schoolyear,
+        },
+        select: '_id subjectId timeFinalExam roomId',
+        populate: [
+          {
+            path: 'subjectId',
+            model: 'Subject',
+            select: 'name code',
+          },
+          {
+            path: 'roomId',
+            model: 'Room',
+            select: 'name',
+          },
+        ],
+      })
+
+      .select('subjectOfSchoolYearId');
+
+    courseRegisters = courseRegisters.filter(
+      (item) => item.subjectOfSchoolYearId
+    );
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: courseRegisters,
+    });
+  },
   updateScore: async (req, res) => {
     const { id } = req.params;
     const { midExamScore, finalExamScore } = req.body;

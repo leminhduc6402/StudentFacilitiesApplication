@@ -7,7 +7,7 @@ import CourseProvider from './src/store/CourseContext';
 import Login from './src/views/Login';
 import Tuition from './src/views/Tuition/index';
 import Main from './src/views/Main';
-import HistoryProvider from './src/store/HistoryContext';
+import HistoryProvider from './src/store/HistoryContext/index';
 import CoursesRegistrationDetail from './src/views/CoursesRegistrationDetail';
 import CoursesRegistration from './src/views/CoursesRegistration';
 import ScoreResult from './src/views/ScoreResult';
@@ -17,6 +17,7 @@ import GetClass from './src/views/Lecturer/GetClass';
 import LocalStorageProvider from './src/store/LocalStorageContext';
 import DropdownProvider from './src/store/DropdownContext/index';
 import UserProfile from './src/views/UserProfile';
+import TestSchedule from './src/views/TestSchedule';
 
 export default function App() {
   return (
@@ -45,6 +46,10 @@ export default function App() {
                         path={routes.SCORE_RESULT}
                         Component={ScoreResult as any}
                       />
+                      <Route
+                        path={routes.TEST_SCHEDULE}
+                        Component={TestSchedule as any}
+                      />
 
                       {/* lecturer */}
                       <Route
@@ -60,7 +65,7 @@ export default function App() {
                         Component={GetClass as any}
                       />
 
-                      {/*  */}
+                      {/* Both */}
                       <Route
                         path={routes.USER_PROFILE}
                         Component={UserProfile as any}
