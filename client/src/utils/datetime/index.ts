@@ -1,3 +1,23 @@
+export const getCurrentWeek = () => {
+  const WEEK_ENUM = ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
+  const curr = new Date(); // get current date
+  curr.setDate(curr.getDate() - curr.getDay());
+
+  const currentWeek = WEEK_ENUM.map((item: string, index) => {
+    const obj: any = {
+      prefix: item,
+      value: new Date(curr).getDate(),
+    };
+    if (new Date().getDate() === new Date(curr).getDate()) {
+      obj.isToday = true;
+    }
+    curr.setDate(curr.getDate() + 1);
+    return obj;
+  });
+
+  return currentWeek;
+};
+
 export const handleDatetime = (datetime: string, short = false) => {
   if (short) {
     return new Date(datetime).toLocaleString('en', {

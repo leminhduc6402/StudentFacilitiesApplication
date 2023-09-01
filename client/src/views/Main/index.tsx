@@ -91,7 +91,10 @@ function Main() {
               style={styles.featureImg}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.featureItem}>
+          <TouchableOpacity
+            onPress={() => handleNavigate(routes.SCHEDULE)}
+            style={styles.featureItem}
+          >
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}
             >
