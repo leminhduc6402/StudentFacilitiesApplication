@@ -51,10 +51,9 @@ function SubjectOfSchoolYear() {
             lecturerId: item.lecturerId?._id || "NONE",
             creditId: item.creditId?._id,
             start: new Date(item.start).toISOString().slice(0, 16),
-            end: new Date(item.end).toISOString().slice(0, 16),
             fromTime: item.fromTime || "",
             toTime: item.toTime || "",
-            timeStudyOfWeek: item.timeStudyOfWeek,
+            timeStudyOfWeek: item.timeStudyOfWeek[0],
             totalWeek: item.totalWeek,
             timeFinalExam: new Date(item.timeFinalExam)
                 .toISOString()
@@ -80,6 +79,7 @@ function SubjectOfSchoolYear() {
         e.preventDefault();
 
         if (edit) {
+            console.log(sosy);
             await AxiosAPI.patch(`${endpoints.sosy}/${edit}`, sosy)
                 .then(() => {
                     setAlert({
@@ -143,7 +143,6 @@ function SubjectOfSchoolYear() {
                         <th>Room</th>
                         <th>Credit</th>
                         <th>Start Date</th>
-                        <th>End Date</th>
                         <th>From</th>
                         <th>To</th>
                         <th>Day Of Week</th>
@@ -182,7 +181,6 @@ function SubjectOfSchoolYear() {
                                 <td>{item.roomId?.name}</td>
                                 <td>{item.creditId?.price} VND</td>
                                 <td>{handleDatetime(item.start)}</td>
-                                <td>{handleDatetime(item.end)}</td>
                                 <td>{item?.fromTime || "---"}</td>
                                 <td>{item?.toTime || "---"}</td>
                                 <td>{item.timeStudyOfWeek}</td>
@@ -288,11 +286,12 @@ function SubjectOfSchoolYear() {
                         type="datetime-local"
                     />
                     <Form.Control
-                        value={sosy.end}
-                        onChange={(e) => handleChange(e, "end")}
+                        value={sosy.totalWeek}
+                        onChange={(e) => handleChange(e, "totalWeek")}
                         className="w-25"
-                        title="End date"
-                        type="datetime-local"
+                        title="Week study total"
+                        type="number"
+                        placeholder="Week study total ... "
                     />
                     <Form.Control
                         value={sosy.timeStudyOfWeek}
@@ -316,30 +315,22 @@ function SubjectOfSchoolYear() {
                     <Form.Control
                         value={sosy.fromTime}
                         onChange={(e) => handleChange(e, "fromTime")}
-                        className="w-20"
+                        className="w-25"
                         title="From time"
                         type="time"
                     />
                     <Form.Control
                         value={sosy.toTime}
                         onChange={(e) => handleChange(e, "toTime")}
-                        className="w-20"
+                        className="w-25"
                         title="To time"
                         type="time"
-                    />
-                    <Form.Control
-                        value={sosy.totalWeek}
-                        onChange={(e) => handleChange(e, "totalWeek")}
-                        className="w-20"
-                        title="Week study total"
-                        type="number"
-                        placeholder="Week study total ... "
                     />
 
                     <Form.Control
                         value={sosy.totalSlot}
                         onChange={(e) => handleChange(e, "totalSlot")}
-                        className="w-20"
+                        className="w-25"
                         title="Slot total"
                         type="number"
                         placeholder="Slot total ... "
@@ -348,7 +339,7 @@ function SubjectOfSchoolYear() {
                     <Form.Control
                         value={sosy.timeFinalExam}
                         onChange={(e) => handleChange(e, "timeFinalExam")}
-                        className="w-20"
+                        className="w-25"
                         title="Time Final Exam"
                         type="datetime-local"
                     />

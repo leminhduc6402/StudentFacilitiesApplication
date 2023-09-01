@@ -8,7 +8,8 @@ const endpoints = {
   SCHOOL_YEAR: '/schoolyear',
   DEPARTMENT: '/department',
   CLASS: '/class',
-  SUBJECT: '/subject'
+  SUBJECT: '/subject',
+  USER: '/user',
 };
 
 const axiosAPI = axios.create({

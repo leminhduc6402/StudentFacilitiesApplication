@@ -7,6 +7,7 @@ import {
   calcScore4,
   calcScoreC,
 } from '../utils/calcScore/index.js';
+import { findStudyDate } from '../utils/calcDate/index.js';
 
 const CourseRegisterController = {
   create: async (req, res) => {
@@ -189,6 +190,54 @@ const CourseRegisterController = {
     courseRegisters = courseRegisters.filter(
       (item) => item.subjectOfSchoolYearId
     );
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: courseRegisters,
+    });
+  },
+  getScheduleUserByTime: async (req, res) => {
+    const { user, date, month, year } = req.query;
+
+    let courseRegisters = await CourseRegisterModel.find({
+      userId: user,
+    })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        populate: [
+          {
+            path: 'subjectId',
+            model: 'Subject',
+            select: 'name code',
+          },
+          {
+            path: 'roomId',
+            model: 'Room',
+            select: 'name',
+          },
+          {
+            path: 'classId',
+            model: 'Class',
+            select: 'name',
+          },
+          {
+            path: 'lecturerId',
+            model: 'User',
+            select: 'fullName',
+          },
+        ],
+        select: 'fromTime subjectId allDateStudy',
+      })
+      .select('subjectOfSchoolYearId');
+
+    courseRegisters = courseRegisters.filter((item) => {
+      return findStudyDate(
+        item.subjectOfSchoolYearId?.allDateStudy,
+        date,
+        month,
+        year
+      );
+    });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',

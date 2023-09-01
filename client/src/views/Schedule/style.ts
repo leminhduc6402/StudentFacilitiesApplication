@@ -50,27 +50,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginBottom: 23,
   },
-  heading2: {
-    fontSize: 25,
-    fontWeight: '500',
-    textAlign: 'left',
-    marginTop: 20,
-    paddingLeft: 20,
-  },
-  heading3: {
-    fontSize: 23,
-    fontWeight: '900',
-    textAlign: 'right',
-    marginTop: 20,
-    paddingLeft: 20,
-  },
-  heading4: {
-    fontSize: 23,
-    fontWeight: '800',
-    textAlign: 'right',
-    marginTop: 20,
-    color: '#0C56D0',
-  },
+
   day: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -81,17 +61,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: '#ccc',
     marginTop: 12,
+    paddingVertical: 4,
   },
   dayDetail: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#808080',
     textAlign: 'center',
   },
   dayNumber: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: 50,
+    textAlignVertical: 'center',
+  },
+  activeNumber: {
+    backgroundColor: '#306FD6',
   },
   timeDetail: {
     backgroundColor: '#306FD6',
@@ -102,27 +90,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBlockColor: '#5486D8',
   },
-  timeDetail2: {
-    backgroundColor: '#306FD6',
-    alignItems: 'center',
-    height: 200,
-    justifyContent: 'center',
-    width: 90,
-    marginLeft: 10,
-    borderBottomWidth: 2,
-    borderBlockColor: '#5486D8',
-  },
-  timeDetail3: {
-    backgroundColor: '#306FD6',
-    alignItems: 'center',
-    height: 200,
-    justifyContent: 'center',
-    width: 90,
-    marginLeft: 10,
-    borderBottomLeftRadius: 4,
-    borderBottomWidth: 2,
-    borderBlockColor: '#5486D8',
-  },
+
   subjectDetail: {
     padding: 8,
     backgroundColor: '#EEEEEE',
@@ -139,6 +107,7 @@ const styles = StyleSheet.create({
   subject: {
     flexDirection: 'row',
     width: '100%',
+    alignItems: 'center',
   },
   name: {
     fontSize: 20,
@@ -151,12 +120,6 @@ const styles = StyleSheet.create({
   timeStart: {
     fontSize: 20,
     color: 'white',
-    fontWeight: 'bold',
-  },
-  timeEnd: {
-    fontSize: 20,
-    color: 'white',
-    opacity: 0.5,
     fontWeight: 'bold',
   },
 });

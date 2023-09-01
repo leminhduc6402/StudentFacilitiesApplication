@@ -27,6 +27,7 @@ export default function App() {
           <UserProvider>
             <CourseProvider>
               <HistoryProvider>
+<<<<<<< Updated upstream
                   <SafeAreaView style={styles.container}>
                     <Routes>
                       {/* student */}
@@ -53,21 +54,47 @@ export default function App() {
                         path={routes.SCHEDULE}
                         Component={Schedule as any}
                       />
+=======
+                <SafeAreaView style={styles.container}>
+                  <Routes>
+                    {/* student */}
+                    <Route path={routes.HOME} Component={Main as any} />
+                    <Route path={routes.LOGIN} Component={Login as any} />
+                    <Route path={routes.TUITION} Component={Tuition as any} />
+                    <Route
+                      path={routes.COURSE_REGISTRATION}
+                      Component={CoursesRegistration as any}
+                    />
+                    <Route
+                      path={routes.COURSE_REGISTRATION_DETAIL}
+                      Component={CoursesRegistrationDetail as any}
+                    />
+                    <Route
+                      path={routes.SCORE_RESULT}
+                      Component={ScoreResult as any}
+                    />
+                    <Route
+                      path={routes.TEST_SCHEDULE}
+                      Component={TestSchedule as any}
+                    />
+                    <Route path={routes.SCHEDULE} Component={Schedule as any} />
+>>>>>>> Stashed changes
 
-                      {/* lecturer */}
-                      <Route
-                        path={routes.LECTURER_HOME}
-                        Component={LecturerMain as any}
-                      />
-                      <Route
-                        path={routes.LECTURER_SCORE_INP}
-                        Component={ScoreInp as any}
-                      />
-                      <Route
-                        path={routes.LECTURER_GET_CLASS}
-                        Component={GetClass as any}
-                      />
+                    {/* lecturer */}
+                    <Route
+                      path={routes.LECTURER_HOME}
+                      Component={LecturerMain as any}
+                    />
+                    <Route
+                      path={routes.LECTURER_SCORE_INP}
+                      Component={ScoreInp as any}
+                    />
+                    <Route
+                      path={routes.LECTURER_GET_CLASS}
+                      Component={GetClass as any}
+                    />
 
+<<<<<<< Updated upstream
                       {/* Both */}
                       <Route
                         path={routes.USER_PROFILE}
@@ -75,6 +102,15 @@ export default function App() {
                       />
                     </Routes>
                   </SafeAreaView>
+=======
+                    {/* Both */}
+                    <Route
+                      path={routes.USER_PROFILE}
+                      Component={UserProfile as any}
+                    />
+                  </Routes>
+                </SafeAreaView>
+>>>>>>> Stashed changes
               </HistoryProvider>
             </CourseProvider>
           </UserProvider>

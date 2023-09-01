@@ -6,7 +6,6 @@ export const initSOSY = {
     roomId: "",
     creditId: "",
     start: "",
-    end: "",
     fromTime: "",
     toTime: "",
     timeStudyOfWeek: "",

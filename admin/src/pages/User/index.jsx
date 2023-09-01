@@ -86,8 +86,6 @@ function User() {
             return;
         }
 
-        console.log(user);
-
         await AxiosAPI.post(endpoints.signup, user)
             .then(() => {
                 setAlert({
