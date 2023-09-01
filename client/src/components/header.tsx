@@ -71,13 +71,20 @@ const Header = () => {
           </TouchableOpacity>
         )}
 
-        <Image source={require('../images/user.png')} style={styles.picture} />
-        <View style={styles.textContainer}>
-          <View style={styles.logoutContainer}>
-            <Text style={styles.textUI}>{user.fullName}</Text>
+        <TouchableOpacity onPress={() => nextHistory(routes.USER_PROFILE)}>
+          <View style={styles.headerLeft}>
+            <Image
+              source={require('../images/user.png')}
+              style={styles.picture}
+            />
+            <View style={styles.textContainer}>
+              <View style={styles.logoutContainer}>
+                <Text style={styles.textUI}>{user.fullName}</Text>
+              </View>
+              <Text style={styles.textUI}>{user.username}</Text>
+            </View>
           </View>
-          <Text style={styles.textUI}>{user.username}</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.action}>
           {/* <Image source={require('../images/bell.png')} style={styles.bell} /> */}
           <TouchableOpacity onPress={handleLogout}>
@@ -104,6 +111,10 @@ const styles = StyleSheet.create({
     height: 90,
     width: '100%',
     paddingHorizontal: 20,
+  },
+  headerLeft: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   picture: {
     width: 50,

@@ -16,6 +16,7 @@ import ScoreInp from './src/views/Lecturer/ScoreInp';
 import GetClass from './src/views/Lecturer/GetClass';
 import LocalStorageProvider from './src/store/LocalStorageContext';
 import DropdownProvider from './src/store/DropdownContext/index';
+import UserProfile from './src/views/UserProfile';
 
 export default function App() {
   return (
@@ -57,6 +58,12 @@ export default function App() {
                       <Route
                         path={routes.LECTURER_GET_CLASS}
                         Component={GetClass as any}
+                      />
+
+                      {/*  */}
+                      <Route
+                        path={routes.USER_PROFILE}
+                        Component={UserProfile as any}
                       />
                     </Routes>
                   </SafeAreaView>

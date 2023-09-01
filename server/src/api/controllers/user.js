@@ -37,6 +37,35 @@ const UserController = {
       data: lecturers,
     });
   },
+  getUserProfileById: async (req, res) => {
+    const { id } = req.params;
+
+    const user = await UserModel.findById(id).select('role userCourse').lean();
+
+    const detailUser = await DetailUserModel.findOne({ userId: id })
+      .populate({
+        path: 'classId',
+        select: 'name',
+      })
+      .populate({
+        path: 'majorId',
+        select: 'name',
+      })
+      .populate({
+        path: 'departmentId',
+        select: 'name',
+      })
+      .select('-createdAt -updatedAt -__v')
+      .lean();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: {
+        ...user,
+        ...detailUser,
+      },
+    });
+  },
   update: async (req, res) => {
     const { id } = req.params;
     const { username, role, fullName, userCourse, ...dataUserDetail } =
