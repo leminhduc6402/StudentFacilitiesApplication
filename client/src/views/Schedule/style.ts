@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   timetableBar: {
     flexDirection: 'row',
     width: '100%',
+    marginTop: 4,
   },
   subject: {
     flexDirection: 'row',
