@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   subject: {
     flexDirection: 'row',
     width: '100%',
+    alignItems: 'center',
   },
   name: {
     fontSize: 20,

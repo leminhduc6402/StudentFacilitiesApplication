@@ -41,7 +41,7 @@ const SOSYController = {
     const allDateStudy = createAllDateStudyFromTime(
       data.start,
       data.totalWeek,
-      data.timeStudyOfWeek[0]
+      data.timeStudyOfWeek
     );
 
     const newSosy = await SOSYModel.create({
@@ -176,8 +176,6 @@ const SOSYController = {
       .populate('lecturerId')
       .populate('creditId');
 
-    console.log(subjectSchoolYears);
-
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
       data: subjectSchoolYears,
@@ -280,7 +278,7 @@ const SOSYController = {
     const allDateStudy = createAllDateStudyFromTime(
       data.start,
       data.totalWeek,
-      data.timeStudyOfWeek[0]
+      data.timeStudyOfWeek
     );
 
     const sosy = await SOSYModel.findByIdAndUpdate(id, {

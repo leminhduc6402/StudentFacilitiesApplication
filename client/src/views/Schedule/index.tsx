@@ -11,7 +11,7 @@ import styles from './style';
 import Header from '../../components/header';
 import { getCurrentWeek } from '../../utils/datetime';
 import useUserContext from '../../hook/useUserContext';
-import { endpoints } from '../../configs/axiosAPI';
+import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 
 export default function Schedule() {
   const [user] = useUserContext();
@@ -21,31 +21,29 @@ export default function Schedule() {
   const [activeDate, setActiveDate] = useState(() => {
     return getCurrentWeek().find((item) => item.isToday);
   });
+  const [schedule, setSchedule] = useState([]);
 
   const handleChangeDate = (value: string) => {
     setActiveDate(value);
   };
 
   const getSchedule = async () => {
-    let endpoint = `${endpoints.COURSE_REGISTER}/get-by-sy-and-lecturer/?schoolyear=${schoolyear}&lecturer=${user?.id}`;
+    let endpoint = `${endpoints.COURSE_REGISTER}/get-schedule/?user=${user.id}&date=${activeDate.date}&month=${activeDate.month}&year=${activeDate.year}`;
 
     await axiosAPI
       .get(endpoint)
       .then((res) => {
         const data = res.data.data;
-        const dataCustom = data.map((item: any) => {
-          return { label: item.name, value: item._id };
-        });
-        setSubject('');
-        setClassCurr('');
-        setSubjects(dataCustom);
+        setSchedule(data);
       })
       .catch((err) => {
         console.log(err.response.data || err.message);
       });
   };
 
-  useEffect(() => {}, [activeDate.date]);
+  useEffect(() => {
+    getSchedule();
+  }, [activeDate.date]);
 
   return (
     <View
@@ -75,35 +73,52 @@ export default function Schedule() {
         ))}
       </View>
 
-      {/* thời khóa biểu */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ marginVertical: 12, paddingHorizontal: 4 }}
       >
-        {/* tkb 1 */}
         <View>
-          <View style={styles.timetableBar}>
-            <View style={styles.timeDetail}>
-              <Text style={styles.timeStart}>7:00</Text>
-            </View>
-            <View style={styles.subjectDetail}>
-              <Text style={styles.name}>
-                Lập trình trên thiết bị di động (ITEC4417)
-              </Text>
-              <View style={styles.subject}>
-                <Text style={styles.name}>Nhóm: </Text>
-                <Text style={styles.nameDetail}>CS2001</Text>
-              </View>
-              <View style={styles.subject}>
-                <Text style={styles.name}>Phòng: </Text>
-                <Text style={styles.nameDetail}>NK. 105-371</Text>
-              </View>
-              <View style={styles.subject}>
-                <Text style={styles.name}>GV: </Text>
-                <Text style={styles.nameDetail}>Nguyễn Ngọc Hiếu</Text>
-              </View>
-            </View>
-          </View>
+          {schedule.length > 0 ? (
+            schedule.map((item: any) => {
+              return (
+                <View key={item._id} style={styles.timetableBar}>
+                  <View style={styles.timeDetail}>
+                    <Text style={styles.timeStart}>
+                      {item.subjectOfSchoolYearId?.fromTime}
+                    </Text>
+                  </View>
+                  <View style={styles.subjectDetail}>
+                    <Text style={styles.name}>
+                      {item.subjectOfSchoolYearId?.subjectId.name} (
+                      {item.subjectOfSchoolYearId?.subjectId.code})
+                    </Text>
+                    <View style={styles.subject}>
+                      <Text style={styles.name}>Lớp: </Text>
+                      <Text style={styles.nameDetail}>
+                        {item.subjectOfSchoolYearId?.classId.name}
+                      </Text>
+                    </View>
+                    <View style={styles.subject}>
+                      <Text style={styles.name}>Phòng: </Text>
+                      <Text style={styles.nameDetail}>
+                        {item.subjectOfSchoolYearId?.roomId.name}
+                      </Text>
+                    </View>
+                    <View style={styles.subject}>
+                      <Text style={styles.name}>GV: </Text>
+                      <Text style={styles.nameDetail}>
+                        {item.subjectOfSchoolYearId?.lecturerId?.fullName}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              );
+            })
+          ) : (
+            <Text style={{ textAlign: 'center', marginTop: 30 }}>
+              Không có thông tin thời khoá biểu!
+            </Text>
+          )}
         </View>
       </ScrollView>
     </View>

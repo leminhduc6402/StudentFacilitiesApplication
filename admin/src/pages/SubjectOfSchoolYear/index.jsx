@@ -53,7 +53,7 @@ function SubjectOfSchoolYear() {
             start: new Date(item.start).toISOString().slice(0, 16),
             fromTime: item.fromTime || "",
             toTime: item.toTime || "",
-            timeStudyOfWeek: item.timeStudyOfWeek,
+            timeStudyOfWeek: item.timeStudyOfWeek[0],
             totalWeek: item.totalWeek,
             timeFinalExam: new Date(item.timeFinalExam)
                 .toISOString()
@@ -79,6 +79,7 @@ function SubjectOfSchoolYear() {
         e.preventDefault();
 
         if (edit) {
+            console.log(sosy);
             await AxiosAPI.patch(`${endpoints.sosy}/${edit}`, sosy)
                 .then(() => {
                     setAlert({
