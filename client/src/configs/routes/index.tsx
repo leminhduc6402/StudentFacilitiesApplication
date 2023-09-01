@@ -6,6 +6,7 @@ export const routes = {
   COURSE_REGISTRATION_DETAIL: '/courses-registration-detail',
   SCORE_RESULT: '/score-result',
   USER_PROFILE: '/user-profile',
+  TEST_SCHEDULE: '/test-schedule',
   LECTURER_HOME: '/lecturer/home',
   LECTURER_SCORE_INP: '/lecturer/score-inp',
   LECTURER_GET_CLASS: '/lecturer/get-class',
