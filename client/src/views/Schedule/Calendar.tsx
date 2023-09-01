@@ -35,8 +35,6 @@ export default function Calendar() {
          style={styles.nextBackBtn}
        />
      </View>
-
-     
    </ScrollView>
   )
 }

@@ -18,6 +18,7 @@ import LocalStorageProvider from './src/store/LocalStorageContext';
 import DropdownProvider from './src/store/DropdownContext/index';
 import UserProfile from './src/views/UserProfile';
 import TestSchedule from './src/views/TestSchedule';
+import Schedule from './src/views/Schedule';
 
 export default function App() {
   return (
@@ -49,6 +50,10 @@ export default function App() {
                       <Route
                         path={routes.TEST_SCHEDULE}
                         Component={TestSchedule as any}
+                      />
+                      <Route
+                        path={routes.SCHEDULE}
+                        Component={Schedule as any}
                       />
 
                       {/* lecturer */}
