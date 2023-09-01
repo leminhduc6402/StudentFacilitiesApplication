@@ -84,8 +84,8 @@ const CoursesRegistration = () => {
           departmentId: currentValueBottom,
         };
 
-        console.log(currentValueBottom)
-        console.log(`${endpoints.SOSY}/departmentId/${currentValueBottom}`)
+        console.log(currentValueBottom);
+        console.log(`${endpoints.SOSY}/departmentId/${currentValueBottom}`);
         await axiosAPI
           .get(`${endpoints.SOSY}/departmentId/${currentValueBottom}`, {
             params: queryParams,
@@ -217,12 +217,12 @@ const CoursesRegistration = () => {
   return (
     <>
       <Header />
-      <DropdownPicker 
-      data={items} 
-      currentValueTop={currentValueTop}
-      setCurrentValueTop={setCurrentValueTop}
-      currentValueBottom={currentValueBottom}
-      setCurrentValueBottom={setCurrentValueBottom}
+      <DropdownPicker
+        data={items}
+        currentValueTop={currentValueTop}
+        setCurrentValueTop={setCurrentValueTop}
+        currentValueBottom={currentValueBottom}
+        setCurrentValueBottom={setCurrentValueBottom}
       />
       {/* <GetApiDropdown
               item={schoolyear}
@@ -279,16 +279,16 @@ const CoursesRegistration = () => {
                   </View>
                   <View style={styles.column}>
                     <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId.subjectId.code}
+                      {item.subjectOfSchoolYearId?.subjectId?.code}
                     </Text>
                     <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId.subjectId.name}
+                      {item.subjectOfSchoolYearId?.subjectId.name}
                     </Text>
                     <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId.classId.name}
+                      {item.subjectOfSchoolYearId?.classId.name}
                     </Text>
                     <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId.totalPrice}
+                      {item.subjectOfSchoolYearId?.totalPrice}
                     </Text>
                     <Text style={styles.value}>{item.createdAt}</Text>
                   </View>
