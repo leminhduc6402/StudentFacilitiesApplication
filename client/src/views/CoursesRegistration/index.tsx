@@ -19,6 +19,7 @@ import useCourseContext from '../../hook/useCourseContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index';
+import useLocalStorage from '../../hook/useLocalStorage'
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
@@ -29,6 +30,7 @@ const CoursesRegistration = () => {
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
+  const { dataSync, storeData, getData, removeData } = useLocalStorage();
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -38,21 +40,27 @@ const CoursesRegistration = () => {
   ];
 
   const handleListCourseRegisters = async () => {
-    const userId = user.id;
-    const queryParams = {
-      userId: userId,
-    };
+    // const userId = user.id;
+    // const queryParams = {
+    //   userId: userId,
+    // };
 
-    await axiosAPI
-      .get(`${endpoints.COURSE_REGISTER}/${userId}`, {
-        params: queryParams,
-      })
-      .then((res) => {
-        setListCourseRegisters(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data || err.message);
-      });
+    // await axiosAPI
+    // .get(`${endpoints.COURSE_REGISTER}/${userId}`, {
+    //   params: queryParams,
+    // })
+    // .then((res) => {
+    //   setListCourseRegisters(dataSync["course-register"]);
+    //   storeData("course-register", res.data.data);
+    //   getData("course-register")
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.response.data || err.message);
+    //   });
+    getData("course-register")
+    if (dataSync["course-register"] != null)
+      setListCourseRegisters(dataSync["course-register"]);
+    console.log(dataSync["course-register"])
   };
 
   useEffect(() => {
@@ -138,11 +146,10 @@ const CoursesRegistration = () => {
 
       handleListCoursesBySubjectId();
     }
-    handleListCourseRegisters();
   }, [currentValueTop, currentValueBottom]);
 
   useEffect(() => {
-    console.log(currentValueBottom);
+    handleListCourseRegisters();
   }, []);
 
   const handleCourses = (item: any) => {
@@ -210,6 +217,11 @@ const CoursesRegistration = () => {
     setSelectedRow(null);
   };
 
+  const handleApplyCourses = () => {
+    Alert.alert("Thông báo", "Xác nhận đăng ký thành công")
+    removeData("course-register")
+  }
+
   if (listCourses == null || listCourseRegisters == null) {
     return <></>;
   }
@@ -224,15 +236,6 @@ const CoursesRegistration = () => {
         currentValueBottom={currentValueBottom}
         setCurrentValueBottom={setCurrentValueBottom}
       />
-      {/* <GetApiDropdown
-              item={schoolyear}
-              list={schoolyears}
-              setItem={setSchoolyear}
-              setList={setSchoolyears}
-              endpoint={''}
-              placeholder='Chọn phương thức'
-            /> */}
-
       <ScrollView>
         <View>
           <View style={styles.container}>
@@ -241,8 +244,6 @@ const CoursesRegistration = () => {
                 Danh sách môn học mở cho đăng ký:
               </Text>
             </View>
-            {/* Chưa có server */}
-
             <View style={styles.courseContainer}>
               {listCourses.map((item: any, index) => (
                 <TouchableOpacity
@@ -267,7 +268,7 @@ const CoursesRegistration = () => {
               </Text>
             </View>
             {/* <View style={styles.flexWrapContainer}> */}
-            {listCourseRegisters.map((item: any, index) => (
+            {listCourseRegisters != null && listCourseRegisters.map((item: any, index) => (
               <View style={styles.backgroundCourseRegister} key={index}>
                 <View style={styles.containerCourses}>
                   <View style={styles.column}>
@@ -307,6 +308,18 @@ const CoursesRegistration = () => {
                 </View>
               </View>
             ))}
+            <View style={{ width: '100%', marginTop: 20 }}>
+                  <Button
+                    title={'Xác nhận'}
+                    color={'#6495ED'}
+                    buttonStyle={{
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      borderColor: '#0000FF',
+                    }}
+                    onPress={() => handleApplyCourses()}
+                  />
+                </View>
             {/* </View> */}
           </View>
         </View>

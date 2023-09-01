@@ -9,12 +9,14 @@ import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index';
+import useLocalStorage from '../../hook/useLocalStorage';
 
 const CoursesRegistrationDetail = () => {
   const [isEnabled, setEnabled] = useState(true);
   const [user, setUser] = useUserContext();
   const [course, setCourse] = useCourseContext();
   const { backHistory } = useHistoryContext();
+  const { storeData, getData } = useLocalStorage();
 
   const handleRegister = async () => {
     const dataCreate = {
@@ -26,7 +28,7 @@ const CoursesRegistrationDetail = () => {
     await axiosAPI
       .post(`${endpoints.COURSE_REGISTER}/create`, dataCreate)
       .then((res) => {
-        console.log(res.data.data);
+        console.log(res.data.data)
         // saveData('courses', res.data.data);
         showAlert('Đăng ký môn học thành công');
         checkSuccess = true;
@@ -42,6 +44,10 @@ const CoursesRegistrationDetail = () => {
         slotRemain: course.slotRemain - 1
       }
 
+      const queryParams2 = {
+        userId: user.id
+      }
+
       console.log(course._id)
 
       await axiosAPI
@@ -52,12 +58,24 @@ const CoursesRegistrationDetail = () => {
         .catch((err) => {
           console.log(err.response.data || err.message);
         })
+
+      await axiosAPI
+        .get(`${endpoints.COURSE_REGISTER}/${user.id}`, {
+          params: queryParams2
+        })
+        .then((res) => {
+          storeData("course-register", res.data.data)
+          getData("course-register")
+        })
+        .catch((err) => {
+          console.log(err.response.data || err.message);
+        })
     }
 
     backHistory()
   }
 
- 
+
 
   useEffect(() => {
     if (course.slotRemain <= 0)
