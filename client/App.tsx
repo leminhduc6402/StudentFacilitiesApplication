@@ -1,14 +1,8 @@
 // import { StatusBar } from 'expo-status-bar';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  LogBox,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
 import { routes } from './src/configs/routes';
 import { NativeRouter, Route, Link, Routes } from 'react-router-native';
+import registerNNPushToken from 'native-notify';
 import UserProvider from './src/store/UserContext';
 import CourseProvider from './src/store/CourseContext';
 import Login from './src/views/Login';
@@ -28,6 +22,7 @@ import Schedule from './src/views/Schedule';
 import ChangePassword from './src/views/ChangePassword';
 
 export default function App() {
+  registerNNPushToken(11195, 'uNJT6sWKfd4QxeT3f08dX9');
   return (
     <SafeAreaView style={styles.container}>
       <NativeRouter>
@@ -36,6 +31,13 @@ export default function App() {
             <CourseProvider>
               <HistoryProvider>
                 <SafeAreaView style={styles.container}>
+                  <StatusBar
+                    animated={true}
+                    backgroundColor='#0C56D0'
+                    barStyle='dark-content'
+                    showHideTransition='fade'
+                    hidden={false}
+                  />
                   <Routes>
                     {/* student */}
                     <Route path={routes.HOME} Component={Main as any} />
@@ -97,6 +99,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight,
   },
 });
