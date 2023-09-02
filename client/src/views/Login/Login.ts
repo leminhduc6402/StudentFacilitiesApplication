@@ -4,10 +4,9 @@ export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     width: '100%',
-
     flex: 1,
     backgroundColor: '#0C56D0',
-    padding: 20,
+    padding: 20
   },
   containerK: {
     flex: 1,
@@ -57,9 +56,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   viewTextCopyRight: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
