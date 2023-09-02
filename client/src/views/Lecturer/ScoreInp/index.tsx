@@ -100,7 +100,7 @@ function ScoreInp() {
 
     await axios
       .post(`https://app.nativenotify.com/api/indie/notification`, {
-        subID: data,
+        subID: ['1', '2'],
         appId: 11195,
         appToken: 'uNJT6sWKfd4QxeT3f08dX9',
         title: 'Demo Lecturer',

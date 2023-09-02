@@ -36,8 +36,7 @@ const Login = () => {
 
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
-    { label: 'Cán bộ-Nhân viên / Giảng viên', value: 'LECTURER' },
-    { label: 'Quản trị viên', value: 'ADMIN' },
+    { label: 'Cán bộ - Nhân viên / Giảng viên', value: 'LECTURER' },
   ];
 
   // const [username, setUsername] = useState('0000000000');

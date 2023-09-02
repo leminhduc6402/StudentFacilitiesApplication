@@ -22,7 +22,7 @@ import Schedule from './src/views/Schedule';
 import ChangePassword from './src/views/ChangePassword';
 
 export default function App() {
-  registerNNPushToken(11195, 'uNJT6sWKfd4QxeT3f08dX9');
+  // registerNNPushToken(11195, 'uNJT6sWKfd4QxeT3f08dX9');
   return (
     <SafeAreaView style={styles.container}>
       <NativeRouter>

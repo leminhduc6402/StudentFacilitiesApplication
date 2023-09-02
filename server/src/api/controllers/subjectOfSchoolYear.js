@@ -100,6 +100,8 @@ const SOSYController = {
   getAllByUserCourse: async (req, res) => {
     const { course, classId } = req.params;
 
+    console.log(course, classId);
+
     const subjectSchoolYears = await SOSYModel.find({
       userCourse: course,
     })
@@ -141,9 +143,7 @@ const SOSYController = {
   getAllByDepartmentId: async (req, res) => {
     const { departmentId } = req.params;
 
-    const subjectSchoolYears = await SOSYModel.find({
-      departmentId: departmentId,
-    })
+    const subjectSchoolYears = await SOSYModel.find({})
       .populate('subjectId')
       .populate('schoolYearId')
       .populate('classId')
@@ -151,11 +151,8 @@ const SOSYController = {
       .populate('lecturerId')
       .populate('creditId');
 
-    const departmentIdToFilter = new mongoose.Types.ObjectId(departmentId);
     const filteredArraySosy = subjectSchoolYears.filter(
-      (item) =>
-        item.subjectId.departmentId.toString() ==
-        departmentIdToFilter.toString()
+      (item) => item.subjectId.departmentId == departmentId
     );
 
     return res.status(httpStatusCodes.OK).json({
