@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/header';
 import { styles } from './CourseRegistrationDetail';
 import { Button } from '@rneui/base';
-import { axiosAPI, endpoints } from '../../configs/axiosAPI'
+import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import useCourseContext from '../../hook/useCourseContext';
 import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
@@ -22,13 +22,13 @@ const CoursesRegistrationDetail = () => {
     const dataCreate = {
       userId: user.id,
       subjectOfSchoolYearId: course._id,
-    }
+    };
     let checkSuccess = false;
 
     await axiosAPI
       .post(`${endpoints.COURSE_REGISTER}/create`, dataCreate)
       .then((res) => {
-        console.log(res.data.data)
+        console.log(res.data.data);
         // saveData('courses', res.data.data);
         showAlert('Đăng ký môn học thành công');
         checkSuccess = true;
@@ -36,19 +36,17 @@ const CoursesRegistrationDetail = () => {
       .catch((err) => {
         showAlert('Môn học này đã tồn tại!');
         console.log(err.response.data || err.message);
-      })
-    console.log(checkSuccess)
+      });
+    console.log(checkSuccess);
     if (checkSuccess) {
       const queryParams = {
         idSosy: course._id,
-        slotRemain: course.slotRemain - 1
-      }
+        slotRemain: course.slotRemain - 1,
+      };
 
       const queryParams2 = {
-        userId: user.id
-      }
-
-      console.log(course._id)
+        userId: user.id,
+      };
 
       await axiosAPI
         .patch(`${endpoints.SOSY}/slot-remain/${course._id}`, queryParams)
@@ -57,38 +55,35 @@ const CoursesRegistrationDetail = () => {
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
-        })
+        });
 
       await axiosAPI
         .get(`${endpoints.COURSE_REGISTER}/${user.id}`, {
-          params: queryParams2
+          params: queryParams2,
         })
         .then((res) => {
-          storeData("course-register", res.data.data)
-          getData("course-register")
+          storeData('course-register', res.data.data);
+          getData('course-register');
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
-        })
+        });
     }
 
-    backHistory()
-  }
-
-
+    backHistory();
+  };
 
   useEffect(() => {
-    if (course.slotRemain <= 0)
-      setEnabled(false)
-    else setEnabled(true)
-  })
+    if (course.slotRemain <= 0) setEnabled(false);
+    else setEnabled(true);
+  });
 
   const showAlert = (messages?: String | undefined) => {
     Alert.alert('Thông báo', messages?.toString());
-  }
+  };
 
   return (
-    <View >
+    <View>
       <Header />
 
       <View style={{ margin: 10 }}>
@@ -116,7 +111,10 @@ const CoursesRegistrationDetail = () => {
         </View>
         <View style={styles.containerTimeTable}>
           <View style={styles.background}>
-            <Text style={styles.timeTable}>{course.fromTime} - {course.toTime} {handleArrayTimeSchedule(course.timeStudyOfWeek[0])}</Text>
+            <Text style={styles.timeTable}>
+              {course.fromTime} - {course.toTime}{' '}
+              {handleArrayTimeSchedule(course.timeStudyOfWeek[0])}
+            </Text>
           </View>
         </View>
         <View>

@@ -19,7 +19,8 @@ import useCourseContext from '../../hook/useCourseContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
 import { handleArrayTimeSchedule } from '../../utils/datetime/index';
-import useLocalStorage from '../../hook/useLocalStorage'
+import useLocalStorage from '../../hook/useLocalStorage';
+import MyAlert from '../../components/MyAlert';
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
@@ -40,27 +41,9 @@ const CoursesRegistration = () => {
   ];
 
   const handleListCourseRegisters = async () => {
-    // const userId = user.id;
-    // const queryParams = {
-    //   userId: userId,
-    // };
-
-    // await axiosAPI
-    // .get(`${endpoints.COURSE_REGISTER}/${userId}`, {
-    //   params: queryParams,
-    // })
-    // .then((res) => {
-    //   setListCourseRegisters(dataSync["course-register"]);
-    //   storeData("course-register", res.data.data);
-    //   getData("course-register")
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response.data || err.message);
-    //   });
-    getData("course-register")
-    if (dataSync["course-register"] != null)
-      setListCourseRegisters(dataSync["course-register"]);
-    console.log(dataSync["course-register"])
+    getData('course-register');
+    if (dataSync['course-register'] != null)
+      setListCourseRegisters(dataSync['course-register']);
   };
 
   useEffect(() => {
@@ -81,19 +64,20 @@ const CoursesRegistration = () => {
             setListCourses(res.data.data);
           })
           .catch((err) => {
-            console.log(err.response.data || err.message);
+            return MyAlert({
+              message: err.response.data.message,
+            });
           });
       };
 
       handleListCourses();
     } else if (currentValueTop == 2) {
+      if (!currentValueBottom) return;
       const handleListCoursesByDepartmentId = async () => {
         const queryParams = {
           departmentId: currentValueBottom,
         };
 
-        console.log(currentValueBottom);
-        console.log(`${endpoints.SOSY}/departmentId/${currentValueBottom}`);
         await axiosAPI
           .get(`${endpoints.SOSY}/departmentId/${currentValueBottom}`, {
             params: queryParams,
@@ -102,12 +86,15 @@ const CoursesRegistration = () => {
             setListCourses(res.data.data);
           })
           .catch((err) => {
-            console.log(err.response.data || err.message);
+            return MyAlert({
+              message: err.response.data.message,
+            });
           });
       };
 
       handleListCoursesByDepartmentId();
     } else if (currentValueTop == 3) {
+      if (!currentValueBottom) return;
       const handleListCoursesByClassId = async () => {
         const queryParams = {
           classId: currentValueBottom,
@@ -121,12 +108,15 @@ const CoursesRegistration = () => {
             setListCourses(res.data.data);
           })
           .catch((err) => {
-            console.log(err.response.data || err.message);
+            return MyAlert({
+              message: err.response.data.message,
+            });
           });
       };
 
       handleListCoursesByClassId();
     } else if (currentValueTop == 4) {
+      if (!currentValueBottom) return;
       const handleListCoursesBySubjectId = async () => {
         const queryParams = {
           subjectId: currentValueBottom,
@@ -140,7 +130,9 @@ const CoursesRegistration = () => {
             setListCourses(res.data.data);
           })
           .catch((err) => {
-            console.log(err.response.data || err.message);
+            return MyAlert({
+              message: err.response.data.message,
+            });
           });
       };
 
@@ -160,18 +152,14 @@ const CoursesRegistration = () => {
   const handleRowCourses = (item: any) => {
     setSelectedRow(item);
 
-    Alert.alert(
-      'Xác nhận',
-      `Bạn có muốn xoá khóa học "${item.subjectOfSchoolYearId.subjectId.name}" không?`,
-      [
-        { text: 'Hủy', style: 'cancel', onPress: () => setSelectedRow(null) },
-        {
-          text: 'Xoá',
-          style: 'destructive',
-          onPress: () => handleDelete(item),
-        },
-      ]
-    );
+    return MyAlert({
+      title: 'Xác nhận',
+      message: `Bạn có muốn xoá khóa học "${item.subjectOfSchoolYearId?.subjectId?.name}" không?`,
+      cancelText: 'Huỷ',
+      handleCancel: () => setSelectedRow(null),
+      okText: 'Xoá',
+      handleOk: () => handleDelete(item),
+    });
   };
 
   const handleDelete = (item: any) => {
@@ -187,12 +175,15 @@ const CoursesRegistration = () => {
           params: queryParams,
         })
         .then((res) => {
-          Alert.alert('Thông báo', 'Bạn đã xoá thành công!');
-          console.log('Xoá thành công!');
           checkSuccess = true;
+          MyAlert({
+            message: 'Bạn đã xoá thành công!',
+          });
         })
         .catch((err) => {
-          console.log(err.response.data || err.message);
+          return MyAlert({
+            message: err.response.data.message,
+          });
         });
 
       if (checkSuccess) {
@@ -203,28 +194,30 @@ const CoursesRegistration = () => {
 
         await axiosAPI
           .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
-          .then((res) => {
-            console.log(res.data.data);
-          })
+          .then((res) => {})
           .catch((err) => {
-            console.log(err.response.data || err.message);
+            return MyAlert({
+              message: err.response.data.message,
+            });
           });
       }
     };
 
     handleDeleteCourseRegister();
     handleListCourseRegisters();
-    removeData("course-register");
+    removeData('course-register');
     setSelectedRow(null);
   };
 
   const handleApplyCourses = () => {
-    Alert.alert("Thông báo", "Xác nhận đăng ký thành công")
-    removeData("course-register")
-  }
+    MyAlert({
+      message: 'Xác nhận đăng ký thành công!',
+    });
+    removeData('course-register');
+  };
 
   if (listCourses == null || listCourseRegisters == null) {
-    return <></>;
+    return <Text>Loading ...</Text>;
   }
 
   return (
@@ -246,81 +239,99 @@ const CoursesRegistration = () => {
               </Text>
             </View>
             <View style={styles.courseContainer}>
-              {listCourses.map((item: any, index) => (
-                <TouchableOpacity
-                  style={styles.backgroundCourseItem}
-                  onPress={() => handleCourses(item)}
-                  key={index}
-                >
-                  <Text style={styles.courseItem}>{item.subjectId.name}</Text>
-                  <Text style={styles.courseItem}>
-                    Lớp: {item.classId.name}
-                  </Text>
-                  <Text style={styles.courseItem}>
-                    Lịch học: {item.fromTime} - {item.toTime}{' '}
-                    {handleArrayTimeSchedule(item.timeStudyOfWeek[0])}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+              {listCourses.length > 0 ? (
+                listCourses.map((item: any, index) => (
+                  <TouchableOpacity
+                    style={styles.backgroundCourseItem}
+                    onPress={() => handleCourses(item)}
+                    key={index}
+                  >
+                    <Text style={styles.courseItem}>{item.subjectId.name}</Text>
+                    <Text style={styles.courseItem}>
+                      Lớp: {item.classId.name}
+                    </Text>
+                    <Text style={styles.courseItem}>
+                      Lịch học: {item.fromTime} - {item.toTime}{' '}
+                      {handleArrayTimeSchedule(item.timeStudyOfWeek[0])}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={{ textAlign: 'center', marginTop: 20 }}>
+                  Không có thông tin môn học!
+                </Text>
+              )}
             </View>
-            <View>
+            <View
+              style={{
+                marginTop: 12,
+              }}
+            >
               <Text style={styles.titleList}>
                 Danh sách môn học đã đăng ký:
               </Text>
             </View>
             {/* <View style={styles.flexWrapContainer}> */}
-            {listCourseRegisters != null && listCourseRegisters.map((item: any, index) => (
-              <View style={styles.backgroundCourseRegister} key={index}>
-                <View style={styles.containerCourses}>
-                  <View style={styles.column}>
-                    <Text style={styles.label}>Mã MH</Text>
-                    <Text style={styles.label}>Tên môn học</Text>
-                    <Text style={styles.label}>Lớp</Text>
-                    <Text style={styles.label}>Học phí</Text>
-                    <Text style={styles.label}>Ngày đăng ký</Text>
+            {listCourseRegisters.length > 0 ? (
+              listCourseRegisters.map((item: any, index) => (
+                <View style={styles.backgroundCourseRegister} key={index}>
+                  <View style={styles.containerCourses}>
+                    <View style={styles.column}>
+                      <Text style={styles.label}>Mã MH</Text>
+                      <Text style={styles.label}>Tên môn học</Text>
+                      <Text style={styles.label}>Lớp</Text>
+                      <Text style={styles.label}>Học phí</Text>
+                      <Text style={styles.label}>Ngày đăng ký</Text>
+                    </View>
+                    <View style={styles.column}>
+                      <Text style={styles.value}>
+                        {item.subjectOfSchoolYearId?.subjectId?.code}
+                      </Text>
+                      <Text style={styles.value}>
+                        {item.subjectOfSchoolYearId?.subjectId.name}
+                      </Text>
+                      <Text style={styles.value}>
+                        {item.subjectOfSchoolYearId?.classId.name}
+                      </Text>
+                      <Text style={styles.value}>
+                        {item.subjectOfSchoolYearId?.totalPrice}
+                      </Text>
+                      <Text style={styles.value}>{item.createdAt}</Text>
+                    </View>
                   </View>
-                  <View style={styles.column}>
-                    <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId?.subjectId?.code}
-                    </Text>
-                    <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId?.subjectId.name}
-                    </Text>
-                    <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId?.classId.name}
-                    </Text>
-                    <Text style={styles.value}>
-                      {item.subjectOfSchoolYearId?.totalPrice}
-                    </Text>
-                    <Text style={styles.value}>{item.createdAt}</Text>
+                  <View style={{ width: '100%' }}>
+                    <Button
+                      title={'Xoá'}
+                      color={'#DC143C'}
+                      buttonStyle={{
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        borderColor: '#800000',
+                      }}
+                      onPress={() => handleRowCourses(item)}
+                    />
                   </View>
                 </View>
-                <View style={{ width: '100%' }}>
-                  <Button
-                    title={'Xoá'}
-                    color={'#DC143C'}
-                    buttonStyle={{
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#800000',
-                    }}
-                    onPress={() => handleRowCourses(item)}
-                  />
-                </View>
+              ))
+            ) : (
+              <Text style={{ textAlign: 'center', marginTop: 12 }}>
+                Không có thông tin môn học!
+              </Text>
+            )}
+            {listCourseRegisters.length > 0 && (
+              <View style={{ width: '100%', marginTop: 20 }}>
+                <Button
+                  title={'Xác nhận'}
+                  color={'#6495ED'}
+                  buttonStyle={{
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: '#0000FF',
+                  }}
+                  onPress={() => handleApplyCourses()}
+                />
               </View>
-            ))}
-            <View style={{ width: '100%', marginTop: 20 }}>
-                  <Button
-                    title={'Xác nhận'}
-                    color={'#6495ED'}
-                    buttonStyle={{
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#0000FF',
-                    }}
-                    onPress={() => handleApplyCourses()}
-                  />
-                </View>
+            )}
             {/* </View> */}
           </View>
         </View>

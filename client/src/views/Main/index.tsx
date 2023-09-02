@@ -43,7 +43,7 @@ const data = [
 function Main() {
   const [user, setUser] = useUserContext();
   const { nextHistory, backHistory } = useHistoryContext();
-  console.log(user);
+
   if (!user.id) {
     return <Navigate to='/login' />;
   }
