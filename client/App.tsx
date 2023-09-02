@@ -1,5 +1,12 @@
 // import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  LogBox,
+} from 'react-native';
 import { routes } from './src/configs/routes';
 import { NativeRouter, Route, Link, Routes } from 'react-router-native';
 import UserProvider from './src/store/UserContext';
