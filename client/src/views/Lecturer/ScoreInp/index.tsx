@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Button,
+} from 'react-native';
 import Header from '../../../components/header';
 import { styles } from './ScoreInp';
 import { routes } from '../../../configs/routes';
@@ -8,6 +15,7 @@ import { axiosAPI, endpoints } from '../../../configs/axiosAPI';
 import DropDownPickerCustom from '../../../components/DropdownPicker';
 import useUserContext from '../../../hook/useUserContext';
 import StudentItem from './StudentItem';
+import axios from 'axios';
 
 function ScoreInp() {
   const [user] = useUserContext();
@@ -81,6 +89,25 @@ function ScoreInp() {
       .catch((err) => {
         console.log(err.response.data || err.message);
       });
+  };
+
+  const handlePushNotify = async () => {
+    const data = studentList.map((item: any) => {
+      return item.userId._id;
+    });
+
+    console.log(data);
+
+    await axios
+      .post(`https://app.nativenotify.com/api/indie/notification`, {
+        subID: data,
+        appId: 11195,
+        appToken: 'uNJT6sWKfd4QxeT3f08dX9',
+        title: 'Demo Lecturer',
+        message: 'Demo',
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -169,6 +196,18 @@ function ScoreInp() {
               <Text style={{ textAlign: 'center', marginTop: 30 }}>
                 Chưa có sinh viên đăng ký lớp này!
               </Text>
+            )}
+            {studentList.length > 0 && (
+              <View
+                style={{
+                  marginTop: 12,
+                }}
+              >
+                <Button
+                  onPress={handlePushNotify}
+                  title='Thông báo đến lớp sinh viên'
+                ></Button>
+              </View>
             )}
           </ScrollView>
         </View>
