@@ -48,7 +48,7 @@ function UserProfile() {
     getData('touchID');
     getProfile();
   }, []);
-
+  
   useEffect(() => {
     if (dataSync['touchID']) setStateTouchID(true);
   }, [dataSync['touchID']]);

@@ -17,8 +17,10 @@
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
-    "expo": "^49.0.3",
+    "expo": "^49.0.9",
+    "expo-device": "~5.4.0",
     "expo-local-authentication": "^13.4.1",
+    "expo-notifications": "^0.20.1",
     "expo-secure-store": "^12.3.1",
     "expo-status-bar": "~1.6.0",
     "native-notify": "^3.0.6",
@@ -34,9 +36,7 @@
     "react-native-table-component": "https://github.com/slice312/react-native-table-component.git",
     "react-native-web": "~0.19.6",
     "react-router-dom": "^6.15.0",
-    "react-router-native": "^6.15.0",
-    "expo-device": "~5.4.0",
-    "expo-notifications": "~0.20.1"
+    "react-router-native": "^6.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

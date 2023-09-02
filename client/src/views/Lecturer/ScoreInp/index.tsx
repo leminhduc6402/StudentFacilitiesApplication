@@ -93,21 +93,17 @@ function ScoreInp() {
 
   const handlePushNotify = async () => {
     const data = studentList.map((item: any) => {
-      return item.userId._id;
+      return `user-${item.userId._id}`;
     });
 
     console.log(data);
 
-    await axios
-      .post(`https://app.nativenotify.com/api/indie/notification`, {
-        subID: ['1', '2'],
-        appId: 11195,
-        appToken: 'uNJT6sWKfd4QxeT3f08dX9',
-        title: 'Demo Lecturer',
-        message: 'Demo',
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    axios.post(`https://app.nativenotify.com/api/indie/notification`, {
+      appId: 11195,
+      appToken: 'uNJT6sWKfd4QxeT3f08dX9',
+      title: 'Push title here as a string',
+      body: 'Push message here as a string',
+    });
   };
 
   useEffect(() => {
