@@ -8,6 +8,9 @@ import {
   Alert,
   BackHandler,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@rneui/base';
@@ -104,8 +107,14 @@ const Login = () => {
     return () => backHandler.remove();
   }, []);
 
+
+
   return (
     <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ width: '100%', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}
+      >
       <Image
         style={styles.imageLogo}
         source={require('../../images/OU_logo.png')}
@@ -160,6 +169,7 @@ const Login = () => {
           </View>
         </TouchableOpacity>
       </View>
+
       {/* Ghi nhớ mật khẩu */}
       <Text style={{ width: '100%' }}>
         <CheckBoxCustom title='Ghi nhớ đăng nhập' color='#fff' />
@@ -175,12 +185,14 @@ const Login = () => {
           buttonStyle={{ borderRadius: 25 }}
         />
       </View>
-      <View style={styles.viewTextCopyRight}>
-        <Text style={styles.textCopyRight}>
-          © 2017 Trung tâm Quản lý Hệ thống thông tin. HCMCOU - SSO, Phiên bản
-          20220402
-        </Text>
-      </View>
+      
+        <View style={styles.viewTextCopyRight}>
+          <Text style={styles.textCopyRight}>
+            © 2017 Trung tâm Quản lý Hệ thống thông tin. HCMCOU - SSO, Phiên bản
+            20220402
+          </Text>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
