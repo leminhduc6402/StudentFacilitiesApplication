@@ -65,6 +65,7 @@ const Login = () => {
     registerIndieID(data.id, 11195, 'uNJT6sWKfd4QxeT3f08dX9');
     setUser(data);
     storeData('user', data);
+    dataSync['touchID'] ? storeData('touchID', data) : null;
 
     data.role === 'STUDENT'
       ? nextHistory(routes.HOME)
@@ -136,7 +137,7 @@ const Login = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
@@ -237,7 +238,7 @@ const Login = () => {
           </Text>
         </View>
       </KeyboardAvoidingView>
-    </ScrollView>
+    </View>
   );
 };
 
