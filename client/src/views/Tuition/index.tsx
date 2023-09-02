@@ -1,94 +1,116 @@
-import { StatusBar } from 'expo-status-bar';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import styles from './style';
+import { Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/header';
-import TuitionDetail from '../Tuition/TuitionDetail';
+import { styles } from './Tuition';
+import { Table, Row, Rows } from 'react-native-table-component';
+import GetApiDropdown from '../../components/GetApiDropdown';
+import { axiosAPI, endpoints } from '../../configs/axiosAPI';
+import useUserContext from '../../hook/useUserContext';
+import { handleDatetime } from '../../utils/datetime';
+import MyAlert from '../../components/MyAlert';
+import { handleMoneyVND } from '../../utils/money';
 
-export default function App({ navigation }: { navigation: any }) {
+const Tuition = () => {
+  const [user] = useUserContext();
+
+  const [schoolyear, setSchoolyear] = useState('');
+  const [schoolyears, setSchoolyears] = useState([]);
+  const [dataTuition, setDataTuition] = useState([]);
+  const [totalTuition, setTotalTuition] = useState(0);
+
+  const dataHead = ['Mã môn', 'Tên môn', 'Số tiền'];
+
+  const getDataSchedule = async () => {
+    let endpoint = `${endpoints.COURSE_REGISTER}/get-tuition/?user=${user?.id}&schoolyear=${schoolyear}`;
+
+    await axiosAPI
+      .get(endpoint)
+      .then((res) => {
+        const data = res.data.data;
+        let sum = 0;
+        const dataCustom = data.map((item: any) => {
+          const arr: any = [];
+          sum += parseInt(item.subjectOfSchoolYearId.totalPrice);
+          arr.push(item.subjectOfSchoolYearId.subjectId.code);
+          arr.push(item.subjectOfSchoolYearId.subjectId.name);
+          arr.push(handleMoneyVND(item.subjectOfSchoolYearId.totalPrice));
+          return arr;
+        });
+        setDataTuition(dataCustom);
+        setTotalTuition(sum);
+      })
+      .catch((err) => {
+        return MyAlert({
+          message: err.response.data.message,
+        });
+      });
+  };
+
+  useEffect(() => {
+    schoolyear.trim() ? getDataSchedule() : null;
+  }, [schoolyear]);
+
   return (
     <>
       <Header />
-      <ScrollView style={{ marginBottom: 30 }}>
-        <Text style={styles.heading}>Xem học phí</Text>
-
-        {/* 2020-2021 */}
+      <View style={styles.body}>
         <View>
-          <Text style={styles.heading2}>Năm học 2022-2023 </Text>
-          <View>
-            <TouchableOpacity
-              style={styles.rec1}
-              onPress={() => {
-                navigation.navigate('TuitionDetail');
-              }}
-            >
-              <Text style={styles.recText}>Học kì 1</Text>
-            </TouchableOpacity>
+          <Text style={styles.title}>Lịch thi</Text>
+        </View>
 
-            <TouchableOpacity style={styles.rec2}>
-              <Text style={styles.recText}>Học kì 2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.rec3}>
-              <Text style={styles.recText}>Học kì 3</Text>
-            </TouchableOpacity>
+        <View>
+          <View>
+            <GetApiDropdown
+              item={schoolyear}
+              list={schoolyears}
+              setItem={setSchoolyear}
+              setList={setSchoolyears}
+              endpoint={endpoints.SCHOOL_YEAR}
+              placeholder='Chọn học kỳ'
+            />
           </View>
         </View>
 
-        {/* 2021-2022 */}
-        <View>
-          <Text style={styles.heading2}>Năm học 2021-2022 </Text>
-          <View>
-            <TouchableOpacity
-              style={styles.rec1}
-              onPress={() => {
-                navigation.navigate('TuitionDetail');
-              }}
-            >
-              <Text style={styles.recText}>Học kì 1</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.rec2}>
-              <Text style={styles.recText}>Học kì 2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.rec3}>
-              <Text style={styles.recText}>Học kì 3</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.container}>
+          {dataTuition.length > 0 ? (
+            <>
+              <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+                <Row
+                  data={dataHead}
+                  style={styles.head}
+                  textStyle={styles.text}
+                />
+                <Rows data={dataTuition} textStyle={styles.text} />
+              </Table>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 20,
+                  paddingHorizontal: 12,
+                  alignItems: 'center',
+                }}
+              >
+                <Text>Tổng tiền:</Text>
+                <Text
+                  style={{
+                    marginLeft: 'auto',
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                  }}
+                >
+                  {handleMoneyVND(`${totalTuition}`)}
+                </Text>
+              </View>
+            </>
+          ) : (
+            <Text style={{ textAlign: 'center', marginTop: 30 }}>
+              Không có thông tin học phí!
+            </Text>
+          )}
         </View>
-
-        {/* 2022-2023 */}
-        <View>
-          <Text style={styles.heading2}>Năm học 2020-2021 </Text>
-          <View>
-            <TouchableOpacity
-              style={styles.rec1}
-              onPress={() => {
-                navigation.navigate('TuitionDetail');
-              }}
-            >
-              <Text style={styles.recText}>Học kì 1</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.rec2}>
-              <Text style={styles.recText}>Học kì 2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.rec3}>
-              <Text style={styles.recText}>Học kì 3</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-
-      <View style={styles.sumText}>
-        <Text style={styles.heading3}>Tổng cộng: </Text>
-        <Text style={styles.heading4}>88,655,465</Text>
       </View>
     </>
   );
-}
+};
+
+export default Tuition;
