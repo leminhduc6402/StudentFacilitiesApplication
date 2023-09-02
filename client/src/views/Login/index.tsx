@@ -26,6 +26,7 @@ import useHistoryContext from '../../hook/useHistoryContext';
 import useLocalStorage from '../../hook/useLocalStorage';
 import { routes } from '../../configs/routes';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { registerIndieID } from 'native-notify';
 
 const Login = () => {
   const nav = useNavigate();
@@ -62,6 +63,7 @@ const Login = () => {
   };
 
   const loginSuccess = (data: any) => {
+    registerIndieID(data.id, 11195, 'uNJT6sWKfd4QxeT3f08dX9');
     setUser(data);
     storeData('user', data);
 
@@ -135,85 +137,88 @@ const Login = () => {
     return () => backHandler.remove();
   }, []);
 
-
-
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ width: '100%', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}
+        style={{
+          width: '100%',
+          alignItems: 'center',
+          flex: 1,
+          justifyContent: 'flex-end',
+        }}
       >
-      <Image
-        style={styles.imageLogo}
-        source={require('../../images/OU_logo.png')}
-      />
-
-      <Text style={styles.title}>Đăng nhập</Text>
-      <View style={styles.dropDownPicker}>
-        <DropDownPickerCustom
-          data={listDropdown}
-          type={userType}
-          setType={setUserType}
+        <Image
+          style={styles.imageLogo}
+          source={require('../../images/OU_logo.png')}
         />
-      </View>
 
-      {/* Tài khoản */}
-      <View style={styles.viewUser}>
-        <TextInput
-          value={username}
-          onChangeText={setUsername}
-          style={styles.input}
-          placeholder='Nhập tài khoản'
-        />
-        <View style={styles.viewIcon}>
-          <Image
-            style={styles.imageIcon}
-            source={require('../../images/user.png')}
+        <Text style={styles.title}>Đăng nhập</Text>
+        <View style={styles.dropDownPicker}>
+          <DropDownPickerCustom
+            data={listDropdown}
+            type={userType}
+            setType={setUserType}
           />
         </View>
-      </View>
-      {/* Mật khẩu */}
-      <View style={styles.viewUser}>
-        <TextInput
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder='Nhập mật khẩu'
-          secureTextEntry={pwdHidden}
-        />
-        <TouchableOpacity
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-          onPress={() => setPwdHidden(!pwdHidden)}
-        >
+
+        {/* Tài khoản */}
+        <View style={styles.viewUser}>
+          <TextInput
+            value={username}
+            onChangeText={setUsername}
+            style={styles.input}
+            placeholder='Nhập tài khoản'
+          />
           <View style={styles.viewIcon}>
             <Image
               style={styles.imageIcon}
-              source={require('../../images/padlock.png')}
+              source={require('../../images/user.png')}
             />
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+        {/* Mật khẩu */}
+        <View style={styles.viewUser}>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            placeholder='Nhập mật khẩu'
+            secureTextEntry={pwdHidden}
+          />
+          <TouchableOpacity
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+            onPress={() => setPwdHidden(!pwdHidden)}
+          >
+            <View style={styles.viewIcon}>
+              <Image
+                style={styles.imageIcon}
+                source={require('../../images/padlock.png')}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      {/* Ghi nhớ mật khẩu */}
-      <Text style={{ width: '100%' }}>
-        <CheckBoxCustom title='Ghi nhớ đăng nhập' color='#fff' />
-      </Text>
+        {/* Ghi nhớ mật khẩu */}
+        <Text style={{ width: '100%' }}>
+          <CheckBoxCustom title='Ghi nhớ đăng nhập' color='#fff' />
+        </Text>
 
-      <Text style={styles.line}></Text>
+        <Text style={styles.line}></Text>
 
-      <View style={{ width: '100%', marginTop: 20 }}>
-        <Button
-          title={'Đăng nhập'}
-          color={'#00C851'}
-          onPress={handleLogin}
-          buttonStyle={{ borderRadius: 25 }}
-        />
-      </View>
-      
+        <View style={{ width: '100%', marginTop: 20 }}>
+          <Button
+            title={'Đăng nhập'}
+            color={'#00C851'}
+            onPress={handleLogin}
+            buttonStyle={{ borderRadius: 25 }}
+          />
+        </View>
+
         <View style={styles.viewTextCopyRight}>
           <Text style={styles.textCopyRight}>
             © 2017 Trung tâm Quản lý Hệ thống thông tin. HCMCOU - SSO, Phiên bản
