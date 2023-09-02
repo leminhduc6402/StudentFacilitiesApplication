@@ -25,6 +25,7 @@ import LocalStorageProvider from './src/store/LocalStorageContext';
 import UserProfile from './src/views/UserProfile';
 import TestSchedule from './src/views/TestSchedule';
 import Schedule from './src/views/Schedule';
+import ChangePassword from './src/views/ChangePassword';
 
 export default function App() {
   return (
@@ -76,6 +77,10 @@ export default function App() {
                     <Route
                       path={routes.USER_PROFILE}
                       Component={UserProfile as any}
+                    />
+                    <Route
+                      path={routes.CHANGE_PASSWORD}
+                      Component={ChangePassword as any}
                     />
                   </Routes>
                 </SafeAreaView>

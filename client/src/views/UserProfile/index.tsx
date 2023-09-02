@@ -1,13 +1,16 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 import Header from '../../components/header';
 import { styles } from './UserProfile';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import useUserContext from '../../hook/useUserContext';
 import { handleDatetime } from '../../utils/datetime';
+import useHistoryContext from '../../hook/useHistoryContext';
+import { routes } from '../../configs/routes';
 
 function UserProfile() {
   const [user] = useUserContext();
+  const { nextHistory } = useHistoryContext();
   const [profile, setProfile]: any = useState(null);
 
   const getProfile = async () => {
@@ -81,6 +84,19 @@ function UserProfile() {
                 <Text style={styles.content}>{profile.userCourse} </Text>
               </View>
             </View>
+            <TouchableOpacity
+              style={{
+                marginTop: 20,
+              }}
+            >
+              <Button
+                onPress={() => {
+                  console.log('change');
+                  nextHistory(routes.CHANGE_PASSWORD);
+                }}
+                title='Đổi mật khẩu'
+              ></Button>
+            </TouchableOpacity>
           </>
         )}
       </View>

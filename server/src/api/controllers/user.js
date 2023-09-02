@@ -6,6 +6,30 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const UserController = {
+  changePassword: async (req, res) => {
+    const { userId } = req.params;
+    const { password, newPassword } = req.body;
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) throw new ConflictError('User not found!');
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      throw new ConflictError('Password is incorrect !!!');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashed;
+    await user.save();
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+    });
+  },
   getAllUser: async (req, res) => {
     const users = await DetailUserModel.find()
       .populate({
