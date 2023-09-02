@@ -33,9 +33,26 @@ const CourseRegisterController = {
       finalResult: '',
     });
 
+    const courseRegisters = await CourseRegisterModel.find({
+      userId,
+      subjectOfSchoolYearId
+    })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        populate: {
+          path: 'subjectId',
+        },
+      })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        populate: {
+          path: 'classId',
+        },
+      });
+
     return res.status(httpStatusCodes.CREATED).json({
       status: 'success',
-      data: newCourseRegister,
+      data: courseRegisters,
     });
   },
   getAll: async (req, res) => {
@@ -146,7 +163,7 @@ const CourseRegisterController = {
         (acc, curr) =>
           acc +
           parseFloat(curr.subjectOfSchoolYearId.subjectId.credit) *
-            parseFloat(curr.score4),
+          parseFloat(curr.score4),
         0
       ) / totalCredit;
 

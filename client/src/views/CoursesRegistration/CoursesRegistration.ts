@@ -51,13 +51,23 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  labelContainer: {
+    flex: 1,
+  },
   label: {
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#fff',
+  },
+  valueContainer: {
+    flex: 1,
   },
   value: {
     marginBottom: 5,
-    color: '#fff',
+    flexWrap: 'wrap',
+    flexGrow: 1,
   },
 });

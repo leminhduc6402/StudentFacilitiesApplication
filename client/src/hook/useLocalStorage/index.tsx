@@ -86,6 +86,71 @@ function useLocalStorage() {
       });
   }
 
+  function concatData(key: string, data: any) {
+    // Get the current stored data from AsyncStorage
+    storage
+      .load({
+        key,
+        autoSync: true,
+        syncInBackground: true,
+      })
+      .then((existingData) => {
+        // Check if existingData is an array
+        if (Array.isArray(existingData)) {
+          // Concatenate the new data with the existing array
+          const updatedData = existingData.concat(data);
+
+          // Save the updated data back to AsyncStorage
+          storage.save({
+            key,
+            data: updatedData,
+            expires: null,
+          });
+
+          // Update the dataSync context
+          setDataSync({
+            ...dataSync,
+            [key]: updatedData,
+          });
+        } else {
+          console.error(`Data stored under key '${key}' is not an array.`);
+        }
+      })
+      .catch((err) => {
+        switch (err.name) {
+          case 'NotFoundError':
+            console.error(`Data not found under key '${key}'.`);
+            break;
+          case 'ExpiredError':
+            console.error(`Data expired under key '${key}'.`);
+            break;
+          default:
+            console.error(err);
+        }
+      });
+  }
+
+  function removeDataById(key: string, idToRemove: string) {
+    const currentData = dataSync[key];
+
+    if (Array.isArray(currentData)) {
+      const updatedData = currentData.filter((item) => item._id !== idToRemove);
+
+      storage.save({
+        key,
+        data: updatedData,
+        expires: null,
+      });
+
+      setDataSync({
+        ...dataSync,
+        [key]: updatedData,
+      });
+    } else {
+      console.error(`Data stored under key '${key}' is not an array.`);
+    }
+  }
+
   function removeData(key: string) {
     try {
       storage.remove({
@@ -100,7 +165,7 @@ function useLocalStorage() {
     }
   }
 
-  return { dataSync, storeData, getData, removeData };
+  return { dataSync, storeData, getData, removeDataById, removeData, concatData };
 }
 
 export default useLocalStorage;

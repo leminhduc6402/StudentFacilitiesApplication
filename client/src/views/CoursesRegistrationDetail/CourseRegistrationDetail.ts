@@ -1,7 +1,7 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
-    title:{
+    title: {
         fontSize: 20,
         fontWeight: 'bold',
     },
@@ -14,19 +14,31 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 10,
     },
+    row: {
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    labelContainer: {
+        flex: 1,
+    },
     label: {
         fontWeight: 'bold',
         marginBottom: 5,
     },
+    valueContainer: {
+        flex: 1,
+      },
     value: {
         marginBottom: 5,
+        flexWrap: 'wrap',
+        flexGrow: 1,
     },
     containerTimeTable: {
         justifyContent: 'center',
         alignItems: 'center',
     },
     background: {
-        backgroundColor: '#D9D9D9', 
+        backgroundColor: '#D9D9D9',
         padding: 17,
         borderRadius: 5,
         width: '100%',

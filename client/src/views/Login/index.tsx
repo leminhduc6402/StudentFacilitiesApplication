@@ -43,8 +43,8 @@ const Login = () => {
   // const [password, setPassword] = useState('0000000000');
   // const [userType, setUserType] = useState('LECTURER');
 
-  const [username, setUsername] = useState('2051052051');
-  const [password, setPassword] = useState('2051052051');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
@@ -96,13 +96,13 @@ const Login = () => {
     };
 
     await axiosAPI
-      .post(endpoints.LOGIN, data)
-      .then(async (res) => {
-        const data = res.data.data;
-
-        loginSuccess(data);
-      })
-      .catch((err) => {
+    .post(endpoints.LOGIN, data)
+    .then((res) => {
+      const data = res.data.data;
+      console.log(data)
+      loginSuccess(data);
+    })
+    .catch((err) => {
         console.log(err.response.data || err.message);
         return MyAlert({
           message: err.response.data.message,
