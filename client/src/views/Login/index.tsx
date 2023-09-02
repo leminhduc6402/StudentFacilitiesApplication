@@ -62,7 +62,7 @@ const Login = () => {
   };
 
   const loginSuccess = (data: any) => {
-    registerIndieID(data.id, 11195, 'uNJT6sWKfd4QxeT3f08dX9');
+    // registerIndieID(`user-${data.id}`, 11195, 'uNJT6sWKfd4QxeT3f08dX9');
     setUser(data);
     storeData('user', data);
     dataSync['touchID'] ? storeData('touchID', data) : null;

@@ -52,10 +52,10 @@ const UserController = {
   login: async (req, res) => {
     const { username, password, role } = req.body;
     const user = await UserModel.findOne({ username });
-    const detailUser = await DetailUserModel.findOne({ userId: user._id });
     if (!user) {
       throw new ConflictError('User not found !!!');
     }
+    const detailUser = await DetailUserModel.findOne({ userId: user._id });
 
     const isMatch = await bcrypt.compare(password, user.password);
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025247822647",
+    "project_id": "tienichsv-5b255",
+    "storage_bucket": "tienichsv-5b255.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025247822647:android:cd1ef7732c02f27d1f50b2",
+        "android_client_info": {
+          "package_name": "com.anvyidol.StudentFacilitiesAppcom.anvyidol.StudentFacilitiesApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025247822647-skdd6f0b9riceroo6femsfknapbvd416.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpbKtu6fggMXAIarB-AYD81czGz2ETIHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025247822647-skdd6f0b9riceroo6femsfknapbvd416.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
