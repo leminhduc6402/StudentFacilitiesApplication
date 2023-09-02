@@ -244,6 +244,38 @@ const CourseRegisterController = {
       data: courseRegisters,
     });
   },
+  getTuitionUserBySchoolYear: async (req, res) => {
+    const { schoolyear, user } = req.query;
+
+    let courseRegisters = await CourseRegisterModel.find({
+      userId: user,
+    })
+      .populate({
+        path: 'subjectOfSchoolYearId',
+        match: {
+          schoolYearId: schoolyear,
+        },
+        select: '_id subjectId totalPrice',
+        populate: [
+          {
+            path: 'subjectId',
+            model: 'Subject',
+            select: 'name code',
+          },
+        ],
+      })
+
+      .select('subjectOfSchoolYearId');
+
+    courseRegisters = courseRegisters.filter(
+      (item) => item.subjectOfSchoolYearId
+    );
+
+    return res.status(httpStatusCodes.OK).json({
+      status: 'success',
+      data: courseRegisters,
+    });
+  },
   updateScore: async (req, res) => {
     const { id } = req.params;
     const { midExamScore, finalExamScore } = req.body;
