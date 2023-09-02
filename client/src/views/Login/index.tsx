@@ -72,7 +72,9 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err.response.data || err.message);
-        return;
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 
