@@ -7,6 +7,7 @@ import GetApiDropdown from '../../components/GetApiDropdown';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import useUserContext from '../../hook/useUserContext';
 import { handleDatetime } from '../../utils/datetime';
+import MyAlert from '../../components/MyAlert';
 
 const TestSchedule = () => {
   const [user] = useUserContext();
@@ -35,7 +36,9 @@ const TestSchedule = () => {
         setDataSchedule(dataCustom);
       })
       .catch((err) => {
-        console.log(err.response.data || err.message);
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 

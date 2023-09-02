@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import DropDownPickerCustom from './DropdownPicker';
 import { axiosAPI, endpoints } from '../configs/axiosAPI';
 import { useEffect } from 'react';
+import MyAlert from './MyAlert';
 
 interface props {
   list: any;
@@ -33,7 +34,9 @@ function GetApiDropdown({
         setList(dataCustom);
       })
       .catch((err) => {
-        console.log(err.response.data || err.message);
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 

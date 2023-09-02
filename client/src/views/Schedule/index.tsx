@@ -17,6 +17,7 @@ import {
 import useUserContext from '../../hook/useUserContext';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import DropDownWeek from './DropdownWeek';
+import MyAlert from '../../components/MyAlert';
 
 function getTotalWeekList() {
   const arrTotalWeek: any = [];
@@ -38,9 +39,7 @@ function getTotalWeekList() {
 export default function Schedule() {
   const [user] = useUserContext();
 
-  const [weekCurr, setWeekCurr] = useState(() => {
-    return getCurrentWeekList();
-  });
+  const [weekCurr, setWeekCurr] = useState(getCurrentWeekList());
   const [activeDate, setActiveDate] = useState(() => {
     return getCurrentWeekList().find((item) => item.isToday);
   });
@@ -62,7 +61,9 @@ export default function Schedule() {
         setSchedule(data);
       })
       .catch((err) => {
-        console.log(err.response.data || err.message);
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 

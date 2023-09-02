@@ -22,12 +22,13 @@ import MyAlert from '../../components/MyAlert';
 import useHistoryContext from '../../hook/useHistoryContext';
 import useLocalStorage from '../../hook/useLocalStorage';
 import { routes } from '../../configs/routes';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const Login = () => {
   const nav = useNavigate();
   const { nextHistory } = useHistoryContext();
   const [user, setUser] = useUserContext();
-  const { storeData } = useLocalStorage();
+  const { dataSync, storeData, getData } = useLocalStorage();
 
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
@@ -43,6 +44,38 @@ const Login = () => {
   const [password, setPassword] = useState('2051052051');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
+
+  const onAuthenticate = () => {
+    const auth = LocalAuthentication.authenticateAsync({
+      promptMessage: 'Đăng nhập với vân tay',
+      fallbackLabel: 'Sử dụng mật khẩu',
+      cancelLabel: 'Lúc khác',
+    });
+    auth.then((res) => {
+      if (res.success) {
+        loginSuccess(dataSync['touchID']);
+      }
+    });
+  };
+
+  const loginSuccess = (data: any) => {
+    setUser(data);
+    storeData('user', data);
+
+    data.role === 'STUDENT'
+      ? nextHistory(routes.HOME)
+      : nextHistory(routes.LECTURER_HOME);
+  };
+
+  useEffect(() => {
+    getData('touchID');
+  }, []);
+
+  useEffect(() => {
+    if (dataSync['touchID']) {
+      onAuthenticate();
+    }
+  }, [dataSync['touchID']]);
 
   const login = async () => {
     if (!username || !password) {
@@ -63,12 +96,7 @@ const Login = () => {
       .then(async (res) => {
         const data = res.data.data;
 
-        setUser(data);
-        storeData('user', data);
-
-        data.role === 'STUDENT'
-          ? nextHistory(routes.HOME)
-          : nextHistory(routes.LECTURER_HOME);
+        loginSuccess(data);
       })
       .catch((err) => {
         console.log(err.response.data || err.message);

@@ -11,6 +11,7 @@ import { styles } from './scoreResult';
 import ScoreItem from './ScroreItem';
 import GetApiDropdown from '../../components/GetApiDropdown';
 import useUserContext from '../../hook/useUserContext';
+import MyAlert from '../../components/MyAlert';
 
 function ScoreResult() {
   const [user] = useUserContext();
@@ -36,7 +37,9 @@ function ScoreResult() {
         setScoreResult(data);
       })
       .catch((err) => {
-        console.log(err.response.data || err.message);
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 

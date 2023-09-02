@@ -8,6 +8,7 @@ import { handleDatetime } from '../../utils/datetime';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
+import MyAlert from '../../components/MyAlert';
 
 function ChangePassword() {
   const [user] = useUserContext();
@@ -48,15 +49,15 @@ function ChangePassword() {
         newPassword: value.newPassword,
       })
       .then((res) => {
-        Alert.alert('Thông báo!', 'Đổi mật khẩu thành công!', [
-          { text: 'OK', onPress: () => nextHistory(routes.USER_PROFILE) },
-        ]);
+        return MyAlert({
+          message: 'Đổi mật khẩu thành công!',
+          handleOk: () => nextHistory(routes.USER_PROFILE),
+        });
       })
       .catch((err) => {
-        Alert.alert(
-          'Thông báo!',
-          err.response.data.message || 'Có lỗi xảy ra! Vui lòng thử lại sau!'
-        );
+        return MyAlert({
+          message: err.response.data.message,
+        });
       });
   };
 
