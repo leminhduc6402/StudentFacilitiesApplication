@@ -214,6 +214,7 @@ const CoursesRegistration = () => {
 
     handleDeleteCourseRegister();
     handleListCourseRegisters();
+    removeData("course-register");
     setSelectedRow(null);
   };
 
