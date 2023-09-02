@@ -9,26 +9,51 @@ import {
 import React, { useEffect, useState } from 'react';
 import styles from './style';
 import Header from '../../components/header';
-import { getCurrentWeek } from '../../utils/datetime';
+import {
+  getCurrentWeekList,
+  getCurrentWeekOfYear,
+  getTotalWeekOfYear,
+} from '../../utils/datetime';
 import useUserContext from '../../hook/useUserContext';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
+import DropDownWeek from './DropdownWeek';
+
+function getTotalWeekList() {
+  const arrTotalWeek: any = [];
+  for (let index = 0; index < getTotalWeekOfYear(); index++) {
+    const fromDate = getCurrentWeekList(index + 1)[0];
+    const toDate = getCurrentWeekList(index + 1)[6];
+
+    const obj = {
+      label: `Tuần ${index + 1} (${fromDate?.date}/${fromDate?.month} - ${
+        toDate?.date
+      }/${toDate.month})`,
+      value: `${index + 1}`,
+    };
+    arrTotalWeek.push(obj);
+  }
+  return arrTotalWeek;
+}
 
 export default function Schedule() {
   const [user] = useUserContext();
+
   const [weekCurr, setWeekCurr] = useState(() => {
-    return getCurrentWeek();
+    return getCurrentWeekList();
   });
   const [activeDate, setActiveDate] = useState(() => {
-    return getCurrentWeek().find((item) => item.isToday);
+    return getCurrentWeekList().find((item) => item.isToday);
   });
   const [schedule, setSchedule] = useState([]);
+  const [weeks, setWeeks] = useState(getTotalWeekList());
+  const [week, setWeek] = useState(`${getCurrentWeekOfYear()}`);
 
   const handleChangeDate = (value: string) => {
     setActiveDate(value);
   };
 
   const getSchedule = async () => {
-    let endpoint = `${endpoints.COURSE_REGISTER}/get-schedule/?user=${user.id}&date=${activeDate.date}&month=${activeDate.month}&year=${activeDate.year}`;
+    let endpoint = `${endpoints.COURSE_REGISTER}/get-schedule/?user=${user.id}&date=${activeDate?.date}&month=${activeDate?.month}&year=${activeDate?.year}`;
 
     await axiosAPI
       .get(endpoint)
@@ -43,7 +68,14 @@ export default function Schedule() {
 
   useEffect(() => {
     getSchedule();
-  }, [activeDate.date]);
+  }, [activeDate?.date]);
+
+  useEffect(() => {
+    const data = getCurrentWeekList(parseInt(week));
+    setWeekCurr(data);
+    setActiveDate(data.find((item) => item.isToday) || {});
+    setSchedule([]);
+  }, [week]);
 
   return (
     <View
@@ -54,7 +86,22 @@ export default function Schedule() {
       <Header />
 
       {/* thứ, ngày */}
-
+      <View
+        style={{
+          paddingHorizontal: 12,
+          marginTop: 12,
+        }}
+      >
+        {weeks.length > 0 && (
+          <DropDownWeek
+            zIndex={2}
+            placeHolder={'Chọn tuần'}
+            data={weeks}
+            type={week}
+            setType={setWeek}
+          />
+        )}
+      </View>
       <View style={styles.dayBar}>
         {weekCurr.map((item, index) => (
           <View key={item.prefix} style={styles.day}>
@@ -63,7 +110,7 @@ export default function Schedule() {
               <Text
                 style={[
                   styles.dayNumber,
-                  activeDate.date == item.date && styles.activeNumber,
+                  activeDate?.date == item.date && styles.activeNumber,
                 ]}
               >
                 {item.date}

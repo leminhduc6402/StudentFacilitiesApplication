@@ -1,19 +1,59 @@
-export const getCurrentWeek = () => {
-  const WEEK_ENUM = ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
-  const curr = new Date(); // get current date
-  curr.setDate(curr.getDate() - curr.getDay());
+export const getTotalWeekOfYear = () => {
+  const year = new Date().getFullYear();
+  const januaryFirst: any = new Date(year, 0, 1);
+  const decemberThirtyFirst: any = new Date(year, 11, 31);
+  const daysPassed =
+    (decemberThirtyFirst - januaryFirst) / (24 * 60 * 60 * 1000) + 1;
+  const weeks = Math.floor(daysPassed / 7);
+  return weeks;
+};
 
-  const currentWeek = WEEK_ENUM.map((item: string, index) => {
+export const getCurrentWeekOfYear = () => {
+  const today: any = new Date();
+  const year = today.getFullYear();
+  const firstDayOfYear: any = new Date(year, 0, 1);
+  const daysPassed =
+    Math.floor((today - firstDayOfYear) / (24 * 60 * 60 * 1000)) + 1;
+  const currentWeek = Math.ceil(daysPassed / 7);
+
+  return currentWeek;
+};
+
+export const getCurrentWeekList = (
+  weekNumber: number = getCurrentWeekOfYear()
+) => {
+  if (weekNumber < 1 || weekNumber > 53) {
+    throw new Error(
+      'Số tuần không hợp lệ. Số tuần phải nằm trong khoảng từ 1 đến 53!'
+    );
+  }
+
+  const WEEK_ENUM = ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
+  const startDate = new Date(new Date().getFullYear(), 0, 1);
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+
+  const daysToAdd = (weekNumber - 1) * 7;
+  startDate.setDate(startDate.getDate() + daysToAdd);
+
+  const currentWeek = WEEK_ENUM.map((item, index) => {
+    const currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + index);
+
     const obj: any = {
       prefix: item,
-      date: new Date(curr).getDate(),
-      month: new Date(curr).getMonth() + 1,
-      year: new Date(curr).getFullYear(),
+      date: currentDate.getDate(),
+      month: currentDate.getMonth() + 1,
+      year: currentDate.getFullYear(),
     };
-    if (new Date().getDate() === new Date(curr).getDate()) {
+
+    if (
+      currentDate.getDate() === new Date().getDate() &&
+      currentDate.getMonth() === new Date().getMonth() &&
+      currentDate.getFullYear() === new Date().getFullYear()
+    ) {
       obj.isToday = true;
     }
-    curr.setDate(curr.getDate() + 1);
+
     return obj;
   });
 
