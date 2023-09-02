@@ -2,11 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     width: '100%',
     flex: 1,
     backgroundColor: '#0C56D0',
-    padding: 20
+    padding: 20,
   },
   containerK: {
     flex: 1,
@@ -15,7 +14,8 @@ export const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 35,
-    marginTop: -30,
+    // marginTop: -30,
+    textAlign: 'center',
   },
   input: {
     padding: 10,
@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
   imageLogo: {
     width: 250,
     height: 250,
+    marginTop: 40,
   },
   dropDownPicker: {
     width: '100%',
@@ -56,8 +57,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   viewTextCopyRight: {
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    marginTop: 20,
   },
   textCopyRight: {
     color: '#fff',
