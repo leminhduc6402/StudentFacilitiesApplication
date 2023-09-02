@@ -16,7 +16,7 @@ const CoursesRegistrationDetail = () => {
   const [user, setUser] = useUserContext();
   const [course, setCourse] = useCourseContext();
   const { backHistory } = useHistoryContext();
-  const { storeData, getData } = useLocalStorage();
+  const { dataSync, storeData, getData, concatData } = useLocalStorage();
 
   const handleRegister = async () => {
     const dataCreate = {
@@ -28,9 +28,11 @@ const CoursesRegistrationDetail = () => {
     await axiosAPI
       .post(`${endpoints.COURSE_REGISTER}/create`, dataCreate)
       .then((res) => {
-        console.log(res.data.data);
-        // saveData('courses', res.data.data);
+        if (dataSync["course-register"] == null)
+          storeData("course-register", res.data.data)
+        else concatData("course-register", res.data.data)
         showAlert('Đăng ký môn học thành công');
+
         checkSuccess = true;
       })
       .catch((err) => {
@@ -55,19 +57,7 @@ const CoursesRegistrationDetail = () => {
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
-        });
-
-      await axiosAPI
-        .get(`${endpoints.COURSE_REGISTER}/${user.id}`, {
-          params: queryParams2,
         })
-        .then((res) => {
-          storeData('course-register', res.data.data);
-          getData('course-register');
-        })
-        .catch((err) => {
-          console.log(err.response.data || err.message);
-        });
     }
 
     backHistory();
@@ -90,23 +80,63 @@ const CoursesRegistrationDetail = () => {
         <Text style={styles.title}>Thông tin đăng ký môn học</Text>
         <View style={styles.container}>
           <View style={styles.column}>
-            <Text style={styles.label}>Mã MH</Text>
-            <Text style={styles.label}>Tên môn học</Text>
-            <Text style={styles.label}>Lớp</Text>
-            <Text style={styles.label}>Giảng viên</Text>
-            <Text style={styles.label}>Số tín chỉ</Text>
-            <Text style={styles.label}>Số lượng</Text>
-            <Text style={styles.label}>Còn lại</Text>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Mã MH</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.subjectId.code}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Tên môn học</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.subjectId.name}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Lớp</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.classId.name}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Giảng viên</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.lecturerId.fullName}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Số tín chỉ</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.subjectId.credit}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Số lượng</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.totalSlot}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>Còn lại</Text>
+              </View>
+              <View style={styles.valueContainer}>
+                <Text style={styles.value}>{course.slotRemain}</Text>
+              </View>
+            </View>
             <Text style={styles.label}>Thời khoá biểu</Text>
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.value}>{course.subjectId.code}</Text>
-            <Text style={styles.value}>{course.subjectId.name}</Text>
-            <Text style={styles.value}>{course.classId.name}</Text>
-            <Text style={styles.value}>{course.lecturerId.fullName}</Text>
-            <Text style={styles.value}>{course.subjectId.credit}</Text>
-            <Text style={styles.value}>{course.totalSlot}</Text>
-            <Text style={styles.value}>{course.slotRemain}</Text>
           </View>
         </View>
         <View style={styles.containerTimeTable}>

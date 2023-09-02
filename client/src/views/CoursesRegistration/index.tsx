@@ -18,7 +18,7 @@ import { useState, useEffect } from 'react';
 import useCourseContext from '../../hook/useCourseContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
-import { handleArrayTimeSchedule } from '../../utils/datetime/index';
+import { handleArrayTimeSchedule, handleDatetime } from '../../utils/datetime/index';
 import useLocalStorage from '../../hook/useLocalStorage';
 import MyAlert from '../../components/MyAlert';
 
@@ -31,7 +31,9 @@ const CoursesRegistration = () => {
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
-  const { dataSync, storeData, getData, removeData } = useLocalStorage();
+  const { dataSync, storeData, removeDataById, getData, removeData } = useLocalStorage();
+
+  console.log(dataSync["course-register"])
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -194,7 +196,7 @@ const CoursesRegistration = () => {
 
         await axiosAPI
           .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
-          .then((res) => {})
+          .then((res) => { })
           .catch((err) => {
             return MyAlert({
               message: err.response.data.message,
@@ -203,9 +205,9 @@ const CoursesRegistration = () => {
       }
     };
 
+    removeDataById('course-register', item._id);
     handleDeleteCourseRegister();
     handleListCourseRegisters();
-    removeData('course-register');
     setSelectedRow(null);
   };
 
@@ -277,26 +279,46 @@ const CoursesRegistration = () => {
                 <View style={styles.backgroundCourseRegister} key={index}>
                   <View style={styles.containerCourses}>
                     <View style={styles.column}>
-                      <Text style={styles.label}>Mã MH</Text>
-                      <Text style={styles.label}>Tên môn học</Text>
-                      <Text style={styles.label}>Lớp</Text>
-                      <Text style={styles.label}>Học phí</Text>
-                      <Text style={styles.label}>Ngày đăng ký</Text>
-                    </View>
-                    <View style={styles.column}>
-                      <Text style={styles.value}>
-                        {item.subjectOfSchoolYearId?.subjectId?.code}
-                      </Text>
-                      <Text style={styles.value}>
-                        {item.subjectOfSchoolYearId?.subjectId.name}
-                      </Text>
-                      <Text style={styles.value}>
-                        {item.subjectOfSchoolYearId?.classId.name}
-                      </Text>
-                      <Text style={styles.value}>
-                        {item.subjectOfSchoolYearId?.totalPrice}
-                      </Text>
-                      <Text style={styles.value}>{item.createdAt}</Text>
+                      <View style={styles.row}>
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>Mã MH</Text>
+                        </View>
+                        <View style={styles.valueContainer}>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.subjectId?.code}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.row}>
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>Tên môn học</Text>
+                        </View>
+                        <View style={styles.valueContainer}>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.subjectId.name}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.row}>
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>Lớp</Text>
+                        </View>
+                        <View style={styles.valueContainer}>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.classId.name}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.row}>
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>Học phí</Text>
+                        </View>
+                        <View style={styles.valueContainer}>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.totalPrice}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.row}>
+                        <View style={styles.labelContainer}>
+                          <Text style={styles.label}>Ngày đăng ký</Text>
+                        </View>
+                        <View style={styles.valueContainer}>
+                          <Text style={styles.value}>{handleDatetime(item.createdAt)}</Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                   <View style={{ width: '100%' }}>

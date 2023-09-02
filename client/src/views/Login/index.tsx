@@ -43,8 +43,8 @@ const Login = () => {
   // const [password, setPassword] = useState('0000000000');
   // const [userType, setUserType] = useState('LECTURER');
 
-  const [username, setUsername] = useState('2051052051');
-  const [password, setPassword] = useState('2051052051');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
