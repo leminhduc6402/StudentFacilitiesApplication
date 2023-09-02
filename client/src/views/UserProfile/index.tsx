@@ -7,22 +7,51 @@ import useUserContext from '../../hook/useUserContext';
 import { handleDatetime } from '../../utils/datetime';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
+import useBiometricContext from '../../hook/useBiometricContext';
+import useLocalStorage from '../../hook/useLocalStorage';
+import MyAlert from '../../components/MyAlert';
 
 function UserProfile() {
   const [user] = useUserContext();
   const { nextHistory } = useHistoryContext();
+  const [isBiometricSupport] = useBiometricContext();
+  const { dataSync, storeData, removeData, getData } = useLocalStorage();
+
   const [profile, setProfile]: any = useState(null);
+  const [stateTouchID, setStateTouchID] = useState<boolean>(false);
 
   const getProfile = async () => {
     await axiosAPI
       .get(`${endpoints.USER}/get-profile/${user.id}`)
       .then((res) => setProfile(res.data.data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        return MyAlert({
+          message: err.response.data.message,
+        });
+      });
+  };
+
+  const handleTouchID = () => {
+    setStateTouchID(!stateTouchID);
   };
 
   useEffect(() => {
+    if (stateTouchID) {
+      storeData('touchID', user);
+    }
+    if (!stateTouchID) {
+      removeData('touchID');
+    }
+  }, [stateTouchID]);
+
+  useEffect(() => {
+    getData('touchID');
     getProfile();
   }, []);
+
+  useEffect(() => {
+    if (dataSync['touchID']) setStateTouchID(true);
+  }, [dataSync['touchID']]);
 
   return (
     <View>
@@ -91,12 +120,23 @@ function UserProfile() {
             >
               <Button
                 onPress={() => {
-                  console.log('change');
                   nextHistory(routes.CHANGE_PASSWORD);
                 }}
                 title='Đổi mật khẩu'
               ></Button>
             </TouchableOpacity>
+            {isBiometricSupport && (
+              <TouchableOpacity
+                style={{
+                  marginTop: 20,
+                }}
+              >
+                <Button
+                  onPress={handleTouchID}
+                  title={`Touch ID: ${stateTouchID ? 'Bật' : 'Tắt'}`}
+                ></Button>
+              </TouchableOpacity>
+            )}
           </>
         )}
       </View>
