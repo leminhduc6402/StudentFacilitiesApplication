@@ -10,17 +10,21 @@ import { routes } from '../../configs/routes';
 import useBiometricContext from '../../hook/useBiometricContext';
 import useLocalStorage from '../../hook/useLocalStorage';
 import MyAlert from '../../components/MyAlert';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 function UserProfile() {
   const [user] = useUserContext();
   const { nextHistory } = useHistoryContext();
   const [isBiometricSupport] = useBiometricContext();
+  const [loading, setLoading] = useLoadingContext();
   const { dataSync, storeData, removeData, getData } = useLocalStorage();
 
   const [profile, setProfile]: any = useState(null);
   const [stateTouchID, setStateTouchID] = useState<boolean>(false);
 
   const getProfile = async () => {
+    if (loading) return;
+    setLoading(true);
     await axiosAPI
       .get(`${endpoints.USER}/get-profile/${user.id}`)
       .then((res) => setProfile(res.data.data))
@@ -28,7 +32,8 @@ function UserProfile() {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleTouchID = () => {
@@ -48,7 +53,7 @@ function UserProfile() {
     getData('touchID');
     getProfile();
   }, []);
-  
+
   useEffect(() => {
     if (dataSync['touchID']) setStateTouchID(true);
   }, [dataSync['touchID']]);

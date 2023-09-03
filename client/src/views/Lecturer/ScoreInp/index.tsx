@@ -16,6 +16,7 @@ import DropDownPickerCustom from '../../../components/DropdownPicker';
 import useUserContext from '../../../hook/useUserContext';
 import StudentItem from './StudentItem';
 import axios from 'axios';
+import * as Notifications from 'expo-notifications';
 
 function ScoreInp() {
   const [user] = useUserContext();
@@ -92,17 +93,19 @@ function ScoreInp() {
   };
 
   const handlePushNotify = async () => {
-    const data = studentList.map((item: any) => {
-      return `user-${item.userId._id}`;
-    });
+    const subjectNoti: any = subjects.find(
+      (item: any) => item.value == subject
+    );
+    const classNoti: any = classes.find((item: any) => item.value == classCurr);
 
-    console.log(data);
-
-    axios.post(`https://app.nativenotify.com/api/indie/notification`, {
-      appId: 11195,
-      appToken: 'uNJT6sWKfd4QxeT3f08dX9',
-      title: 'Push title here as a string',
-      body: 'Push message here as a string',
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Có điểm, có điểm! 📬',
+        body: `Lớp ${subjectNoti?.label} - ${classNoti?.label} vừa cập nhật điểm!`,
+        data: {},
+        sound: 'default',
+      },
+      trigger: null,
     });
   };
 

@@ -3,14 +3,11 @@ import {
   Text,
   Image,
   TextInput,
-  StyleSheet,
-  Dimensions,
   Alert,
   BackHandler,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@rneui/base';
@@ -18,21 +15,20 @@ import CheckBoxCustom from '../../components/CheckBox';
 import DropDownPickerCustom from '../../components/DropdownPicker';
 import { styles } from '../Login/Login';
 import { dataDropdown } from '../../views/Login/data';
-import { useNavigate } from 'react-router-native';
 import useUserContext from '../../hook/useUserContext';
 import { endpoints, axiosAPI } from '../../configs/axiosAPI';
 import MyAlert from '../../components/MyAlert';
 import useHistoryContext from '../../hook/useHistoryContext';
 import useLocalStorage from '../../hook/useLocalStorage';
-import { routes } from '../../configs/routes';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { registerIndieID } from 'native-notify';
+import { routes } from '../../configs/routes';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 const Login = () => {
-  const nav = useNavigate();
   const { nextHistory } = useHistoryContext();
   const [user, setUser] = useUserContext();
   const { dataSync, storeData, getData } = useLocalStorage();
+  const [loading, setLoading] = useLoadingContext();
 
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
@@ -43,8 +39,8 @@ const Login = () => {
   // const [password, setPassword] = useState('0000000000');
   // const [userType, setUserType] = useState('LECTURER');
 
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [username, setUsername] = useState('2051052051');
+  const [password, setPassword] = useState('2051052051');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
@@ -83,6 +79,8 @@ const Login = () => {
   }, [dataSync['touchID']]);
 
   const login = async () => {
+    if (loading) return;
+
     if (!username || !password) {
       return MyAlert({
         title: 'Lỗi',
@@ -96,6 +94,7 @@ const Login = () => {
       role: userType,
     };
 
+    setLoading(true);
     await axiosAPI
       .post(endpoints.LOGIN, data)
       .then(async (res) => {
@@ -107,7 +106,8 @@ const Login = () => {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleLogin = () => {

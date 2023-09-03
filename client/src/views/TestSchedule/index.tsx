@@ -8,9 +8,11 @@ import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import useUserContext from '../../hook/useUserContext';
 import { handleDatetime } from '../../utils/datetime';
 import MyAlert from '../../components/MyAlert';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 const TestSchedule = () => {
   const [user] = useUserContext();
+  const [loading, setLoading] = useLoadingContext();
 
   const [schoolyear, setSchoolyear] = useState('');
   const [schoolyears, setSchoolyears] = useState([]);
@@ -19,8 +21,10 @@ const TestSchedule = () => {
   const dataHead = ['Mã môn', 'Tên môn', 'Giờ thi', 'Phòng thi'];
 
   const getDataSchedule = async () => {
+    if (loading) return;
     let endpoint = `${endpoints.COURSE_REGISTER}/get-test-schedule/?user=${user?.id}&schoolyear=${schoolyear}`;
 
+    setLoading(true);
     await axiosAPI
       .get(endpoint)
       .then((res) => {
@@ -39,7 +43,8 @@ const TestSchedule = () => {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

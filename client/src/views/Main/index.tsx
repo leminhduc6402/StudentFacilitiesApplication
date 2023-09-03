@@ -57,7 +57,11 @@ function Main() {
       <Header />
 
       <View style={{ width: '100%' }}>
-        <View>
+        <View
+          style={{
+            marginTop: 16,
+          }}
+        >
           <Text style={styles.heading}>Tính năng</Text>
         </View>
 
@@ -139,8 +143,22 @@ function Main() {
       </View>
 
       <View style={{ flex: 1 }}>
-        <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 4,
+            marginTop: 16,
+          }}
+        >
           <Text style={styles.heading}>Thông báo</Text>
+          <Text
+            style={{
+              textAlignVertical: 'bottom',
+            }}
+          >
+            (Đang phát triển)
+          </Text>
         </View>
 
         <View

@@ -9,10 +9,13 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
 import MyAlert from '../../components/MyAlert';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 function ChangePassword() {
   const [user] = useUserContext();
-  const { nextHistory } = useHistoryContext();
+  const [loading, setLoading] = useLoadingContext();
+  const { nextHistory, backHistory } = useHistoryContext();
+
   const [value, setValue] = useState({
     password: '',
     newPassword: '',
@@ -30,6 +33,7 @@ function ChangePassword() {
   };
 
   const handleChangePassword = async () => {
+    if (loading) return;
     const check =
       value.password.length >= 10 &&
       value.newPassword.length >= 10 &&
@@ -43,6 +47,7 @@ function ChangePassword() {
       return Alert.alert('Thông báo!', 'Mật khẩu nhập lại không chính xác!');
     }
 
+    setLoading(true);
     await axiosAPI
       .patch(endpoints.USER + `/change-password/${user.id}`, {
         password: value.password,
@@ -51,14 +56,15 @@ function ChangePassword() {
       .then((res) => {
         return MyAlert({
           message: 'Đổi mật khẩu thành công!',
-          handleOk: () => nextHistory(routes.USER_PROFILE),
+          handleOk: () => backHistory(),
         });
       })
       .catch((err) => {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
