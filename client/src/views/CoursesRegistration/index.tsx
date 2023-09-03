@@ -24,6 +24,7 @@ import {
 } from '../../utils/datetime/index';
 import useLocalStorage from '../../hook/useLocalStorage';
 import MyAlert from '../../components/MyAlert';
+import { handleMoneyVND } from '../../utils/money'
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
@@ -34,8 +35,9 @@ const CoursesRegistration = () => {
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
-  const { dataSync, storeData, removeDataById, getData, removeData } =
-    useLocalStorage();
+  const { dataSync, storeData, removeDataById, getData, removeData } = useLocalStorage();
+
+  console.log(dataSync["course-register"])
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -316,9 +318,7 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Học phí</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>
-                            {item.subjectOfSchoolYearId?.totalPrice}
-                          </Text>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.totalPrice}</Text>
                         </View>
                       </View>
                       <View style={styles.row}>
