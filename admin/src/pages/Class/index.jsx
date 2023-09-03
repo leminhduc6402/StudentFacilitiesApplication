@@ -27,6 +27,11 @@ function Class() {
     };
 
     const handleDelete = async (id) => {
+        const confirm = window.confirm(
+            "Hành động này có thể ảnh hưởng đến các dữ liệu liên quan, bạn có chắc chắn xoá?"
+        );
+
+        if (!confirm) return;
         await AxiosAPI.delete(`${endpoints.class}/${id}`)
             .then(() => {
                 setAlert({
