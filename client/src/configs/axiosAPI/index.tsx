@@ -14,7 +14,7 @@ const endpoints = {
 
 const axiosAPI = axios.create({
   // baseURL: 'http://10.0.2.2:8080/api',
-  baseURL: 'http://192.168.1.104:8080/api',
+  baseURL: 'https://tienichsv.onrender.com/api',
 });
 
 export { endpoints, axiosAPI };
