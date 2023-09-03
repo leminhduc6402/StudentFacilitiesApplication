@@ -46,14 +46,10 @@ const CoursesRegistrationDetail = () => {
         slotRemain: course.slotRemain - 1,
       };
 
-      const queryParams2 = {
-        userId: user.id,
-      };
-
       await axiosAPI
         .patch(`${endpoints.SOSY}/slot-remain/${course._id}`, queryParams)
         .then((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
