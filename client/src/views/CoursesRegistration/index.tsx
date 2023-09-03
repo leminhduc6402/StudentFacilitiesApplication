@@ -39,7 +39,7 @@ const CoursesRegistration = () => {
   const { nextHistory } = useHistoryContext();
   const { dataSync, storeData, removeDataById, getData, removeData } = useLocalStorage();
 
-  console.log(dataSync["course-register"])
+  // console.log(dataSync["course-register"])
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -48,10 +48,13 @@ const CoursesRegistration = () => {
     { label: 'Lọc theo môn học', value: 4 },
   ];
 
-  const handleListCourseRegisters = async () => {
+  const handleListCourseRegisters = () => {
     getData('course-register');
-    if (dataSync['course-register'] != null)
+    if (dataSync['course-register'] != null) {
       setListCourseRegisters(dataSync['course-register']);
+    } else {
+      setListCourseRegisters([])
+    }
   };
 
   useEffect(() => {
@@ -150,15 +153,12 @@ const CoursesRegistration = () => {
     }
   }, [currentValueTop, currentValueBottom]);
 
-  useEffect(() => {
-    handleListCourseRegisters();
-  }, []);
-
+  
   const handleCourses = (item: any) => {
     setCourse(item);
     nextHistory(routes.COURSE_REGISTRATION_DETAIL);
   };
-
+  
   const handleRowCourses = (item: any) => {
     setSelectedRow(item);
 
@@ -171,7 +171,7 @@ const CoursesRegistration = () => {
       handleOk: () => handleDelete(item),
     });
   };
-
+  
   const handleDelete = (item: any) => {
     const handleDeleteCourseRegister = async () => {
       let checkSuccess = false;
@@ -211,14 +211,18 @@ const CoursesRegistration = () => {
               message: err.response.data.message,
             });
           }).finally(() => setLoading(false));
-      }
+        }
     };
-
+    
     removeDataById('course-register', item._id);
+    getData('course-register');
     handleDeleteCourseRegister();
-    handleListCourseRegisters();
     setSelectedRow(null);
   };
+  
+  useEffect(() => {
+    handleListCourseRegisters();
+  }, [dataSync['course-register']]);
 
   const handleApplyCourses = () => {
     MyAlert({
@@ -230,7 +234,7 @@ const CoursesRegistration = () => {
   if (listCourses == null || listCourseRegisters == null) {
     return <Text>Loading ...</Text>;
   }
-
+  
   return (
     <>
       <Header />
@@ -240,7 +244,7 @@ const CoursesRegistration = () => {
         setCurrentValueTop={setCurrentValueTop}
         currentValueBottom={currentValueBottom}
         setCurrentValueBottom={setCurrentValueBottom}
-      />
+        />
       <ScrollView>
         <View>
           <View style={styles.container}>
@@ -257,11 +261,11 @@ const CoursesRegistration = () => {
                     onPress={() => handleCourses(item)}
                     key={index}
                   >
-                    <Text style={styles.courseItem}>{item.subjectId.name}</Text>
-                    <Text style={styles.courseItem}>
+                    <Text style={styles.courseItem} numberOfLines={2} ellipsizeMode="tail">{item.subjectId.name}</Text>
+                    <Text style={styles.courseItem} numberOfLines={1} ellipsizeMode="tail">
                       Lớp: {item.classId.name}
                     </Text>
-                    <Text style={styles.courseItem}>
+                    <Text style={styles.courseItem} numberOfLines={2} ellipsizeMode="tail">
                       Lịch học: {item.fromTime} - {item.toTime}{' '}
                       {handleArrayTimeSchedule(item.timeStudyOfWeek[0])}
                     </Text>
