@@ -76,8 +76,8 @@ const UserController = {
         fullName: user.fullName,
         studentCode: user.studentCode,
         userCourse: user.userCourse,
-        departmentId: detailUser.departmentId,
-        classId: detailUser.classId,
+        departmentId: detailUser?.departmentId,
+        classId: detailUser?.classId,
       },
     });
   },
