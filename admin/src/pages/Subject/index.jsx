@@ -128,110 +128,135 @@ function Subject() {
     };
 
     return (
-        <div>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                padding: "12px",
+            }}
+        >
             <h2>Subject</h2>
-            <Table>
-                <thead className="text-center">
-                    <tr>
-                        <th>#</th>
-                        <th>Department</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Credit</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody className="text-center">
-                    {subjects?.map((item, index) => {
-                        return (
-                            <tr key={item._id}>
-                                <td>{index + 1}</td>
-                                <td>{item.departmentId?.name}</td>
-                                <td>{item.code}</td>
-                                <td>{item.name}</td>
-                                <td>{item.credit}</td>
-                                <td>
-                                    <Button
-                                        onClick={() => handleEdit(item)}
-                                        className="mx-2"
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        onClick={() => handleDelete(item._id)}
-                                        variant="outline-danger"
-                                    >
-                                        Delete
-                                    </Button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-
-            <h2
-                onClick={() => {
-                    setEdit(null);
-                    setSubject({
-                        departmentId: "",
-                        name: "",
-                        code: "",
-                        creditCount: 2,
-                    });
+            <div
+                style={{
+                    overflowY: "scroll",
                 }}
             >
-                {edit ? "Edit mode" : "Create mode"}
-            </h2>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="flex-fill">
-                    <Form.Select
-                        value={subject.departmentId}
-                        onChange={(e) =>
-                            handleChange(e.target.value, "departmentId")
-                        }
+                <Table>
+                    <thead className="text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Department</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Credit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-center">
+                        {subjects?.map((item, index) => {
+                            return (
+                                <tr key={item._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.departmentId?.name}</td>
+                                    <td>{item.code}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.credit}</td>
+                                    <td>
+                                        <Button
+                                            onClick={() => handleEdit(item)}
+                                            className="mx-2"
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                handleDelete(item._id)
+                                            }
+                                            variant="outline-danger"
+                                        >
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </Table>
+            </div>
+
+            <div style={{ flex: 1 }}>
+                <h2
+                    onClick={() => {
+                        setEdit(null);
+                        setSubject({
+                            departmentId: "",
+                            name: "",
+                            code: "",
+                            creditCount: 2,
+                        });
+                    }}
+                >
+                    {edit ? "Edit mode" : "Create mode"}
+                </h2>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="flex-fill">
+                        <Form.Select
+                            value={subject.departmentId}
+                            onChange={(e) =>
+                                handleChange(e.target.value, "departmentId")
+                            }
+                        >
+                            <option value={0}>Department</option>
+
+                            {departments.map((item) => (
+                                <option key={item._id} value={item._id}>
+                                    {item.name}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+                    <Form.Group className="flex-fill mt-2">
+                        <Form.Control
+                            value={subject.name}
+                            onChange={(e) =>
+                                handleChange(e.target.value, "name")
+                            }
+                            type="text"
+                            placeholder="Enter name here ..."
+                        />
+                    </Form.Group>
+                    <Form.Group className="flex-fill d-flex mt-2 gap-2">
+                        <Form.Control
+                            value={subject.code}
+                            onChange={(e) =>
+                                handleChange(e.target.value, "code")
+                            }
+                            maxLength={8}
+                            type="text"
+                            placeholder="Enter code here ... (6 characters)"
+                        />
+                        <Form.Control
+                            value={subject.creditCount}
+                            onChange={(e) =>
+                                handleChange(e.target.value, "creditCount")
+                            }
+                            min={2}
+                            max={4}
+                            type="number"
+                            placeholder="Credit count ..."
+                        />
+                    </Form.Group>
+
+                    <Button
+                        className="w-100 mt-2"
+                        variant="primary"
+                        type="submit"
                     >
-                        <option value={0}>Department</option>
-
-                        {departments.map((item) => (
-                            <option key={item._id} value={item._id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group className="flex-fill mt-2">
-                    <Form.Control
-                        value={subject.name}
-                        onChange={(e) => handleChange(e.target.value, "name")}
-                        type="text"
-                        placeholder="Enter name here ..."
-                    />
-                </Form.Group>
-                <Form.Group className="flex-fill d-flex mt-2 gap-2">
-                    <Form.Control
-                        value={subject.code}
-                        onChange={(e) => handleChange(e.target.value, "code")}
-                        maxLength={8}
-                        type="text"
-                        placeholder="Enter code here ... (6 characters)"
-                    />
-                    <Form.Control
-                        value={subject.creditCount}
-                        onChange={(e) =>
-                            handleChange(e.target.value, "creditCount")
-                        }
-                        min={2}
-                        max={4}
-                        type="number"
-                        placeholder="Credit count ..."
-                    />
-                </Form.Group>
-
-                <Button className="w-100 mt-2" variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
+                        Submit
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 }

@@ -8,8 +8,11 @@ import { useEffect, useState } from 'react';
 import { axiosAPI, endpoints } from '../../../configs/axiosAPI';
 import CourseItem from './ScroreItem';
 import GetApiDropdown from '../../../components/GetApiDropdown';
+import useLoadingContext from '../../../hook/useLoadingContext';
 
 function GetClass() {
+  const [loading, setLoading] = useLoadingContext();
+
   const [schoolyears, setSchoolyears] = useState([]);
   const [schoolyear, setSchoolyear] = useState('');
   const [departments, setDepartments] = useState([]);
@@ -25,12 +28,16 @@ function GetClass() {
   }
 
   const getListCourse = async () => {
+    if (loading) return;
+
+    setLoading(true);
     await axiosAPI
       .get(
         `${endpoints.SOSY}/sosy-without-lecturer/?schoolyear=${schoolyear}&department=${department}`
       )
       .then((res) => setListCourse(res.data.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

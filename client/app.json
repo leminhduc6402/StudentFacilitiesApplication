@@ -16,12 +16,12 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.devaccount.tienichsv",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./google-services.json",
-      "package": "com.anvyidol.StudentFacilitiesApp"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,15 +30,6 @@
       "eas": {
         "projectId": "bce88816-ada4-4cb5-a4be-1b80b8e54cb6"
       }
-    },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./local/assets/bell.png",
-          "color": "#ffffff"
-        }
-      ]
-    ]
+    }
   }
 }
