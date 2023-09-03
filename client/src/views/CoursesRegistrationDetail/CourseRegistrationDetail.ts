@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     background: {
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#BBB',
         padding: 17,
         borderRadius: 5,
         width: '100%',
@@ -46,8 +46,8 @@ export const styles = StyleSheet.create({
     },
     timeTable: {
         color: '#fff',
-        fontSize: 13,
-        // fontWeight: 'bold',
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     text: {
         fontSize: 24,
