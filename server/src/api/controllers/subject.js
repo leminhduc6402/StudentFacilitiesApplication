@@ -31,7 +31,9 @@ const SubjectController = {
     });
   },
   getAll: async (req, res) => {
-    const subjects = await SubjectModel.find().populate('departmentId');
+    const subjects = await SubjectModel.find()
+      .populate('departmentId')
+      .sort({ name: 1 });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',

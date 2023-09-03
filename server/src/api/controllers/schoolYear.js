@@ -25,7 +25,7 @@ const SchoolYearController = {
     });
   },
   getAll: async (req, res) => {
-    const schoolyears = await SchoolYearModel.find();
+    const schoolyears = await SchoolYearModel.find().sort();
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
