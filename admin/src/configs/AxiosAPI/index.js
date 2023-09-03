@@ -15,7 +15,7 @@ const endpoints = {
 };
 
 const AxiosAPI = axios.create({
-    baseURL: `${import.meta.env.VITE_SERVER_URL}/api`,
+    baseURL: `${import.meta.env.VITE_SERVER_URL}`,
 });
 
 export { AxiosAPI, endpoints };
