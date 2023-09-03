@@ -5,4 +5,4 @@
 
 ## Documentation
 
-You can find the documentation [here]([https://app.gitbook.com/o/uKg82FX4kCfcI6tlls5d/s/kllzzOCODIKXAV65b9BN/](https://thahtambs-organization.gitbook.io/ung-dung-tien-ich-sinh-vien/)https://thahtambs-organization.gitbook.io/ung-dung-tien-ich-sinh-vien/).
+You can find the documentation [here](https://thahtambs-organization.gitbook.io/ung-dung-tien-ich-sinh-vien/).
