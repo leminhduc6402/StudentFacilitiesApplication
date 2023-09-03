@@ -17,9 +17,11 @@ import useUserContext from '../../../hook/useUserContext';
 import StudentItem from './StudentItem';
 import axios from 'axios';
 import * as Notifications from 'expo-notifications';
+import useLoadingContext from '../../../hook/useLoadingContext';
 
 function ScoreInp() {
   const [user] = useUserContext();
+  const [loading, setLoading] = useLoadingContext();
 
   const [schoolyears, setSchoolyears] = useState([]);
   const [schoolyear, setSchoolyear] = useState('');
@@ -66,8 +68,11 @@ function ScoreInp() {
   };
 
   const getStudentList = async () => {
+    if (loading) return;
+
     let endpoint = `${endpoints.COURSE_REGISTER}/find-by-lecturer/?lecturer=${user?.id}&schoolyear=${schoolyear}&classCurr=${classCurr}&subject=${subject}`;
 
+    setLoading(true);
     await axiosAPI
       .get(endpoint)
       .then((res) => {
@@ -89,7 +94,8 @@ function ScoreInp() {
       })
       .catch((err) => {
         console.log(err.response.data || err.message);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const handlePushNotify = async () => {
@@ -102,7 +108,6 @@ function ScoreInp() {
       content: {
         title: 'Có điểm, có điểm! 📬',
         body: `Lớp ${subjectNoti?.label} - ${classNoti?.label} vừa cập nhật điểm!`,
-        data: {},
         sound: 'default',
       },
       trigger: null,
