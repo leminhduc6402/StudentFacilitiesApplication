@@ -18,6 +18,7 @@ import useUserContext from '../../hook/useUserContext';
 import { axiosAPI, endpoints } from '../../configs/axiosAPI';
 import DropDownWeek from './DropdownWeek';
 import MyAlert from '../../components/MyAlert';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 function getTotalWeekList() {
   const arrTotalWeek: any = [];
@@ -38,6 +39,7 @@ function getTotalWeekList() {
 
 export default function Schedule() {
   const [user] = useUserContext();
+  const [loading, setLoading] = useLoadingContext();
 
   const [weekCurr, setWeekCurr] = useState(getCurrentWeekList());
   const [activeDate, setActiveDate] = useState(() => {
@@ -52,8 +54,10 @@ export default function Schedule() {
   };
 
   const getSchedule = async () => {
+    if (loading) return;
     let endpoint = `${endpoints.COURSE_REGISTER}/get-schedule/?user=${user.id}&date=${activeDate?.date}&month=${activeDate?.month}&year=${activeDate?.year}`;
 
+    setLoading(true);
     await axiosAPI
       .get(endpoint)
       .then((res) => {
@@ -64,7 +68,8 @@ export default function Schedule() {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

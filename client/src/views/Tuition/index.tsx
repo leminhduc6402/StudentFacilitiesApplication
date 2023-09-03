@@ -9,9 +9,11 @@ import useUserContext from '../../hook/useUserContext';
 import { handleDatetime } from '../../utils/datetime';
 import MyAlert from '../../components/MyAlert';
 import { handleMoneyVND } from '../../utils/money';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 const Tuition = () => {
   const [user] = useUserContext();
+  const [loading, setLoading] = useLoadingContext();
 
   const [schoolyear, setSchoolyear] = useState('');
   const [schoolyears, setSchoolyears] = useState([]);
@@ -21,8 +23,10 @@ const Tuition = () => {
   const dataHead = ['Mã môn', 'Tên môn', 'Số tiền'];
 
   const getDataSchedule = async () => {
+    if (loading) return;
     let endpoint = `${endpoints.COURSE_REGISTER}/get-tuition/?user=${user?.id}&schoolyear=${schoolyear}`;
 
+    setLoading(true);
     await axiosAPI
       .get(endpoint)
       .then((res) => {
@@ -43,7 +47,8 @@ const Tuition = () => {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

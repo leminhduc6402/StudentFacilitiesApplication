@@ -13,6 +13,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-native';
 import useHistoryContext from '../hook/useHistoryContext';
 import { routes } from '../configs/routes';
 import useLocalStorage from '../hook/useLocalStorage';
+import Loading from './Loading';
 
 const Header = () => {
   const [user, setUser] = useUserContext();

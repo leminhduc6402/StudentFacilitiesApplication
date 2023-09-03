@@ -12,24 +12,21 @@ import ScoreItem from './ScroreItem';
 import GetApiDropdown from '../../components/GetApiDropdown';
 import useUserContext from '../../hook/useUserContext';
 import MyAlert from '../../components/MyAlert';
+import useLoadingContext from '../../hook/useLoadingContext';
 
 function ScoreResult() {
   const [user] = useUserContext();
+  const [loading, setLoading] = useLoadingContext();
+
   const [schoolyears, setSchoolyears] = useState([]);
   const [schoolyear, setSchoolyear] = useState('');
   const [scoreResult, setScoreResult]: any = useState([]);
 
-  if (!schoolyears) {
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
-  }
-
   const getScoreResult = async () => {
+    if (loading) return;
     let endpoint = `${endpoints.COURSE_REGISTER}/get-score-result/?user=${user?.id}&schoolyear=${schoolyear}`;
 
+    setLoading(true);
     await axiosAPI
       .get(endpoint)
       .then((res) => {
@@ -40,7 +37,8 @@ function ScoreResult() {
         return MyAlert({
           message: err.response.data.message,
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

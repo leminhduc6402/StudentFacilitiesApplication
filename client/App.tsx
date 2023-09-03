@@ -29,6 +29,8 @@ import Schedule from './src/views/Schedule';
 import ChangePassword from './src/views/ChangePassword';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import Loading from './src/components/Loading';
+import LoadingProvider from './src/store/LoadingContext/Provider';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -67,91 +69,82 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    (async () => await schedulePushNotification())();
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <NativeRouter>
         <LocalStorageProvider>
-          <UserProvider>
-            <CourseProvider>
-              <HistoryProvider>
-                <SafeAreaView style={styles.container}>
-                  <StatusBar
-                    animated={true}
-                    backgroundColor='#0C56D0'
-                    barStyle='dark-content'
-                    showHideTransition='fade'
-                    hidden={false}
-                  />
-                  <Routes>
-                    {/* student */}
-                    <Route path={routes.HOME} Component={Main as any} />
-                    <Route path={routes.LOGIN} Component={Login as any} />
-                    <Route path={routes.TUITION} Component={Tuition as any} />
-                    <Route
-                      path={routes.COURSE_REGISTRATION}
-                      Component={CoursesRegistration as any}
+          <LoadingProvider>
+            <UserProvider>
+              <CourseProvider>
+                <HistoryProvider>
+                  <SafeAreaView style={styles.container}>
+                    <StatusBar
+                      animated={true}
+                      backgroundColor='#0C56D0'
+                      barStyle='dark-content'
+                      showHideTransition='fade'
+                      hidden={false}
                     />
-                    <Route
-                      path={routes.COURSE_REGISTRATION_DETAIL}
-                      Component={CoursesRegistrationDetail as any}
-                    />
-                    <Route
-                      path={routes.SCORE_RESULT}
-                      Component={ScoreResult as any}
-                    />
-                    <Route
-                      path={routes.TEST_SCHEDULE}
-                      Component={TestSchedule as any}
-                    />
-                    <Route path={routes.SCHEDULE} Component={Schedule as any} />
+                    <Loading />
+                    <Routes>
+                      {/* student */}
+                      <Route path={routes.HOME} Component={Main as any} />
+                      <Route path={routes.LOGIN} Component={Login as any} />
+                      <Route path={routes.TUITION} Component={Tuition as any} />
+                      <Route
+                        path={routes.COURSE_REGISTRATION}
+                        Component={CoursesRegistration as any}
+                      />
+                      <Route
+                        path={routes.COURSE_REGISTRATION_DETAIL}
+                        Component={CoursesRegistrationDetail as any}
+                      />
+                      <Route
+                        path={routes.SCORE_RESULT}
+                        Component={ScoreResult as any}
+                      />
+                      <Route
+                        path={routes.TEST_SCHEDULE}
+                        Component={TestSchedule as any}
+                      />
+                      <Route
+                        path={routes.SCHEDULE}
+                        Component={Schedule as any}
+                      />
 
-                    {/* lecturer */}
-                    <Route
-                      path={routes.LECTURER_HOME}
-                      Component={LecturerMain as any}
-                    />
-                    <Route
-                      path={routes.LECTURER_SCORE_INP}
-                      Component={ScoreInp as any}
-                    />
-                    <Route
-                      path={routes.LECTURER_GET_CLASS}
-                      Component={GetClass as any}
-                    />
+                      {/* lecturer */}
+                      <Route
+                        path={routes.LECTURER_HOME}
+                        Component={LecturerMain as any}
+                      />
+                      <Route
+                        path={routes.LECTURER_SCORE_INP}
+                        Component={ScoreInp as any}
+                      />
+                      <Route
+                        path={routes.LECTURER_GET_CLASS}
+                        Component={GetClass as any}
+                      />
 
-                    {/* Both */}
-                    <Route
-                      path={routes.USER_PROFILE}
-                      Component={UserProfile as any}
-                    />
-                    <Route
-                      path={routes.CHANGE_PASSWORD}
-                      Component={ChangePassword as any}
-                    />
-                  </Routes>
-                </SafeAreaView>
-              </HistoryProvider>
-            </CourseProvider>
-          </UserProvider>
+                      {/* Both */}
+                      <Route
+                        path={routes.USER_PROFILE}
+                        Component={UserProfile as any}
+                      />
+                      <Route
+                        path={routes.CHANGE_PASSWORD}
+                        Component={ChangePassword as any}
+                      />
+                    </Routes>
+                  </SafeAreaView>
+                </HistoryProvider>
+              </CourseProvider>
+            </UserProvider>
+          </LoadingProvider>
         </LocalStorageProvider>
       </NativeRouter>
     </SafeAreaView>
   );
-}
-
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You've got mail! 📬",
-      body: 'Here is the notification body',
-      data: { data: 'goes here' },
-    },
-    trigger: { seconds: 1 },
-  });
 }
 
 async function registerForPushNotificationsAsync() {

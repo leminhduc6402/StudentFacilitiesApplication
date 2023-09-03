@@ -18,7 +18,10 @@ import { useState, useEffect } from 'react';
 import useCourseContext from '../../hook/useCourseContext';
 import useHistoryContext from '../../hook/useHistoryContext';
 import { routes } from '../../configs/routes';
-import { handleArrayTimeSchedule, handleDatetime } from '../../utils/datetime/index';
+import {
+  handleArrayTimeSchedule,
+  handleDatetime,
+} from '../../utils/datetime/index';
 import useLocalStorage from '../../hook/useLocalStorage';
 import MyAlert from '../../components/MyAlert';
 
@@ -31,9 +34,8 @@ const CoursesRegistration = () => {
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
   const { nextHistory } = useHistoryContext();
-  const { dataSync, storeData, removeDataById, getData, removeData } = useLocalStorage();
-
-  console.log(dataSync["course-register"])
+  const { dataSync, storeData, removeDataById, getData, removeData } =
+    useLocalStorage();
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -196,7 +198,7 @@ const CoursesRegistration = () => {
 
         await axiosAPI
           .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
-          .then((res) => { })
+          .then((res) => {})
           .catch((err) => {
             return MyAlert({
               message: err.response.data.message,
@@ -284,7 +286,9 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Mã MH</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.subjectId?.code}</Text>
+                          <Text style={styles.value}>
+                            {item.subjectOfSchoolYearId?.subjectId?.code}
+                          </Text>
                         </View>
                       </View>
                       <View style={styles.row}>
@@ -292,7 +296,9 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Tên môn học</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.subjectId.name}</Text>
+                          <Text style={styles.value}>
+                            {item.subjectOfSchoolYearId?.subjectId.name}
+                          </Text>
                         </View>
                       </View>
                       <View style={styles.row}>
@@ -300,7 +306,9 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Lớp</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.classId.name}</Text>
+                          <Text style={styles.value}>
+                            {item.subjectOfSchoolYearId?.classId.name}
+                          </Text>
                         </View>
                       </View>
                       <View style={styles.row}>
@@ -308,7 +316,9 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Học phí</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.totalPrice}</Text>
+                          <Text style={styles.value}>
+                            {item.subjectOfSchoolYearId?.totalPrice}
+                          </Text>
                         </View>
                       </View>
                       <View style={styles.row}>
@@ -316,7 +326,9 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Ngày đăng ký</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{handleDatetime(item.createdAt)}</Text>
+                          <Text style={styles.value}>
+                            {handleDatetime(item.createdAt)}
+                          </Text>
                         </View>
                       </View>
                     </View>
