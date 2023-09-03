@@ -323,7 +323,7 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Học phí</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.totalPrice}</Text>
+                          <Text style={styles.value}>{handleMoneyVND(item.subjectOfSchoolYearId?.totalPrice)}</Text>
                         </View>
                       </View>
                       <View style={styles.row}>
