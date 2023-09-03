@@ -329,7 +329,7 @@ const SOSYController = {
       throw new ConflictError('Subject not found!');
     }
 
-    sosy.slotRemain = slotRemain;
+    sosy.slotRemain += slotRemain;
     await sosy.save();
 
     return res.status(httpStatusCodes.OK).json({

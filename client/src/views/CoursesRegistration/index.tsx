@@ -57,7 +57,94 @@ const CoursesRegistration = () => {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   handleListCourseRegisters();
+  // }, [dataSync['course-register']]);
+
+
+  const handleCourses = (item: any) => {
+    console.log(item.slotRemain)
+    setCourse(item);
+    nextHistory(routes.COURSE_REGISTRATION_DETAIL);
+  };
+  // console.log(course)
+
+  const handleRowCourses = (item: any) => {
+    setSelectedRow(item);
+
+    return MyAlert({
+      title: 'Xác nhận',
+      message: `Bạn có muốn xoá khóa học "${item.subjectOfSchoolYearId?.subjectId?.name}" không?`,
+      cancelText: 'Huỷ',
+      handleCancel: () => setSelectedRow(null),
+      okText: 'Xoá',
+      handleOk: () => handleDelete(item),
+    });
+  };
+
+  // console.log(listCourses)
+
+  const handleDelete = (item: any) => {
+    const handleDeleteCourseRegister = async () => {
+      let checkSuccess = false;
+      const id = item._id;
+      const queryParams = {
+        id: id,
+      };
+      setLoading(true);
+      await axiosAPI
+        .delete(`${endpoints.COURSE_REGISTER}/${id}`, {
+          params: queryParams,
+        })
+        .then((res) => {
+          checkSuccess = true;
+          MyAlert({
+            message: 'Bạn đã xoá thành công!',
+          });
+        })
+        .catch((err) => {
+          return MyAlert({
+            message: err.response.data.message,
+          });
+        }).finally(() => setLoading(false));
+
+      if (checkSuccess) {
+        const queryParamsUpdate = {
+          idSosy: item.subjectOfSchoolYearId,
+          slotRemain: 1,
+        };
+
+        setLoading(true);
+        await axiosAPI
+          .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParamsUpdate)
+          .then((res) => { })
+          .catch((err) => {
+            return MyAlert({
+              message: err.response.data.message,
+            });
+          }).finally(() => setLoading(false));
+        handleDropdownPickerTop();
+      }
+    };
+
+    removeDataById('course-register', item._id);
+    getData('course-register');
+    handleDeleteCourseRegister();
+    setSelectedRow(null);
+  };
+
+  const handleApplyCourses = () => {
+    MyAlert({
+      message: 'Xác nhận đăng ký thành công!',
+    });
+    removeData('course-register');
+  };
+
+  if (listCourses == null || listCourseRegisters == null) {
+    return <Text>Loading ...</Text>;
+  }
+
+  const handleDropdownPickerTop = () => {
     if (currentValueTop == 1) {
       const handleListCourses = async () => {
         const userCourse = user.userCourse;
@@ -66,7 +153,7 @@ const CoursesRegistration = () => {
           userCourse: userCourse,
           classId: classId,
         };
-
+        // console.log("test")
         setLoading(true);
 
         await axiosAPI
@@ -151,90 +238,13 @@ const CoursesRegistration = () => {
 
       handleListCoursesBySubjectId();
     }
-  }, [currentValueTop, currentValueBottom]);
+  }
 
-  
-  const handleCourses = (item: any) => {
-    setCourse(item);
-    nextHistory(routes.COURSE_REGISTRATION_DETAIL);
-  };
-  
-  const handleRowCourses = (item: any) => {
-    setSelectedRow(item);
-
-    return MyAlert({
-      title: 'Xác nhận',
-      message: `Bạn có muốn xoá khóa học "${item.subjectOfSchoolYearId?.subjectId?.name}" không?`,
-      cancelText: 'Huỷ',
-      handleCancel: () => setSelectedRow(null),
-      okText: 'Xoá',
-      handleOk: () => handleDelete(item),
-    });
-  };
-  
-  const handleDelete = (item: any) => {
-    const handleDeleteCourseRegister = async () => {
-      let checkSuccess = false;
-      const id = item._id;
-      const queryParams = {
-        id: id,
-      };
-      setLoading(true);
-      await axiosAPI
-        .delete(`${endpoints.COURSE_REGISTER}/${id}`, {
-          params: queryParams,
-        })
-        .then((res) => {
-          checkSuccess = true;
-          MyAlert({
-            message: 'Bạn đã xoá thành công!',
-          });
-        })
-        .catch((err) => {
-          return MyAlert({
-            message: err.response.data.message,
-          });
-        }).finally(() => setLoading(false));
-
-      if (checkSuccess) {
-        const queryParams = {
-          idSosy: item.subjectOfSchoolYearId,
-          slotRemain: item.subjectOfSchoolYearId.slotRemain + 1,
-        };
-
-        setLoading(true);
-        await axiosAPI
-          .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
-          .then((res) => {})
-          .catch((err) => {
-            return MyAlert({
-              message: err.response.data.message,
-            });
-          }).finally(() => setLoading(false));
-        }
-    };
-    
-    removeDataById('course-register', item._id);
-    getData('course-register');
-    handleDeleteCourseRegister();
-    setSelectedRow(null);
-  };
-  
   useEffect(() => {
     handleListCourseRegisters();
-  }, [dataSync['course-register']]);
+    handleDropdownPickerTop();
+  }, [currentValueTop, currentValueBottom, dataSync['course-register']]);
 
-  const handleApplyCourses = () => {
-    MyAlert({
-      message: 'Xác nhận đăng ký thành công!',
-    });
-    removeData('course-register');
-  };
-
-  if (listCourses == null || listCourseRegisters == null) {
-    return <Text>Loading ...</Text>;
-  }
-  
   return (
     <>
       <Header />
@@ -244,7 +254,7 @@ const CoursesRegistration = () => {
         setCurrentValueTop={setCurrentValueTop}
         currentValueBottom={currentValueBottom}
         setCurrentValueBottom={setCurrentValueBottom}
-        />
+      />
       <ScrollView>
         <View>
           <View style={styles.container}>

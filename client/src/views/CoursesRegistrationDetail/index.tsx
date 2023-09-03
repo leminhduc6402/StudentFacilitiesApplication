@@ -39,17 +39,17 @@ const CoursesRegistrationDetail = () => {
         showAlert('Môn học này đã tồn tại!');
         console.log(err.response.data || err.message);
       });
-    // console.log(checkSuccess);
+
     if (checkSuccess) {
       const queryParams = {
         idSosy: course._id,
-        slotRemain: course.slotRemain - 1,
+        slotRemain: -1,
       };
 
       await axiosAPI
         .patch(`${endpoints.SOSY}/slot-remain/${course._id}`, queryParams)
         .then((res) => {
-          // console.log(res.data.data);
+          console.log(res.data.data);
         })
         .catch((err) => {
           console.log(err.response.data || err.message);
@@ -62,7 +62,7 @@ const CoursesRegistrationDetail = () => {
   useEffect(() => {
     if (course.slotRemain <= 0) setEnabled(false);
     else setEnabled(true);
-  });
+  }, []);
 
   const showAlert = (messages?: String | undefined) => {
     Alert.alert('Thông báo', messages?.toString());
