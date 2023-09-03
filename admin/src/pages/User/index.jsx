@@ -49,14 +49,21 @@ function User() {
         });
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (user) => {
+        const role = user.userId.role;
+
+        if (role === "ADMIN") {
+            window.alert("Bạn không thể xoá ADMIN!");
+            return;
+        }
+
         const confirm = window.confirm(
             "Hành động này có thể ảnh hưởng đến các dữ liệu liên quan, bạn có chắc chắn xoá?"
         );
 
         if (!confirm) return;
 
-        await AxiosAPI.delete(`${endpoints.user}/${id}`)
+        await AxiosAPI.delete(`${endpoints.user}/${user.userId?._id}`)
             .then(() => {
                 setAlert({
                     content: "Delete user successfully!",
@@ -167,9 +174,7 @@ function User() {
                                             Edit
                                         </Button>
                                         <Button
-                                            onClick={() =>
-                                                handleDelete(user.userId._id)
-                                            }
+                                            onClick={() => handleDelete(user)}
                                             variant="outline-danger"
                                         >
                                             Delete

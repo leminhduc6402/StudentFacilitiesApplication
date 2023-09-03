@@ -23,7 +23,7 @@ const RoomController = {
     });
   },
   getAll: async (req, res) => {
-    const rooms = await RoomModel.find();
+    const rooms = await RoomModel.find().sort({ name: 1 });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',

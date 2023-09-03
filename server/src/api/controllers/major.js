@@ -23,7 +23,7 @@ const MajorController = {
     });
   },
   getAll: async (req, res) => {
-    const majors = await MajorModel.find();
+    const majors = await MajorModel.find().sort({ name: 1 });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',

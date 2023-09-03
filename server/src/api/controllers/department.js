@@ -23,7 +23,7 @@ const DepartmentController = {
     });
   },
   getAll: async (req, res) => {
-    const departments = await DepartmentModel.find();
+    const departments = await DepartmentModel.find().sort({ name: 1 });
 
     return res.status(httpStatusCodes.OK).json({
       status: 'success',
