@@ -234,7 +234,7 @@ function Subject() {
                             }
                             maxLength={8}
                             type="text"
-                            placeholder="Enter code here ... (6 characters)"
+                            placeholder="Enter code here ... (8 characters)"
                         />
                         <Form.Control
                             value={subject.creditCount}

@@ -18,6 +18,7 @@ import {
   courseRegisterRoute,
 } from './src/api/routes/index.js';
 import { API_ENDPOINTS } from './src/api/endpoints/index.js';
+import { createAdminUser } from './src/api/utils/initAdminUser/index.js';
 
 dotenv.config();
 
@@ -39,6 +40,8 @@ app.use(API_ENDPOINTS.COURSE_REGISTER, courseRegisterRoute);
 
 //handle error
 app.use(errorHandler);
+
+createAdminUser();
 
 const PORT = process.env.PORT || 8080;
 
