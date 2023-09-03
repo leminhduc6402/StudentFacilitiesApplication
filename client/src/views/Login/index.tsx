@@ -27,9 +27,8 @@ import useLoadingContext from '../../hook/useLoadingContext';
 const Login = () => {
   const { nextHistory } = useHistoryContext();
   const [user, setUser] = useUserContext();
-  const { dataSync, storeData, getData } = useLocalStorage();
+  const { dataSync, storeData, getData, removeData } = useLocalStorage();
   const [loading, setLoading] = useLoadingContext();
-
   const listDropdown: dataDropdown[] = [
     { label: 'Sinh viên (Hệ chính quy)', value: 'STUDENT' },
     { label: 'Cán bộ - Nhân viên / Giảng viên', value: 'LECTURER' },
@@ -39,8 +38,8 @@ const Login = () => {
   // const [password, setPassword] = useState('0000000000');
   // const [userType, setUserType] = useState('LECTURER');
 
-  const [username, setUsername] = useState('2051052051');
-  const [password, setPassword] = useState('2051052051');
+  const [username, setUsername] = useState('2051052137');
+  const [password, setPassword] = useState('2051052137');
   const [userType, setUserType] = useState('STUDENT');
   const [pwdHidden, setPwdHidden] = useState(true);
 
@@ -70,6 +69,11 @@ const Login = () => {
 
   useEffect(() => {
     getData('touchID');
+  }, []);
+
+  useEffect(() => {
+    if (dataSync["course-register"])
+      removeData("course-register")
   }, []);
 
   useEffect(() => {

@@ -24,6 +24,8 @@ import {
 } from '../../utils/datetime/index';
 import useLocalStorage from '../../hook/useLocalStorage';
 import MyAlert from '../../components/MyAlert';
+import { handleMoneyVND } from '../../utils/money'
+import useLoadingContext from '../../hook/useLoadingContext';
 
 const CoursesRegistration = () => {
   const [user, setUser] = useUserContext();
@@ -33,9 +35,11 @@ const CoursesRegistration = () => {
   const [currentValueTop, setCurrentValueTop] = useState(1);
   const [currentValueBottom, setCurrentValueBottom] = useState();
   const [course, setCourse] = useCourseContext();
+  const [loading, setLoading] = useLoadingContext();
   const { nextHistory } = useHistoryContext();
-  const { dataSync, storeData, removeDataById, getData, removeData } =
-    useLocalStorage();
+  const { dataSync, storeData, removeDataById, getData, removeData } = useLocalStorage();
+
+  console.log(dataSync["course-register"])
 
   const items = [
     { label: 'Môn học mở theo lớp sinh viên', value: 1 },
@@ -60,6 +64,8 @@ const CoursesRegistration = () => {
           classId: classId,
         };
 
+        setLoading(true);
+
         await axiosAPI
           .get(`${endpoints.SOSY}/usercourse/${userCourse}&${classId}`, {
             params: queryParams,
@@ -71,7 +77,7 @@ const CoursesRegistration = () => {
             return MyAlert({
               message: err.response.data.message,
             });
-          });
+          }).finally(() => setLoading(false));;
       };
 
       handleListCourses();
@@ -81,7 +87,7 @@ const CoursesRegistration = () => {
         const queryParams = {
           departmentId: currentValueBottom,
         };
-
+        setLoading(true);
         await axiosAPI
           .get(`${endpoints.SOSY}/departmentId/${currentValueBottom}`, {
             params: queryParams,
@@ -93,7 +99,7 @@ const CoursesRegistration = () => {
             return MyAlert({
               message: err.response.data.message,
             });
-          });
+          }).finally(() => setLoading(false));;
       };
 
       handleListCoursesByDepartmentId();
@@ -103,7 +109,7 @@ const CoursesRegistration = () => {
         const queryParams = {
           classId: currentValueBottom,
         };
-
+        setLoading(true);
         await axiosAPI
           .get(`${endpoints.SOSY}/classId/${currentValueBottom}`, {
             params: queryParams,
@@ -115,7 +121,7 @@ const CoursesRegistration = () => {
             return MyAlert({
               message: err.response.data.message,
             });
-          });
+          }).finally(() => setLoading(false));
       };
 
       handleListCoursesByClassId();
@@ -125,7 +131,7 @@ const CoursesRegistration = () => {
         const queryParams = {
           subjectId: currentValueBottom,
         };
-
+        setLoading(true);
         await axiosAPI
           .get(`${endpoints.SOSY}/subjectId/${currentValueBottom}`, {
             params: queryParams,
@@ -137,7 +143,7 @@ const CoursesRegistration = () => {
             return MyAlert({
               message: err.response.data.message,
             });
-          });
+          }).finally(() => setLoading(false));
       };
 
       handleListCoursesBySubjectId();
@@ -173,7 +179,7 @@ const CoursesRegistration = () => {
       const queryParams = {
         id: id,
       };
-
+      setLoading(true);
       await axiosAPI
         .delete(`${endpoints.COURSE_REGISTER}/${id}`, {
           params: queryParams,
@@ -188,7 +194,7 @@ const CoursesRegistration = () => {
           return MyAlert({
             message: err.response.data.message,
           });
-        });
+        }).finally(() => setLoading(false));
 
       if (checkSuccess) {
         const queryParams = {
@@ -196,6 +202,7 @@ const CoursesRegistration = () => {
           slotRemain: item.subjectOfSchoolYearId.slotRemain + 1,
         };
 
+        setLoading(true);
         await axiosAPI
           .patch(`${endpoints.SOSY}/slot-remain/${item._id}`, queryParams)
           .then((res) => {})
@@ -203,7 +210,7 @@ const CoursesRegistration = () => {
             return MyAlert({
               message: err.response.data.message,
             });
-          });
+          }).finally(() => setLoading(false));
       }
     };
 
@@ -316,9 +323,7 @@ const CoursesRegistration = () => {
                           <Text style={styles.label}>Học phí</Text>
                         </View>
                         <View style={styles.valueContainer}>
-                          <Text style={styles.value}>
-                            {item.subjectOfSchoolYearId?.totalPrice}
-                          </Text>
+                          <Text style={styles.value}>{item.subjectOfSchoolYearId?.totalPrice}</Text>
                         </View>
                       </View>
                       <View style={styles.row}>

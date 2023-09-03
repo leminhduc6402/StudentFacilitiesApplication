@@ -39,7 +39,7 @@ const CoursesRegistrationDetail = () => {
         showAlert('Môn học này đã tồn tại!');
         console.log(err.response.data || err.message);
       });
-    console.log(checkSuccess);
+    // console.log(checkSuccess);
     if (checkSuccess) {
       const queryParams = {
         idSosy: course._id,
@@ -76,7 +76,7 @@ const CoursesRegistrationDetail = () => {
     <View>
       <Header />
 
-      <View style={{ margin: 10 }}>
+      <View style={{ margin: 15 }}>
         <Text style={styles.title}>Thông tin đăng ký môn học</Text>
         <View style={styles.container}>
           <View style={styles.column}>

@@ -102,8 +102,10 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
           value={currentValueTop}
           setValue={(val) => setCurrentValueTop(val)}
           zIndex={1000}
-          style={{ zIndex: 1000 }}
-          containerStyle={{ zIndex: 1000 }}
+          // style={{ zIndex: 1000 }}
+          // containerStyle={{ zIndex: 1000 }}
+          disableBorderRadius={true}
+          placeholderStyle={{ opacity: 0.6 }}
         />
       </View>
       {currentValueTop != 1 && <View style={{ margin: 10 }}>
@@ -114,8 +116,10 @@ const DropdownPicker: React.FC<DataItems> = ({ data, currentValueTop, setCurrent
           value={currentValueBottom}
           setValue={(val) => setCurrentValueBottom(val)}
           zIndex={500}
-          style={{ zIndex: 500 }}
-          containerStyle={{ zIndex: 500 }}
+          // style={{ zIndex: 500 }}
+          // containerStyle={{ zIndex: 500 }}
+          disableBorderRadius={true}
+          placeholderStyle={{ opacity: 0.6 }}
         />
       </View>}
     </>)

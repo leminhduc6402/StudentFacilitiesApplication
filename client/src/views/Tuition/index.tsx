@@ -60,7 +60,7 @@ const Tuition = () => {
       <Header />
       <View style={styles.body}>
         <View>
-          <Text style={styles.title}>Lịch thi</Text>
+          <Text style={styles.title}>Học phí</Text>
         </View>
 
         <View>
