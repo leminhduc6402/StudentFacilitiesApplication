@@ -6,6 +6,7 @@ import MyAlert from "~/components/MyAlert";
 import { useUserContext } from "~/hook/useUserContext";
 import { useAlertContext } from "~/hook/useAlertContext";
 import { routes } from "./routes";
+import Wrapper from "./pages/Wrapper";
 
 function App() {
     const [user] = useUserContext();
@@ -22,18 +23,20 @@ function App() {
                     }}
                 >
                     {alert && <MyAlert />}
-                    <Routes>
-                        {routes.map((route) => {
-                            const Page = route.component;
-                            return (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={<Page />}
-                                />
-                            );
-                        })}
-                    </Routes>
+                    <Wrapper>
+                        <Routes>
+                            {routes.map((route) => {
+                                const Page = route.component;
+                                return (
+                                    <Route
+                                        key={route.path}
+                                        path={route.path}
+                                        element={<Page />}
+                                    />
+                                );
+                            })}
+                        </Routes>
+                    </Wrapper>
                 </div>
             </div>
         </Router>
